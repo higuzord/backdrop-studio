@@ -25,8 +25,6 @@ Uma ferramenta gratuita para criar backdrops e capas personalizadas para o Nuvio
 
 [📥 Baixar última versão](https://github.com/SEU-USUARIO/nuvio-backdrop-studio/releases/latest)
 
-[![Comunidade BR sobre Nuvio/Stremio](https://img.shields.io/badge/💬_ENTRAR_NO_DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/invite/YvCqRYe9gw)
-
 ---
 
 ## 🚀 Principais Funcionalidades
@@ -119,5 +117,11 @@ Clique em qualquer cartaz no preview para abrir o painel de edição individual:
 ## 👤 Créditos
 
 Desenvolvido por **HIGUZORD**.
+
+---
+
+## 🇧🇷 Comunidade BR sobre Nuvio e Stremio
+[![Comunidade BR sobre Nuvio/Stremio](https://img.shields.io/badge/💬_ENTRAR_NO_DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/invite/YvCqRYe9gw)
+
 
 
