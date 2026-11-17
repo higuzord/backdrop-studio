@@ -1,6 +1,6 @@
 # 🎬 Backdrop Studio
 
-> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers e addons (como **AIOMetadata** e **Stremio**).
+> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers (como Nuvio) e etc.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
@@ -17,9 +17,9 @@ Ele se integra nativamente às APIs do **AniList** e do **TMDB**, além de impor
 
 ---
 
-# Nuvio Backdrop Studio
+# Backdrop Studio
 
-Uma ferramenta gratuita para criar backdrops e capas personalizadas para o Nuvio.
+Você pode rodar a ferramenta online no botão abaixo.
 
 [![Abrir Nuvio Backdrop Studio](https://img.shields.io/badge/🚀_ABRIR_FERRAMENTA-8B5CF6?style=for-the-badge)](https://higuzord.github.io/backdrop-studio/)
 
@@ -35,8 +35,8 @@ Comunidade BR sobre Nuvio e Stremio
 
 ## 🚀 Principais Funcionalidades
 
-### 1. Fontes de Conteúdo & Presets (1 Clique)
-* **10 Presets Visuais Prontos:** Aplique estilos completos com apenas 1 clique (*Mural Clássico*, *Cinema Escuro*, *Grade Limpa*, *Neon Cyberpunk*, *Faixas Dinâmicas*, *Cartazes Soltos*, *Noir P&B*, *Etéreo Suave*, *Duotone Roxo* e *Mosaico Denso*). Se o preview estiver vazio, a arte é gerada na hora.
+### 1. Fontes de Conteúdo & Presets
+* **10 Presets Visuais Prontos:** Aplique estilos completos com apenas 1 clique. Se o preview estiver vazio, a arte é gerada na hora.
 * **Feeds Rápidos (AniList):** Preenchimento instantâneo com *Animes em Alta*, *Mais Populares*, *Melhores Notas* ou *Lançamentos*.
 * **Explorador Avançado (AniList & TMDB):**
   * Busca por palavra-chave ou título, múltiplos gêneros, formato (*TV, Filme, OVA, ONA, Especial*), ordenação e quantidade de itens (de `1` capa até `40` itens).
@@ -51,7 +51,7 @@ Comunidade BR sobre Nuvio e Stremio
   * Suporte para upload de imagens locais (`+ Foto Local`) direto do dispositivo.
 
 ### 2. Integração Inteligente com TMDB (Posters com Logo)
-* Configuração opcional de **Read Access Token (v4)** ou **API Key (v3)** salva localmente no navegador, com validador integrado e escolha de idioma preferido (`pt-BR`, `en-US`, `ja-JP`).
+* Configuração opcional de colocar sua **Read Access Token (v4)** ou **API Key (v3)** pra puxar posters do TMDB, ela é salva localmente no navegador, com validador integrado e escolha de idioma preferido (`pt-BR`, `en-US`, `ja-JP`).
 * **⚡ Poster TMDB / ⚡ Todos TMDB:** Substitui um cartaz específico ou toda a composição pelos **posters oficiais com logo** no idioma escolhido.
 * **🎬 Galeria TMDB:** Abre um seletor visual com todos os *Posters* e *Backdrops* disponíveis para a obra, identificando quais possuem logo por idioma ou são limpos (`SEM TEXTO`).
 
@@ -84,7 +84,7 @@ Clique em qualquer cartaz no preview para abrir o painel de edição individual:
 
 ### 5. Tipografia & Título Opcional
 * Adicione **Título** e **Subtítulo** (com ajuste automático de escala para nunca ultrapassar as margens).
-* **7 Fontes:** *Inter*, *Helvetica*, *Anton*, *Bebas Neue*, *Montserrat*, *Oswald* e *Cinzel*.
+* **7 Fontes:** *Inter*, *Helvetica*, *Anton*, *Bebas Neue*, *Montserrat*, *Oswald* e *Cinzel* ou adicione sua fonte personalizada.
 * **Grade de Alinhamento de 9 Posições** (`↖ ↑ ↗ ← ✦ → ↙ ↓ ↘`) com margem segura.
 * Efeitos avançados: espaçamento entre letras (**Tracking**), **Degradê no Texto** (horizontal, vertical ou diagonal), **Contorno (Outline)**, **Sombra Projetada** e opção de forçar `MAIÚSCULAS`.
 
@@ -113,7 +113,7 @@ Clique em qualquer cartaz no preview para abrir o painel de edição individual:
 
 ## 🛠️ Como Usar
 
-1. **Baixe o arquivo** `backdrop-studio-v17_2.html` (ou clone este repositório).
+1. **Baixe o arquivo** `backdrop-studio.html` ou rode online apertando no botão no início da página.
 2. **Abra diretamente no navegador** (Chrome, Edge, Firefox, Safari ou navegador mobile) — não requer instalação, Node.js ou servidor.
 3. *(Opcional)* Clique em **TMDB** no canto superior direito para inserir sua chave gratuita da API do TMDB e liberar a busca de filmes/séries e posters oficiais com logo.
 4. *(Opcional)* Clique em **? Guia** no topo da interface a qualquer momento para abrir o tutorial interativo passo a passo.
