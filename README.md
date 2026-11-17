@@ -17,6 +17,16 @@ Ele se integra nativamente às APIs do **AniList** e do **TMDB**, além de impor
 
 ---
 
+# Nuvio Backdrop Studio
+
+Uma ferramenta gratuita para criar backdrops e capas personalizadas para o Nuvio.
+
+[![Abrir Nuvio Backdrop Studio](https://img.shields.io/badge/🚀_ABRIR_FERRAMENTA-8B5CF6?style=for-the-badge)](https://SEU-USUARIO.github.io/nuvio-backdrop-studio/)
+
+[📥 Baixar última versão](https://github.com/SEU-USUARIO/nuvio-backdrop-studio/releases/latest)
+
+---
+
 ## 🚀 Principais Funcionalidades
 
 ### 1. Fontes de Conteúdo & Presets (1 Clique)
