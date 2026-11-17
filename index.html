@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<!-- saved from url=(0063)file:///C:/Users/Andrade's/Downloads/backdrop-studio-v15_3.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Backdrop Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./Backdrop Studio_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme:dark;
@@ -1214,9 +1213,9 @@ input:focus,select:focus{border-color:var(--accent)}
     <div class="brand-credit">desenvolvido por HIGUZORD</div>
   </div>
   <div class="topbar-right">
-    <button id="openTmdbModalBtn" class="api-pill-btn connected" type="button" title="Configurar chave gratuita do TMDB">
+    <button id="openTmdbModalBtn" class="api-pill-btn" type="button" title="Configurar chave gratuita do TMDB">
       <span class="api-dot"></span>
-      <span id="tmdbKeyBadge">TMDB: Ativo</span>
+      <span id="tmdbKeyBadge">TMDB: Opcional</span>
     </button>
     <label class="btn secondary sm" style="cursor:pointer" title="Adicionar imagem do seu dispositivo">
       + Foto Local
@@ -1381,7 +1380,7 @@ input:focus,select:focus{border-color:var(--accent)}
                 <span>Gêneros</span>
                 <button id="clearGenresBtn" type="button" class="reset-mini-btn visible" style="display:none">Limpar</button>
               </label>
-              <select id="expGenreSelect"><option value="">+ Adicionar gênero...</option><option value="Action">Ação (Action)</option><option value="Adventure">Aventura (Adventure)</option><option value="Comedy">Comédia (Comedy)</option><option value="Drama">Drama</option><option value="Ecchi">Ecchi</option><option value="Fantasy">Fantasia (Fantasy)</option><option value="Horror">Terror (Horror)</option><option value="Mahou Shoujo">Mahou Shoujo</option><option value="Mecha">Mecha</option><option value="Music">Música (Music)</option><option value="Mystery">Mistério (Mystery)</option><option value="Psychological">Psicológico (Psychological)</option><option value="Romance">Romance</option><option value="Sci-Fi">Ficção Científica (Sci-Fi)</option><option value="Slice of Life">Slice of Life (Cotidiano)</option><option value="Sports">Esportes (Sports)</option><option value="Supernatural">Sobrenatural (Supernatural)</option><option value="Thriller">Suspense (Thriller)</option></select>
+              <select id="expGenreSelect"><option value="">+ Adicionar gênero...</option></select>
               <div id="expGenreChips" class="selected-chips"></div>
             </div>
 
@@ -1429,7 +1428,7 @@ input:focus,select:focus{border-color:var(--accent)}
                   <div id="expTagDropdown" class="tag-dropdown"></div>
                 </div>
                 <div id="expTagChips" class="selected-chips"></div>
-                <div class="chip-row" id="quickTagChips" style="margin-top:6px"><button type="button" class="chip">+ Isekai</button><button type="button" class="chip">+ Reincarnation</button><button type="button" class="chip">+ Magic</button><button type="button" class="chip">+ School</button><button type="button" class="chip">+ Shounen</button><button type="button" class="chip">+ Seinen</button><button type="button" class="chip">+ Time Travel</button><button type="button" class="chip">+ Iyashikei</button></div>
+                <div class="chip-row" id="quickTagChips" style="margin-top:6px"></div>
               </div>
 
               <div class="row2">
@@ -1832,20 +1831,53 @@ input:focus,select:focus{border-color:var(--accent)}
 
           <div class="row2">
             <div class="field">
-              <label>Fonte</label>
+              <label>
+                <span>Fonte</span>
+                <button type="button" id="toggleCustomFontBtn" class="reset-mini-btn visible" style="color:#9d8df7;font-weight:700" title="Adicionar fonte personalizada (.ttf, .otf, .woff ou Google Fonts)">+ Personalizada</button>
+              </label>
               <select id="fontFamily">
-                <option value="'Inter', system-ui, -apple-system, sans-serif" selected="">Inter (Padrão)</option>
-                <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica</option>
-                <option value="'Anton', Impact, sans-serif">Anton (Cinema)</option>
-                <option value="'Bebas Neue', sans-serif">Bebas Neue (Pôster)</option>
-                <option value="'Montserrat', sans-serif">Montserrat (Bold)</option>
-                <option value="'Oswald', sans-serif">Oswald (Urbano)</option>
-                <option value="'Cinzel', Georgia, serif">Cinzel (Épico)</option>
+                <optgroup label="Fontes Padrão">
+                  <option value="'Inter', system-ui, -apple-system, sans-serif" selected="">Inter (Padrão)</option>
+                  <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica</option>
+                  <option value="'Anton', Impact, sans-serif">Anton (Cinema)</option>
+                  <option value="'Bebas Neue', sans-serif">Bebas Neue (Pôster)</option>
+                  <option value="'Montserrat', sans-serif">Montserrat (Bold)</option>
+                  <option value="'Oswald', sans-serif">Oswald (Urbano)</option>
+                  <option value="'Cinzel', Georgia, serif">Cinzel (Épico)</option>
+                </optgroup>
+                <optgroup id="customFontsOptGroup" label="Fontes Personalizadas" style="display:none"></optgroup>
+                <option value="__custom_add__">+ Adicionar fonte personalizada…</option>
               </select>
             </div>
             <div class="field">
               <label><span>Tamanho</span><span class="lbl-right"><output id="textScaleOut">100%</output><button type="button" class="reset-mini-btn" data-reset="textScale">↺</button></span></label>
               <div class="slider"><input id="textScale" type="range" min="50" max="450" value="100" data-default="100"></div>
+            </div>
+          </div>
+
+          <!-- PAINEL DE FONTE PERSONALIZADA -->
+          <div class="sub-group-box" id="customFontBox" style="display:none">
+            <div class="sub-group-head">
+              <span>🔤 Fonte Personalizada</span>
+              <button type="button" id="closeCustomFontBoxBtn" class="btn secondary xs" style="padding:2px 6px;min-height:22px">✕</button>
+            </div>
+            <div class="sub-group-body" style="display:flex;flex-direction:column;gap:8px">
+              <div class="field">
+                <label>Arquivo de Fonte (.ttf, .otf, .woff, .woff2)</label>
+                <label class="btn secondary xs" style="width:100%;cursor:pointer;justify-content:center;padding:7px 10px">
+                  📁 Escolher Arquivo de Fonte
+                  <input id="customFontFile" type="file" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" multiple style="display:none">
+                </label>
+              </div>
+              <div class="field">
+                <label>Ou Google Fonts / Nome da Fonte</label>
+                <div style="display:flex;gap:6px">
+                  <input id="customGoogleFontInput" type="text" placeholder="Ex.: Poppins, Bangers, Orbitron..." autocomplete="off">
+                  <button id="applyGoogleFontBtn" type="button" class="btn xs" style="flex-shrink:0">Usar</button>
+                </div>
+              </div>
+              <div id="customFontStatus" class="token-status" style="margin-top:0"></div>
+              <div id="customFontChips" class="selected-chips" style="margin-top:0"></div>
             </div>
           </div>
 
@@ -2057,7 +2089,7 @@ input:focus,select:focus{border-color:var(--accent)}
     <div class="stage-main">
       <div class="canvas-area">
         <div id="canvasFrame" class="canvas-frame">
-          <canvas id="canvas" width="1920" height="1080" style="width: 909px; height: 511px;"></canvas>
+          <canvas id="canvas" width="1920" height="1080"></canvas>
 
           <!-- CLEAN EMPTY STATE OVERLAY -->
           <div id="emptyStageOverlay" class="empty-stage-overlay">
@@ -2165,14 +2197,14 @@ input:focus,select:focus{border-color:var(--accent)}
     </div>
     <div class="tutorial-body">
       <h3>Configurar API Key do TMDB</h3>
-      <p>Necessária apenas para buscar filmes/séries do TMDB ou substituir cartazes pelos posters oficiais <strong>com logo</strong>.</p>
+      <p>Necessária apenas para buscar filmes/séries do TMDB ou substituir cartazes pelos posters oficiais <strong>com logo</strong>. Sua chave fica salva apenas localmente no seu navegador.</p>
       <div class="field">
         <label>
           <span>Read Access Token (v4) ou API Key (v3)</span>
           <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Obter chave grátis ↗</a>
         </label>
-        <input id="tmdbToken" type="password" placeholder="Cole seu token eyJhbGci... ou chave v3">
-        <div id="tmdbTokenStatus" class="token-status ok">Token carregado do navegador.</div>
+        <input id="tmdbToken" type="password" autocomplete="off" spellcheck="false" placeholder="Cole seu token eyJhbGci... ou chave v3">
+        <div id="tmdbTokenStatus" class="token-status"></div>
       </div>
       <div class="row2">
         <div class="field">
@@ -2188,8 +2220,9 @@ input:focus,select:focus{border-color:var(--accent)}
         </div>
       </div>
     </div>
-    <div class="tutorial-footer" style="justify-content:flex-end">
-      <button id="doneTmdbModalBtn" class="btn sm" type="button">Concluir</button>
+    <div class="tutorial-footer" style="justify-content:space-between">
+      <button id="clearTmdbTokenBtn" class="btn danger sm" type="button" style="display:none">Remover Chave</button>
+      <button id="doneTmdbModalBtn" class="btn sm" type="button" style="margin-left:auto">Concluir</button>
     </div>
   </div>
 </div>
@@ -2691,28 +2724,60 @@ $('manual').addEventListener('focus', () => {
 });
 
 // =========================================================================
-// PERSISTÊNCIA DA CHAVE TMDB
+// PERSISTÊNCIA DA CHAVE TMDB (ISOLADA POR NAVEGADOR)
 // =========================================================================
+const TMDB_STORAGE_KEY = 'nuvio_tmdb_token';
+
 function updateTmdbStatusBadge(connected, labelText) {
   const pill = $('openTmdbModalBtn');
   if (pill) pill.classList.toggle('connected', connected);
   if ($('tmdbKeyBadge')) $('tmdbKeyBadge').textContent = labelText;
 }
 
-const savedTmdb = localStorage.getItem('nuvio_tmdb_token') || '';
-if (savedTmdb) {
-  $('tmdbToken').value = savedTmdb;
-  updateTmdbStatusBadge(true, 'TMDB: Ativo');
-  $('tmdbTokenStatus').textContent = 'Token carregado do navegador.';
-  $('tmdbTokenStatus').className = 'token-status ok';
+function syncTmdbTokenUI(tokenValue, customStatusMsg = null, statusClass = null) {
+  const val = (tokenValue || '').trim();
+  const hasToken = Boolean(val);
+  updateTmdbStatusBadge(hasToken, hasToken ? 'TMDB: Ativo' : 'TMDB: Opcional');
+  if (customStatusMsg !== null) {
+    $('tmdbTokenStatus').textContent = customStatusMsg;
+    $('tmdbTokenStatus').className = 'token-status' + (statusClass ? ' ' + statusClass : '');
+  } else if (hasToken) {
+    $('tmdbTokenStatus').textContent = 'Token salvo localmente neste navegador.';
+    $('tmdbTokenStatus').className = 'token-status ok';
+  } else {
+    $('tmdbTokenStatus').textContent = 'Nenhuma chave configurada.';
+    $('tmdbTokenStatus').className = 'token-status';
+  }
+  if ($('clearTmdbTokenBtn')) {
+    $('clearTmdbTokenBtn').style.display = hasToken ? 'inline-flex' : 'none';
+  }
 }
+
+const savedTmdb = (localStorage.getItem(TMDB_STORAGE_KEY) || '').trim();
+$('tmdbToken').value = savedTmdb;
+syncTmdbTokenUI(
+  savedTmdb,
+  savedTmdb ? 'Token carregado localmente do seu navegador.' : 'Nenhuma chave configurada.',
+  savedTmdb ? 'ok' : ''
+);
 
 $('tmdbToken').addEventListener('input', () => {
   const val = $('tmdbToken').value.trim();
-  localStorage.setItem('nuvio_tmdb_token', val);
-  updateTmdbStatusBadge(Boolean(val), val ? 'TMDB: Ativo' : 'TMDB: Opcional');
-  $('tmdbTokenStatus').textContent = val ? 'Salvo localmente.' : 'Token removido.';
-  $('tmdbTokenStatus').className = 'token-status';
+  if (val) {
+    localStorage.setItem(TMDB_STORAGE_KEY, val);
+    syncTmdbTokenUI(val, 'Salvo localmente apenas neste navegador.', 'ok');
+  } else {
+    localStorage.removeItem(TMDB_STORAGE_KEY);
+    syncTmdbTokenUI('', 'Token removido deste navegador.', '');
+  }
+});
+
+$('clearTmdbTokenBtn')?.addEventListener('click', () => {
+  localStorage.removeItem(TMDB_STORAGE_KEY);
+  $('tmdbToken').value = '';
+  tmdbImagesCache.clear();
+  syncTmdbTokenUI('', 'Chave removida com sucesso.', '');
+  setStatus('Chave TMDB removida deste navegador.');
 });
 
 async function tmdbFetch(path, params = {}) {
@@ -2956,7 +3021,6 @@ function applyStylePreset(presetKey) {
     b.classList.toggle('active', b.dataset.quickStyle === presetKey);
   });
 
-  // Reset overrides from prior presets
   $('cols').value = 0;
   $('colsOut').value = 'Auto';
   $('stagger').value = 38;
@@ -5102,66 +5166,55 @@ function applyPostFilters(ctx, w, h) {
       maskCanvas.height = h;
       const mCtx = maskCanvas.getContext('2d');
 
-      const buildLinearGrad = (x0, y0, x1, y1) => {
+      const applyLinearMask = (x0, y0, x1, y1) => {
         const g = mCtx.createLinearGradient(x0, y0, x1, y1);
-        const solidEnd = Math.max(0, reach * (1 - feather * 0.85));
-        const fadeEnd = Math.min(1, reach + feather * 0.35);
-        g.addColorStop(0, 'rgba(0,0,0,1)');
-        g.addColorStop(solidEnd, 'rgba(0,0,0,1)');
-        g.addColorStop(fadeEnd, 'rgba(0,0,0,0)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        return g;
+        const solidStop = Math.max(0, Math.min(0.95, reach * (1 - feather * 0.7)));
+        const fadeEnd = Math.max(solidStop + 0.04, Math.min(1, reach + feather * (1 - reach)));
+        g.addColorStop(0, 'rgba(255,255,255,1)');
+        g.addColorStop(solidStop, 'rgba(255,255,255,1)');
+        g.addColorStop(fadeEnd, 'rgba(255,255,255,0)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        mCtx.fillStyle = g;
+        mCtx.fillRect(0, 0, w, h);
       };
 
-      const buildVignetteGrad = () => {
+      const applyRadialEdgeMask = () => {
         const cx = w / 2;
         const cy = h / 2;
         const maxR = Math.hypot(cx, cy);
-        const clearEnd = Math.max(0.05, (1 - reach) * (1 - feather * 0.55));
-        const blurFull = Math.min(1, clearEnd + Math.max(0.12, feather * 0.65));
-        const g = mCtx.createRadialGradient(cx, cy, maxR * 0.02, cx, cy, maxR);
-        g.addColorStop(0, 'rgba(0,0,0,0)');
-        g.addColorStop(clearEnd, 'rgba(0,0,0,0)');
-        g.addColorStop(blurFull, 'rgba(0,0,0,1)');
-        g.addColorStop(1, 'rgba(0,0,0,1)');
-        return g;
+        const clearR = Math.max(0, maxR * (1 - reach));
+        const softBand = Math.max(12, maxR * reach * Math.max(0.15, feather));
+        const innerR = Math.max(0, clearR - softBand * 0.25);
+        const outerR = Math.min(maxR, clearR + softBand * 0.85);
+        const g = mCtx.createRadialGradient(cx, cy, innerR, cx, cy, Math.max(innerR + 1, outerR));
+        g.addColorStop(0, 'rgba(255,255,255,0)');
+        g.addColorStop(1, 'rgba(255,255,255,1)');
+        mCtx.fillStyle = g;
+        mCtx.fillRect(0, 0, w, h);
       };
 
-      if (dir === 'left') {
-        mCtx.fillStyle = buildLinearGrad(0, 0, w, 0);
-        mCtx.fillRect(0, 0, w, h);
-      } else if (dir === 'right') {
-        mCtx.fillStyle = buildLinearGrad(w, 0, 0, 0);
-        mCtx.fillRect(0, 0, w, h);
-      } else if (dir === 'top') {
-        mCtx.fillStyle = buildLinearGrad(0, 0, 0, h);
-        mCtx.fillRect(0, 0, w, h);
-      } else if (dir === 'bottom') {
-        mCtx.fillStyle = buildLinearGrad(0, h, 0, 0);
-        mCtx.fillRect(0, 0, w, h);
-      } else if (dir === 'center') {
+      if (dir === 'left') applyLinearMask(0, 0, w, 0);
+      else if (dir === 'right') applyLinearMask(w, 0, 0, 0);
+      else if (dir === 'bottom') applyLinearMask(0, h, 0, 0);
+      else if (dir === 'top') applyLinearMask(0, 0, 0, h);
+      else if (dir === 'center') {
         const cx = w / 2;
         const cy = h / 2;
         const maxR = Math.hypot(cx, cy);
-        const solidR = Math.max(0.02, reach * 0.75 * (1 - feather * 0.7));
-        const endR = Math.min(1, reach * 0.85 + feather * 0.35);
-        const g = mCtx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
-        g.addColorStop(0, 'rgba(0,0,0,1)');
-        g.addColorStop(solidR, 'rgba(0,0,0,1)');
-        g.addColorStop(endR, 'rgba(0,0,0,0)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
+        const solidR = Math.max(0, maxR * reach * (1 - feather * 0.65));
+        const endR = Math.max(solidR + 10, Math.min(maxR, maxR * (reach + feather * 0.35)));
+        const g = mCtx.createRadialGradient(cx, cy, solidR, cx, cy, endR);
+        g.addColorStop(0, 'rgba(255,255,255,1)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
         mCtx.fillStyle = g;
         mCtx.fillRect(0, 0, w, h);
       } else if (dir === 'vignette-left') {
-        mCtx.fillStyle = buildVignetteGrad();
-        mCtx.fillRect(0, 0, w, h);
+        applyRadialEdgeMask();
         mCtx.globalCompositeOperation = 'lighter';
-        mCtx.fillStyle = buildLinearGrad(0, 0, w * 0.85, 0);
-        mCtx.fillRect(0, 0, w, h);
+        applyLinearMask(0, 0, w * 0.85, 0);
         mCtx.globalCompositeOperation = 'source-over';
       } else {
-        mCtx.fillStyle = buildVignetteGrad();
-        mCtx.fillRect(0, 0, w, h);
+        applyRadialEdgeMask();
       }
 
       bCtx.globalCompositeOperation = 'destination-in';
@@ -5169,244 +5222,289 @@ function applyPostFilters(ctx, w, h) {
       bCtx.globalCompositeOperation = 'source-over';
 
       ctx.save();
-      ctx.drawImage(bCtx.canvas, 0, 0);
+      ctx.drawImage(blurCanvas, 0, 0);
       ctx.restore();
     }
   }
 
   if ($('tintEnabled')?.checked) {
-    const tintOp = Number($('tintOpacity')?.value ?? 35) / 100;
-    if (tintOp > 0) {
-      const rgb = hexToRgb($('tintColor')?.value || '#7c69ef');
-      const mode = $('tintMode')?.value || 'color';
+    const tintAmt = Number($('tintOpacity').value || 0) / 100;
+    if (tintAmt > 0) {
+      const hex = $('tintColor').value || '#7c69ef';
+      const mode = $('tintMode').value || 'color';
       ctx.save();
+      ctx.globalAlpha = tintAmt;
       ctx.globalCompositeOperation = mode;
-      ctx.fillStyle = `rgba(${rgb.r},${rgb.g},${rgb.b},${tintOp})`;
+      ctx.fillStyle = hex;
       ctx.fillRect(0, 0, w, h);
       ctx.restore();
     }
   }
 }
 
-function drawOverlaysAndText(ctx, w, h) {
-  const shadeAlpha = Number($('shade').value) / 100;
-  if (shadeAlpha > 0) {
-    ctx.fillStyle = `rgba(7,8,12,${shadeAlpha})`;
+function drawOverlaysAndText(ctx, w, h, titleOverride = null, subtitleOverride = null) {
+  const shade = Number($('shade').value) / 100;
+  const dir = $('gradDir').value;
+
+  if (shade > 0) {
+    ctx.fillStyle = `rgba(5,6,10,${shade})`;
     ctx.fillRect(0, 0, w, h);
   }
 
-  const gradMode = $('gradDir').value;
-  if (gradMode === 'left' || gradMode === 'vignette') {
-    const lg = ctx.createLinearGradient(0, 0, w * 0.72, 0);
-    lg.addColorStop(0, 'rgba(7,8,12,.92)');
-    lg.addColorStop(0.5, 'rgba(7,8,12,.45)');
-    lg.addColorStop(1, 'rgba(7,8,12,0)');
-    ctx.fillStyle = lg;
-    ctx.fillRect(0, 0, w, h);
-  }
-  if (gradMode === 'bottom') {
-    const bg = ctx.createLinearGradient(0, h, 0, h * 0.25);
-    bg.addColorStop(0, 'rgba(7,8,12,.94)');
-    bg.addColorStop(0.5, 'rgba(7,8,12,.45)');
-    bg.addColorStop(1, 'rgba(7,8,12,0)');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, w, h);
-  }
-  if (gradMode === 'vignette') {
-    const vg = ctx.createRadialGradient(w * 0.56, h * 0.5, h * 0.15, w * 0.5, h * 0.5, Math.max(w, h) * 0.75);
-    vg.addColorStop(0, 'rgba(7,8,12,0)');
-    vg.addColorStop(1, 'rgba(7,8,12,.72)');
-    ctx.fillStyle = vg;
+  if (dir === 'left' || dir === 'vignette') {
+    const g = ctx.createLinearGradient(0, 0, w * 0.72, 0);
+    g.addColorStop(0, 'rgba(5,6,10,0.88)');
+    g.addColorStop(0.45, 'rgba(5,6,10,0.42)');
+    g.addColorStop(1, 'rgba(5,6,10,0)');
+    ctx.fillStyle = g;
     ctx.fillRect(0, 0, w, h);
   }
 
-  const rawTitle = $('title').value.trim();
-  const rawSub = $('subtitle').value.trim();
+  if (dir === 'bottom' || dir === 'vignette') {
+    const g2 = ctx.createLinearGradient(0, h, 0, h * 0.25);
+    g2.addColorStop(0, 'rgba(5,6,10,0.92)');
+    g2.addColorStop(0.5, 'rgba(5,6,10,0.38)');
+    g2.addColorStop(1, 'rgba(5,6,10,0)');
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  if (dir === 'vignette') {
+    const r = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.28, w / 2, h / 2, Math.max(w, h) * 0.74);
+    r.addColorStop(0, 'rgba(0,0,0,0)');
+    r.addColorStop(1, 'rgba(4,5,8,0.68)');
+    ctx.fillStyle = r;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  const rawTitle = titleOverride !== null ? titleOverride : $('title').value.trim();
+  const rawSub = subtitleOverride !== null ? subtitleOverride : $('subtitle').value.trim();
   if (!rawTitle && !rawSub) return;
 
-  const upper = $('textUppercase').checked;
-  const titleText = upper ? rawTitle.toUpperCase() : rawTitle;
-  const subText = upper ? rawSub.toUpperCase() : rawSub;
+  const isUpper = $('textUppercase').checked;
+  const titleText = isUpper ? rawTitle.toUpperCase() : rawTitle;
+  const subText = isUpper ? rawSub.toUpperCase() : rawSub;
+
   const scale = Number($('textScale').value) / 100;
-  const font = $('fontFamily').value;
-  const color = $('textColor').value;
+  const fontFam = $('fontFamily').value;
+  const textColor = $('textColor').value;
   const pos = $('textPos').value;
 
-  const trackingPct = Number($('textTracking')?.value ?? 0) / 100;
-  const trackingSub = $('textTrackingSub')?.checked ?? true;
-  const gradEnabled = $('textGradEnabled')?.checked ?? false;
+  const trackingRatio = Number($('textTracking')?.value || 0) / 100;
+  const applyTrackingSub = $('textTrackingSub')?.checked ?? true;
+
+  const gradEnabled = Boolean($('textGradEnabled')?.checked);
   const gradC1 = $('textGradColor1')?.value || '#ffffff';
   const gradC2 = $('textGradColor2')?.value || '#9d8df7';
   const gradDir = $('textGradDir')?.value || 'horizontal';
   const gradSub = $('textGradSub')?.checked ?? true;
-  const strokeEnabled = $('textStrokeEnabled')?.checked ?? false;
-  const strokeWidth = Number($('textStroke')?.value ?? 4);
+
+  const strokeEnabled = Boolean($('textStrokeEnabled')?.checked);
+  const strokeW = strokeEnabled ? Number($('textStroke').value || 0) * (Math.min(w, h) / 1080) : 0;
   const strokeColor = $('textStrokeColor')?.value || '#000000';
-  const shadowEnabled = $('textShadowEnabled')?.checked ?? true;
-  const shadowPct = Number($('textShadow')?.value ?? 70) / 100;
+
+  const shadowEnabled = Boolean($('textShadowEnabled')?.checked);
+  const shadowInt = shadowEnabled ? Number($('textShadow').value || 0) / 100 : 0;
   const shadowColor = $('textShadowColor')?.value || '#000000';
 
   const pad = Math.round(Math.min(w, h) * 0.068);
+  const tSize = Math.round(Math.min(w, h) * 0.072 * scale);
+  const sSize = Math.round(tSize * 0.34);
+  const lineGap = Math.round(tSize * 0.24);
   const maxWidth = w - pad * 2;
-  let tx = pad, ty = h - pad, align = 'left';
 
+  let align = 'left';
+  let x = pad;
   if (pos.endsWith('center') || pos === 'center') {
-    tx = w / 2;
     align = 'center';
+    x = w / 2;
   } else if (pos.endsWith('right')) {
-    tx = w - pad;
     align = 'right';
+    x = w - pad;
   }
 
-  if (pos.startsWith('top')) ty = pad + Math.round(Math.min(w, h) * 0.075 * scale);
-  else if (pos.startsWith('center')) ty = h / 2;
+  let y = h - pad;
+  if (pos.startsWith('top')) y = pad + tSize * 0.85;
+  else if (pos.startsWith('center')) y = h / 2 + (titleText && subText ? -sSize * 0.3 : tSize * 0.3);
 
   ctx.save();
-  ctx.textAlign = align;
-  ctx.textBaseline = pos.startsWith('top') ? 'top' : (pos.startsWith('center') ? 'middle' : 'bottom');
+  ctx.lineJoin = 'round';
+  ctx.miterLimit = 2;
 
-  const baseTitleSize = Math.round(Math.min(w, h) * 0.088 * scale);
-  const subSize = Math.round(baseTitleSize * 0.36);
-
-  const measureTrackedWidth = (str, letterSpacingPx) => {
-    if (!str) return 0;
-    const chars = Array.from(str);
+  const measureTracked = (txt, spacingPx) => {
+    if (!txt) return 0;
+    if (!spacingPx) return ctx.measureText(txt).width;
+    const chars = Array.from(txt);
     let total = 0;
     for (let i = 0; i < chars.length; i++) {
       total += ctx.measureText(chars[i]).width;
-      if (i < chars.length - 1) total += letterSpacingPx;
+      if (i < chars.length - 1) total += spacingPx;
     }
     return total;
   };
 
-  const buildTextFill = (x, y, boxW, boxH, allowGrad) => {
-    if (!allowGrad || !gradEnabled) return color;
-    let g;
-    if (gradDir === 'vertical') {
-      g = ctx.createLinearGradient(x, y - boxH * 0.5, x, y + boxH * 0.5);
-    } else if (gradDir === 'diagonal') {
-      g = ctx.createLinearGradient(x, y - boxH * 0.4, x + boxW, y + boxH * 0.4);
-    } else {
-      g = ctx.createLinearGradient(x, y, x + boxW, y);
-    }
-    g.addColorStop(0, gradC1);
-    g.addColorStop(1, gradC2);
-    return g;
+  const buildTextFill = (useGradient, anchorX, baselineY, txtW, fontPx) => {
+    if (!useGradient) return textColor;
+    let startX = anchorX;
+    if (align === 'center') startX = anchorX - txtW / 2;
+    else if (align === 'right') startX = anchorX - txtW;
+    const endX = startX + Math.max(10, txtW);
+    const topY = baselineY - fontPx * 0.85;
+    const botY = baselineY + fontPx * 0.2;
+
+    let lg;
+    if (gradDir === 'vertical') lg = ctx.createLinearGradient(startX, topY, startX, botY);
+    else if (gradDir === 'diagonal') lg = ctx.createLinearGradient(startX, topY, endX, botY);
+    else lg = ctx.createLinearGradient(startX, baselineY, endX, baselineY);
+
+    lg.addColorStop(0, gradC1);
+    lg.addColorStop(1, gradC2);
+    return lg;
   };
 
-  const renderStyledLine = (str, x, y, fontSize, letterSpacingPx, allowGrad, isTitle) => {
-    if (!str) return;
-    const lineW = measureTrackedWidth(str, letterSpacingPx);
-    let startX = x;
-    if (align === 'center') startX = x - lineW / 2;
-    else if (align === 'right') startX = x - lineW;
+  const renderStyledText = (txt, anchorX, baselineY, fontPx, spacingPx, useGradient, shadowMult = 1, strokeMult = 1) => {
+    if (!txt) return;
+    const txtW = measureTracked(txt, spacingPx);
+    const fillStyle = buildTextFill(useGradient, anchorX, baselineY, txtW, fontPx);
 
-    const fillStyle = buildTextFill(startX, y, Math.max(10, lineW), fontSize, allowGrad);
-
-    if (shadowEnabled && shadowPct > 0) {
-      const rgb = hexToRgb(shadowColor);
-      ctx.shadowColor = `rgba(${rgb.r},${rgb.g},${rgb.b},${Math.min(1, shadowPct * 1.15)})`;
-      ctx.shadowBlur = Math.round(fontSize * (0.14 + shadowPct * 0.34));
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = Math.round(fontSize * (0.03 + shadowPct * 0.08));
-    } else {
-      ctx.shadowColor = 'transparent';
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-    }
-
-    const drawPass = (passFn) => {
-      if (Math.abs(letterSpacingPx) < 0.05) {
-        passFn(str, x);
+    const drawPass = isShadowPass => {
+      ctx.save();
+      if (isShadowPass) {
+        const sRgb = hexToRgb(shadowColor);
+        ctx.shadowColor = `rgba(${sRgb.r},${sRgb.g},${sRgb.b},${Math.min(1, shadowInt * shadowMult)})`;
+        ctx.shadowBlur = Math.round(fontPx * 0.34);
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = Math.round(fontPx * 0.08);
       } else {
-        const prevAlign = ctx.textAlign;
-        ctx.textAlign = 'left';
-        let curX = startX;
-        const chars = Array.from(str);
-        for (let i = 0; i < chars.length; i++) {
-          passFn(chars[i], curX);
-          curX += ctx.measureText(chars[i]).width + letterSpacingPx;
-        }
-        ctx.textAlign = prevAlign;
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
+
+      const sw = strokeW * strokeMult;
+      if (sw > 0.2) {
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = sw;
+      }
+      ctx.fillStyle = fillStyle;
+
+      if (!spacingPx) {
+        ctx.textAlign = align;
+        if (sw > 0.2) ctx.strokeText(txt, anchorX, baselineY, maxWidth);
+        ctx.fillText(txt, anchorX, baselineY, maxWidth);
+      } else {
+        const scaleFit = txtW > maxWidth ? maxWidth / txtW : 1;
+        const effectiveW = txtW * scaleFit;
+        let curX = anchorX;
+        if (align === 'center') curX = anchorX - effectiveW / 2;
+        else if (align === 'right') curX = anchorX - effectiveW;
+
+        ctx.textAlign = 'left';
+        const chars = Array.from(txt);
+        for (let i = 0; i < chars.length; i++) {
+          const ch = chars[i];
+          const cw = ctx.measureText(ch).width * scaleFit;
+          if (sw > 0.2) ctx.strokeText(ch, curX, baselineY);
+          ctx.fillText(ch, curX, baselineY);
+          curX += cw + spacingPx * scaleFit;
+        }
+      }
+      ctx.restore();
     };
 
-    const scaledStroke = Math.max(1, Math.round(strokeWidth * (fontSize / 72)));
-    if (strokeEnabled && scaledStroke > 0) {
-      ctx.lineJoin = 'round';
-      ctx.miterLimit = 2;
-      ctx.lineWidth = isTitle ? scaledStroke : Math.max(1, Math.round(scaledStroke * 0.65));
-      ctx.strokeStyle = strokeColor;
-      drawPass((txt, px) => ctx.strokeText(txt, px, y));
-      ctx.shadowColor = 'transparent';
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetY = 0;
-    }
-
-    ctx.fillStyle = fillStyle;
-    drawPass((txt, px) => ctx.fillText(txt, px, y));
+    if (shadowInt > 0) drawPass(true);
+    drawPass(false);
   };
 
-  let fittedTitleSize = baseTitleSize;
-  let titleSpacing = fittedTitleSize * trackingPct;
-  if (titleText) {
-    ctx.font = `900 ${fittedTitleSize}px ${font}`;
-    while (measureTrackedWidth(titleText, fittedTitleSize * trackingPct) > maxWidth && fittedTitleSize > 22) {
-      fittedTitleSize -= 2;
-      ctx.font = `900 ${fittedTitleSize}px ${font}`;
-    }
-    titleSpacing = fittedTitleSize * trackingPct;
-  }
-
-  const subSpacing = trackingSub ? subSize * trackingPct : 0;
-
-  if (pos.startsWith('top')) {
-    let curY = pad;
-    if (titleText) {
-      ctx.font = `900 ${fittedTitleSize}px ${font}`;
-      renderStyledLine(titleText, tx, curY, fittedTitleSize, titleSpacing, true, true);
-      curY += fittedTitleSize * 1.16;
-    }
+  if (pos.startsWith('bottom')) {
+    let curY = y;
     if (subText) {
-      ctx.font = `600 ${subSize}px ${font}`;
-      renderStyledLine(subText, tx, curY, subSize, subSpacing, gradSub, false);
+      ctx.font = `600 ${sSize}px ${fontFam}`;
+      const subSpacing = applyTrackingSub ? sSize * trackingRatio : 0;
+      renderStyledText(subText, x, curY, sSize, subSpacing, gradEnabled && gradSub, 0.85, 0.55);
+      curY -= sSize + lineGap;
     }
-  } else if (pos.startsWith('center')) {
-    if (titleText && subText) {
-      ctx.font = `900 ${fittedTitleSize}px ${font}`;
-      renderStyledLine(titleText, tx, ty - subSize * 0.75, fittedTitleSize, titleSpacing, true, true);
-      ctx.font = `600 ${subSize}px ${font}`;
-      renderStyledLine(subText, tx, ty + fittedTitleSize * 0.65, subSize, subSpacing, gradSub, false);
-    } else if (titleText) {
-      ctx.font = `900 ${fittedTitleSize}px ${font}`;
-      renderStyledLine(titleText, tx, ty, fittedTitleSize, titleSpacing, true, true);
-    } else if (subText) {
-      ctx.font = `600 ${subSize}px ${font}`;
-      renderStyledLine(subText, tx, ty, subSize, subSpacing, gradSub, false);
+    if (titleText) {
+      ctx.font = `900 ${tSize}px ${fontFam}`;
+      const titleSpacing = tSize * trackingRatio;
+      renderStyledText(titleText, x, curY, tSize, titleSpacing, gradEnabled, 1, 1);
     }
   } else {
-    let curY = h - pad;
-    if (subText) {
-      ctx.font = `600 ${subSize}px ${font}`;
-      renderStyledLine(subText, tx, curY, subSize, subSpacing, gradSub, false);
-      curY -= subSize * 1.45;
-    }
+    let curY = y;
     if (titleText) {
-      ctx.font = `900 ${fittedTitleSize}px ${font}`;
-      renderStyledLine(titleText, tx, curY, fittedTitleSize, titleSpacing, true, true);
+      ctx.font = `900 ${tSize}px ${fontFam}`;
+      const titleSpacing = tSize * trackingRatio;
+      renderStyledText(titleText, x, curY, tSize, titleSpacing, gradEnabled, 1, 1);
+      curY += sSize + lineGap;
+    }
+    if (subText) {
+      ctx.font = `600 ${sSize}px ${fontFam}`;
+      const subSpacing = applyTrackingSub ? sSize * trackingRatio : 0;
+      renderStyledText(subText, x, curY, sSize, subSpacing, gradEnabled && gradSub, 0.85, 0.55);
     }
   }
 
   ctx.restore();
 }
 
+function drawSelectionHighlight(ctx, r, isInteractive) {
+  if (!isInteractive || selectedIndex < 0) return;
+  const sb = slotBounds.find(s => s.index === selectedIndex);
+  if (!sb) return;
+  ctx.save();
+  ctx.strokeStyle = '#9d8df7';
+  ctx.lineWidth = Math.max(4, Math.round(ctx.canvas.width * 0.0026));
+  ctx.shadowColor = 'rgba(124,105,239,0.75)';
+  ctx.shadowBlur = 16;
+  if (sb.poly) roundedPolyPath(ctx, sb.poly, r);
+  else roundedRectPath(ctx, sb.x, sb.y, sb.w, sb.h, r);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawSwapOverlay(ctx, isInteractive) {
+  if (!isInteractive || !isDragging || dragMode !== 'swap' || swapSourceIndex < 0) return;
+  const srcSb = slotBounds.find(s => s.index === swapSourceIndex);
+  if (srcSb) {
+    ctx.save();
+    ctx.strokeStyle = '#fbbf24';
+    ctx.setLineDash([12, 8]);
+    ctx.lineWidth = Math.max(4, Math.round(ctx.canvas.width * 0.0028));
+    if (srcSb.poly) roundedPolyPath(ctx, srcSb.poly, 10);
+    else roundedRectPath(ctx, srcSb.x, srcSb.y, srcSb.w, srcSb.h, 10);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (swapTargetIndex >= 0 && swapTargetIndex !== swapSourceIndex) {
+    const tgtSb = slotBounds.find(s => s.index === swapTargetIndex);
+    if (tgtSb) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(52, 211, 153, 0.22)';
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = Math.max(5, Math.round(ctx.canvas.width * 0.0034));
+      if (tgtSb.poly) roundedPolyPath(ctx, tgtSb.poly, 10);
+      else roundedRectPath(ctx, tgtSb.x, tgtSb.y, tgtSb.w, tgtSb.h, 10);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+}
+
 // =========================================================================
-// MAIN RENDER PIPELINE
+// MAIN RENDER ENGINE
 // =========================================================================
-async function render(targetCanvas = $('canvas'), isExport = false) {
+async function renderToCanvas(targetCanvas, itemsList, options = {}) {
+  const {
+    interactive = true,
+    titleOverride = null,
+    subtitleOverride = null
+  } = options;
+
   const [w, h] = $('ratio').value.split(',').map(Number);
-  $('dimBadge').textContent = `${w} × ${h}`;
+  if (interactive) $('dimBadge').textContent = `${w} × ${h}`;
 
   targetCanvas.width = w;
   targetCanvas.height = h;
@@ -5414,687 +5512,327 @@ async function render(targetCanvas = $('canvas'), isExport = false) {
   ctx.fillStyle = $('bgColor').value;
   ctx.fillRect(0, 0, w, h);
 
-  if (!media.length) {
-    if (!isExport) fitCanvasToViewport();
-    return;
-  }
+  if (!itemsList || !itemsList.length) return;
 
-  const urls = media.map(m => resolveItemUrl(m));
-  const loadedImgs = await Promise.all(urls.map(u => loadImage(u)));
+  const urls = itemsList.map(resolveItemUrl);
+  const imgs = (await Promise.all(urls.map(loadImage))).filter(Boolean);
+  if (!imgs.length) return;
 
-  const items = [];
-  for (let i = 0; i < media.length; i++) {
-    if (loadedImgs[i]) items.push({ item: media[i], img: loadedImgs[i], index: i });
+  const validPairs = [];
+  for (let i = 0; i < itemsList.length; i++) {
+    const im = await loadImage(urls[i]);
+    if (im) validPairs.push({ item: itemsList[i], im, index: i });
   }
-  if (!items.length) {
-    if (!isExport) fitCanvasToViewport();
-    return;
-  }
+  if (!validPairs.length) return;
 
   const style = $('style').value;
-  const rad = (Number($('angle').value) * Math.PI) / 180;
+  const deg = Number($('angle').value);
+  const rad = deg * Math.PI / 180;
   const gap = Number($('gap').value);
-  const cornerRadius = Number($('radius').value);
-  const staggerPct = Number($('stagger').value) / 100;
-  const opacity = Number($('imgOpacity').value) / 100;
+  const r = Number($('radius').value);
   const userCols = Number($('cols').value);
-  const cardAspect = getTargetCardAspect();
+  const staggerPct = Number($('stagger').value) / 100;
+  const aspect = getTargetCardAspect();
 
-  if (!isExport) {
+  if (interactive) {
     slotBounds = [];
-    activeRotationRad = (style === 'masonry' || style === 'grid') ? rad : 0;
+    activeRotationRad = style === 'diagonal' ? 0 : rad;
   }
 
-  const stageCanvas = document.createElement('canvas');
-  stageCanvas.width = w;
-  stageCanvas.height = h;
-  const sCtx = stageCanvas.getContext('2d');
+  const artCanvas = document.createElement('canvas');
+  artCanvas.width = w;
+  artCanvas.height = h;
+  const artCtx = artCanvas.getContext('2d');
 
-  sCtx.save();
-  sCtx.globalAlpha = opacity;
+  const gTransform = getGlobalTransform(w, h);
+  artCtx.save();
+  artCtx.translate(w / 2 + gTransform.offsetX, h / 2 + gTransform.offsetY);
+  artCtx.scale(gTransform.scale, gTransform.scale);
+  artCtx.translate(-w / 2, -h / 2);
 
-  const diag = Math.hypot(w, h);
-  const isPoster = cardAspect > 1.05;
+  artCtx.globalAlpha = Number($('imgOpacity').value) / 100;
+  artCtx.filter = getComposedCanvasFilterString();
 
   if (style === 'single') {
-    const entry = items[0];
-    const inset = gap;
-    const cw = Math.max(40, w - inset * 2);
-    const ch = Math.max(40, h - inset * 2);
+    const pair = validPairs[0];
+    const pad = gap * 1.5;
+    const availW = Math.max(40, w - pad * 2);
+    const availH = Math.max(40, h - pad * 2);
+
+    let cw = availW;
+    let ch = availH;
+    const shape = $('cardShape').value;
+    if (shape !== 'auto' && pad > 0) {
+      if (availW * aspect <= availH) {
+        cw = availW;
+        ch = cw * aspect;
+      } else {
+        ch = availH;
+        cw = ch / aspect;
+      }
+    }
+
     const cx = w / 2;
     const cy = h / 2;
+    artCtx.save();
+    artCtx.translate(cx, cy);
+    artCtx.rotate(rad);
 
-    sCtx.save();
-    sCtx.translate(cx, cy);
-    sCtx.rotate(rad);
-    const scaleBoost = Math.abs(rad) > 0.001 ? 1.18 : 1;
-    const drawW = cw * scaleBoost;
-    const drawH = ch * scaleBoost;
-    roundedRectPath(sCtx, -drawW / 2, -drawH / 2, drawW, drawH, cornerRadius);
-    sCtx.clip();
-    drawCardImage(sCtx, entry.img, entry.item, -drawW / 2, -drawH / 2, drawW, drawH);
-    sCtx.restore();
+    const dx = -cw / 2;
+    const dy = -ch / 2;
+    artCtx.save();
+    roundedRectPath(artCtx, dx, dy, cw, ch, r);
+    artCtx.clip();
+    drawCardImage(artCtx, pair.im, pair.item, dx, dy, cw, ch);
+    artCtx.restore();
 
-    if (!isExport) {
-      const cos = Math.cos(rad);
-      const sin = Math.sin(rad);
-      const halfW = drawW / 2;
-      const halfH = drawH / 2;
-      const corners = [
-        [-halfW, -halfH],
-        [halfW, -halfH],
-        [halfW, halfH],
-        [-halfW, halfH]
-      ].map(([lx, ly]) => [cx + lx * cos - ly * sin, cy + lx * sin + ly * cos]);
-      slotBounds.push({ index: entry.index, poly: corners, x: cx - halfW, y: cy - halfH, w: drawW, h: drawH });
+    if (interactive) {
+      slotBounds.push({ index: pair.index, x: dx, y: dy, w: cw, h: ch });
+      drawSelectionHighlight(artCtx, r, true);
     }
-  } else if (style === 'masonry' || style === 'grid') {
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-    const rotW = w * Math.abs(cos) + h * Math.abs(sin);
-    const rotH = w * Math.abs(sin) + h * Math.abs(cos);
-
-    const cols = userCols > 0 ? userCols : Math.max(3, Math.round(rotW / (isPoster ? 240 : 340)));
-    const cardW = Math.max(8, (rotW - gap * (cols - 1)) / cols);
-    const cardH = cardW * cardAspect;
-    const maxColShift = style === 'masonry' ? cardH * staggerPct : 0;
-    const minTotalH = rotH + maxColShift + cardH * 0.5;
-    const rows = Math.max(2, Math.ceil((minTotalH + gap) / (cardH + gap)));
-    const totalW = cols * cardW + (cols - 1) * gap;
-    const totalH = rows * cardH + (rows - 1) * gap;
-
-    sCtx.save();
-    sCtx.translate(w / 2, h / 2);
-    sCtx.rotate(rad);
-
-    let idx = 0;
-
-    for (let c = 0; c < cols; c++) {
-      const colShift = style === 'masonry'
-        ? (((c % 2) - 0.5) * cardH * staggerPct)
-        : 0;
-      for (let r = 0; r < rows; r++) {
-        const entry = items[idx++ % items.length];
-        const x = -totalW / 2 + c * (cardW + gap);
-        const y = -totalH / 2 + r * (cardH + gap) + colShift;
-
-        sCtx.save();
-        roundedRectPath(sCtx, x, y, cardW, cardH, cornerRadius);
-        sCtx.clip();
-        drawCardImage(sCtx, entry.img, entry.item, x, y, cardW, cardH);
-        sCtx.restore();
-
-        if (!isExport) {
-          const corners = [
-            [x, y],
-            [x + cardW, y],
-            [x + cardW, y + cardH],
-            [x, y + cardH]
-          ].map(([lx, ly]) => [w / 2 + lx * cos - ly * sin, h / 2 + lx * sin + ly * cos]);
-          slotBounds.push({ index: entry.index, poly: corners, x, y, w: cardW, h: cardH });
-        }
-      }
-    }
-    sCtx.restore();
+    artCtx.restore();
   } else if (style === 'diagonal') {
-    const count = userCols > 0 ? userCols : Math.min(items.length, 7);
-    const skew = Math.tan(rad || (-12 * Math.PI) / 180) * h;
-    const step = (w + Math.abs(skew)) / count;
-    const startX = skew > 0 ? -skew : 0;
+    const count = Math.min(validPairs.length, userCols > 0 ? userCols : Math.max(4, Math.min(9, validPairs.length)));
+    const skew = Math.tan(rad) * h * 0.45;
+    const totalW = w + Math.abs(skew) + gap * (count + 1);
+    const sliceW = totalW / count;
+    const startX = -Math.abs(skew) / 2 - gap / 2;
 
     for (let i = 0; i < count; i++) {
-      const entry = items[i % items.length];
-      const x0 = startX + i * step;
-      const x1 = x0 + step - gap;
+      const pair = validPairs[i % validPairs.length];
+      const x0 = startX + i * sliceW + gap / 2;
+      const x1 = startX + (i + 1) * sliceW - gap / 2;
       const poly = [
-        [x0, 0],
-        [x1, 0],
-        [x1 + skew, h],
-        [x0 + skew, h]
+        [x0 + skew / 2, -gap],
+        [x1 + skew / 2, -gap],
+        [x1 - skew / 2, h + gap],
+        [x0 - skew / 2, h + gap]
       ];
-      const minX = Math.min(x0, x0 + skew);
-      const maxX = Math.max(x1, x1 + skew);
+      const minX = Math.min(poly[0][0], poly[3][0]);
+      const maxX = Math.max(poly[1][0], poly[2][0]);
+      const boxW = maxX - minX;
+      const boxH = h + gap * 2;
 
-      sCtx.save();
-      roundedPolyPath(sCtx, poly, cornerRadius * 0.5);
-      sCtx.clip();
-      drawCardImage(sCtx, entry.img, entry.item, minX, 0, maxX - minX, h);
-      sCtx.restore();
+      artCtx.save();
+      roundedPolyPath(artCtx, poly, r);
+      artCtx.clip();
+      drawCardImage(artCtx, pair.im, pair.item, minX, -gap, boxW, boxH);
+      artCtx.restore();
 
-      if (!isExport) slotBounds.push({ index: entry.index, poly, x: minX, y: 0, w: maxX - minX, h });
+      if (interactive) {
+        slotBounds.push({ index: pair.index, x: minX, y: -gap, w: boxW, h: boxH, poly });
+      }
+    }
+    if (interactive) {
+      drawSelectionHighlight(artCtx, r, true);
+      drawSwapOverlay(artCtx, true);
     }
   } else if (style === 'strip') {
-    const rowCount = userCols > 0 ? userCols : 3;
-    const span = diag * 1.25;
-    const stripH = (span - gap * (rowCount - 1)) / rowCount;
-    const cardW = stripH / cardAspect;
-    const cardsPerRow = Math.ceil(span / (cardW + gap)) + 2;
+    const diag = Math.hypot(w, h) * 1.3;
+    const rows = userCols > 0 ? userCols : (aspect > 1 ? 3 : 4);
+    const rowH = (diag - gap * (rows + 1)) / rows;
+    const cw = rowH / aspect;
 
-    sCtx.save();
-    sCtx.translate(w / 2, h / 2);
-    sCtx.rotate(rad);
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
+    artCtx.save();
+    artCtx.translate(w / 2, h / 2);
+    artCtx.rotate(rad);
+
     let idx = 0;
+    for (let row = 0; row < rows; row++) {
+      const y = -diag / 2 + gap + row * (rowH + gap);
+      const rowShift = ((row % 2 === 0 ? 0 : 0.5) * staggerPct) * (cw + gap);
+      const colsNeeded = Math.ceil(diag / (cw + gap)) + 3;
+      for (let col = -1; col < colsNeeded; col++) {
+        const pair = validPairs[idx % validPairs.length];
+        const x = -diag / 2 + col * (cw + gap) - rowShift;
+        artCtx.save();
+        roundedRectPath(artCtx, x, y, cw, rowH, r);
+        artCtx.clip();
+        drawCardImage(artCtx, pair.im, pair.item, x, y, cw, rowH);
+        artCtx.restore();
 
-    for (let r = 0; r < rowCount; r++) {
-      const rowShift = ((r % 2 === 0 ? -1 : 1) * cardW * staggerPct * 0.6);
-      const y = -span / 2 + r * (stripH + gap);
-      for (let c = 0; c < cardsPerRow; c++) {
-        const entry = items[idx++ % items.length];
-        const x = -span / 2 + c * (cardW + gap) + rowShift;
-
-        sCtx.save();
-        roundedRectPath(sCtx, x, y, cardW, stripH, cornerRadius);
-        sCtx.clip();
-        drawCardImage(sCtx, entry.img, entry.item, x, y, cardW, stripH);
-        sCtx.restore();
-
-        if (!isExport) {
-          const corners = [
-            [x, y],
-            [x + cardW, y],
-            [x + cardW, y + stripH],
-            [x, y + stripH]
-          ].map(([lx, ly]) => [w / 2 + lx * cos - ly * sin, h / 2 + lx * sin + ly * cos]);
-          slotBounds.push({ index: entry.index, poly: corners, x, y, w: cardW, h: stripH });
-        }
+        if (interactive) slotBounds.push({ index: pair.index, x, y, w: cw, h: rowH });
+        idx++;
       }
     }
-    sCtx.restore();
+    if (interactive) {
+      drawSelectionHighlight(artCtx, r, true);
+      drawSwapOverlay(artCtx, true);
+    }
+    artCtx.restore();
   } else if (style === 'collage') {
-    const cols = userCols > 0 ? userCols : 4;
-    const count = userCols > 0 ? Math.max(Math.min(items.length, cols * 4), cols * 2) : Math.min(items.length, 16);
-    const rows = Math.ceil(count / cols);
-    const cellW = w / cols;
-    const cellH = h / rows;
+    const diag = Math.hypot(w, h) * 1.25;
+    const cols = userCols > 0 ? userCols : (aspect > 1 ? 6 : 4);
+    const cw = (diag / cols) * 1.08;
+    const ch = cw * aspect;
+    const rows = Math.ceil(diag / (ch * 0.78)) + 2;
 
-    for (let i = 0; i < count; i++) {
-      const entry = items[i % items.length];
-      const c = i % cols;
-      const r = Math.floor(i / cols);
-      const seed = Math.sin(i * 12.9898) * 43758.5453;
-      const rand = seed - Math.floor(seed);
-      const rot = (rand - 0.5) * 0.34 + rad * 0.4;
+    artCtx.save();
+    artCtx.translate(w / 2, h / 2);
+    artCtx.rotate(rad);
 
-      const cardW = cellW * (isPoster ? 0.78 : 1.05);
-      const cardH = cardW * cardAspect;
-      const cx = cellW * (c + 0.5) + (rand - 0.5) * cellW * 0.18;
-      const cy = cellH * (r + 0.5) + ((1 - rand) - 0.5) * cellH * 0.18;
+    let idx = 0;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const pair = validPairs[idx % validPairs.length];
+        const seed = Math.sin(idx * 12.9898 + 78.233) * 43758.5453;
+        const rand1 = seed - Math.floor(seed);
+        const seed2 = Math.sin(idx * 39.346 + 11.135) * 24634.6345;
+        const rand2 = seed2 - Math.floor(seed2);
 
-      sCtx.save();
-      sCtx.translate(cx, cy);
-      sCtx.rotate(rot);
-      sCtx.shadowColor = 'rgba(0,0,0,.65)';
-      sCtx.shadowBlur = 24;
-      sCtx.shadowOffsetY = 10;
-      roundedRectPath(sCtx, -cardW / 2, -cardH / 2, cardW, cardH, cornerRadius);
-      sCtx.fillStyle = '#0c0e14';
-      sCtx.fill();
-      sCtx.shadowColor = 'transparent';
-      sCtx.clip();
-      drawCardImage(sCtx, entry.img, entry.item, -cardW / 2, -cardH / 2, cardW, cardH);
-      sCtx.restore();
+        const baseX = -diag / 2 + col * (diag / cols) + (row % 2 ? (diag / cols) * 0.42 : 0);
+        const baseY = -diag / 2 + row * (ch * 0.78);
+        const jitterX = (rand1 - 0.5) * cw * 0.25;
+        const jitterY = (rand2 - 0.5) * ch * 0.22;
+        const cardTilt = (rand1 - 0.5) * 0.24;
 
-      if (!isExport) {
-        const cos = Math.cos(rot);
-        const sin = Math.sin(rot);
-        const corners = [
-          [-cardW / 2, -cardH / 2],
-          [cardW / 2, -cardH / 2],
-          [cardW / 2, cardH / 2],
-          [-cardW / 2, cardH / 2]
-        ].map(([lx, ly]) => [cx + lx * cos - ly * sin, cy + lx * sin + ly * cos]);
-        slotBounds.push({ index: entry.index, poly: corners, x: cx - cardW / 2, y: cy - cardH / 2, w: cardW, h: cardH });
+        const cx = baseX + jitterX + cw / 2;
+        const cy = baseY + jitterY + ch / 2;
+
+        artCtx.save();
+        artCtx.translate(cx, cy);
+        artCtx.rotate(cardTilt);
+        artCtx.shadowColor = 'rgba(0,0,0,0.65)';
+        artCtx.shadowBlur = 22;
+        artCtx.shadowOffsetY = 8;
+        roundedRectPath(artCtx, -cw / 2, -ch / 2, cw, ch, r);
+        artCtx.fillStyle = '#0c0e14';
+        artCtx.fill();
+        artCtx.shadowColor = 'transparent';
+        artCtx.clip();
+        drawCardImage(artCtx, pair.im, pair.item, -cw / 2, -ch / 2, cw, ch);
+        artCtx.restore();
+
+        if (interactive) slotBounds.push({ index: pair.index, x: cx - cw / 2, y: cy - ch / 2, w: cw, h: ch });
+        idx++;
       }
     }
+    if (interactive) {
+      drawSelectionHighlight(artCtx, r, true);
+      drawSwapOverlay(artCtx, true);
+    }
+    artCtx.restore();
+  } else {
+    const isGrid = style === 'grid';
+    const effectiveStagger = isGrid ? 0 : staggerPct;
+    const isRotated = Math.abs(rad) > 0.005;
+    const spanW = isRotated ? Math.hypot(w, h) * 1.32 : w;
+    const spanH = isRotated ? Math.hypot(w, h) * 1.32 : h;
+
+    const autoCols = aspect > 1
+      ? (w >= h ? 7 : 4)
+      : (w >= h ? 4 : 3);
+    const cols = userCols > 0 ? userCols : autoCols;
+    const cw = (spanW - gap * (cols + 1)) / cols;
+    const ch = cw * aspect;
+    const rows = Math.ceil((spanH + ch) / (ch + gap)) + 2;
+
+    artCtx.save();
+    artCtx.translate(w / 2, h / 2);
+    artCtx.rotate(rad);
+
+    let idx = 0;
+    for (let col = 0; col < cols; col++) {
+      const colShift = ((col % 2) * effectiveStagger) * (ch + gap);
+      for (let row = -1; row < rows; row++) {
+        const pair = validPairs[idx % validPairs.length];
+        const x = -spanW / 2 + gap + col * (cw + gap);
+        const y = -spanH / 2 + gap + row * (ch + gap) - colShift;
+
+        artCtx.save();
+        roundedRectPath(artCtx, x, y, cw, ch, r);
+        artCtx.clip();
+        drawCardImage(artCtx, pair.im, pair.item, x, y, cw, ch);
+        artCtx.restore();
+
+        if (interactive) slotBounds.push({ index: pair.index, x, y, w: cw, h: ch });
+        idx++;
+      }
+    }
+    if (interactive) {
+      drawSelectionHighlight(artCtx, r, true);
+      drawSwapOverlay(artCtx, true);
+    }
+    artCtx.restore();
   }
 
-  sCtx.restore();
-
-  const composedFilter = getComposedCanvasFilterString();
-  const { scale: gScale, offsetX: gOffX, offsetY: gOffY } = getGlobalTransform(w, h);
-  ctx.save();
-  ctx.filter = composedFilter;
-  ctx.translate(w / 2 + gOffX, h / 2 + gOffY);
-  ctx.scale(gScale, gScale);
-  ctx.drawImage(stageCanvas, -w / 2, -h / 2);
-  ctx.restore();
-  ctx.filter = 'none';
+  artCtx.restore();
+  ctx.drawImage(artCanvas, 0, 0);
 
   applyPostFilters(ctx, w, h);
-  drawOverlaysAndText(ctx, w, h);
+  drawOverlaysAndText(ctx, w, h, titleOverride, subtitleOverride);
+  if (interactive) fitCanvasToViewport();
+}
 
-  if (!isExport && selectedIndex >= 0) {
-    const isSwapDragging = isDragging && dragMode === 'swap' && swapSourceIndex >= 0;
-
-    for (const sb of slotBounds) {
-      const isSelectedSlot = sb.index === selectedIndex;
-      const isSwapTargetSlot = isSwapDragging && sb.index === swapTargetIndex && sb.index !== swapSourceIndex;
-      if (!isSelectedSlot && !isSwapTargetSlot) continue;
-
-      ctx.save();
-      ctx.translate(w / 2 + gOffX, h / 2 + gOffY);
-      ctx.scale(gScale, gScale);
-      ctx.translate(-w / 2, -h / 2);
-
-      if (isSwapTargetSlot) {
-        ctx.strokeStyle = 'rgba(52, 211, 153, 0.98)';
-        ctx.fillStyle = 'rgba(52, 211, 153, 0.22)';
-        ctx.lineWidth = Math.max(4, Math.round(w * 0.003)) / (gScale || 1);
-      } else {
-        ctx.strokeStyle = isSwapDragging ? 'rgba(251, 191, 36, 0.95)' : 'rgba(139, 124, 247, 0.92)';
-        ctx.fillStyle = isSwapDragging ? 'rgba(251, 191, 36, 0.14)' : 'rgba(139, 124, 247, 0.12)';
-        ctx.lineWidth = Math.max(3, Math.round(w * 0.0022)) / (gScale || 1);
-      }
-
-      if (sb.poly) {
-        roundedPolyPath(ctx, sb.poly, 6);
-        ctx.fill();
-        ctx.stroke();
-      } else {
-        ctx.fillRect(sb.x, sb.y, sb.w, sb.h);
-        ctx.strokeRect(sb.x, sb.y, sb.w, sb.h);
-      }
-      ctx.restore();
-    }
-
-    if (isSwapDragging && swapPointerPos) {
-      ctx.save();
-      ctx.translate(w / 2 + gOffX, h / 2 + gOffY);
-      ctx.scale(gScale, gScale);
-      ctx.translate(-w / 2, -h / 2);
-
-      const labelText = (swapTargetIndex >= 0 && swapTargetIndex !== swapSourceIndex)
-        ? `⇄ Trocar #${swapSourceIndex + 1} com #${swapTargetIndex + 1}`
-        : `⇄ Arraste sobre outro cartaz`;
-      const fontSize = Math.max(15, Math.round(w * 0.0135)) / (gScale || 1);
-      ctx.font = `700 ${fontSize}px Inter, system-ui, sans-serif`;
-      const padX = fontSize * 0.75;
-      const boxH = fontSize * 1.9;
-      const boxW = ctx.measureText(labelText).width + padX * 2;
-      const bx = Math.max(12, Math.min(w - boxW - 12, swapPointerPos.x - boxW / 2));
-      const by = Math.max(12, swapPointerPos.y - boxH - fontSize * 1.2);
-
-      roundedRectPath(ctx, bx, by, boxW, boxH, boxH / 2);
-      ctx.fillStyle = 'rgba(14, 17, 26, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = swapTargetIndex >= 0 && swapTargetIndex !== swapSourceIndex
-        ? 'rgba(52, 211, 153, 0.95)'
-        : 'rgba(251, 191, 36, 0.95)';
-      ctx.lineWidth = 2 / (gScale || 1);
-      ctx.stroke();
-
-      ctx.fillStyle = '#ffffff';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(labelText, bx + boxW / 2, by + boxH / 2);
-      ctx.restore();
-    }
-  }
-
-  if (!isExport) fitCanvasToViewport();
+async function render() {
+  await renderToCanvas($('canvas'), media, { interactive: true });
 }
 
 // =========================================================================
-// REACTIVE UI BINDINGS & RESET BUTTONS
+// SINGLE & BATCH EXPORT
 // =========================================================================
-const DEFAULT_SLIDER_VALUES = {
-  angle: '-12',
-  gap: '14',
-  radius: '16',
-  cols: '0',
-  stagger: '38',
-  imgOpacity: '100',
-  shade: '15',
-  canvasBlur: '0',
-  filterBrightness: '100',
-  filterContrast: '100',
-  filterSaturation: '100',
-  filterBlur: '0',
-  textScale: '100',
-  textTracking: '0'
-};
-
-function updateInlineResetButtons() {
-  document.querySelectorAll('.reset-mini-btn[data-reset]').forEach(btn => {
-    const key = btn.dataset.reset;
-    if (key === 'globalFrame') {
-      const changed = $('globalZoom').value !== '100' || $('globalPanX').value !== '0' || $('globalPanY').value !== '0';
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    if (key === 'localBlur') {
-      const changed = $('localBlurEnabled').checked || $('localBlurDir').value !== 'vignette' ||
-        $('localBlurAmt').value !== '14' || $('localBlurReach').value !== '55' || $('localBlurFeather').value !== '65';
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    if (key === 'tint') {
-      const changed = $('tintEnabled').checked || $('tintColor').value !== '#7c69ef' ||
-        $('tintMode').value !== 'color' || $('tintOpacity').value !== '35';
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    if (key === 'textGrad') {
-      const changed = $('textGradEnabled').checked || $('textGradColor1').value !== '#ffffff' ||
-        $('textGradColor2').value !== '#9d8df7' || $('textGradDir').value !== 'horizontal' || !$('textGradSub').checked;
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    if (key === 'textStroke') {
-      const changed = $('textStrokeEnabled').checked || $('textStroke').value !== '4' || $('textStrokeColor').value !== '#000000';
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    if (key === 'textShadow') {
-      const changed = !$('textShadowEnabled').checked || $('textShadow').value !== '70' || $('textShadowColor').value !== '#000000';
-      btn.classList.toggle('visible', changed);
-      return;
-    }
-    const el = $(key);
-    if (el && key in DEFAULT_SLIDER_VALUES) {
-      btn.classList.toggle('visible', el.value !== DEFAULT_SLIDER_VALUES[key]);
-    }
-  });
-}
-
-function resetSingleSetting(key) {
-  if (key === 'globalFrame') {
-    $('globalZoom').value = '100';
-    $('globalZoomOut').value = '100%';
-    $('globalPanX').value = '0';
-    $('globalPanXOut').value = '0%';
-    $('globalPanY').value = '0';
-    $('globalPanYOut').value = '0%';
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-  if (key === 'localBlur') {
-    $('localBlurEnabled').checked = false;
-    $('localBlurDir').value = 'vignette';
-    $('localBlurAmt').value = '14';
-    $('localBlurAmtOut').value = '14 px';
-    $('localBlurReach').value = '55';
-    $('localBlurReachOut').value = '55%';
-    $('localBlurFeather').value = '65';
-    $('localBlurFeatherOut').value = '65%';
-    $('localBlurGroupBox').classList.add('disabled');
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-  if (key === 'tint') {
-    $('tintEnabled').checked = false;
-    $('tintColor').value = '#7c69ef';
-    $('tintMode').value = 'color';
-    $('tintOpacity').value = '35';
-    $('tintOpacityOut').value = '35%';
-    $('tintGroupBox').classList.add('disabled');
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-  if (key === 'textGrad') {
-    $('textGradEnabled').checked = false;
-    $('textGradColor1').value = '#ffffff';
-    $('textGradColor2').value = '#9d8df7';
-    $('textGradDir').value = 'horizontal';
-    $('textGradSub').checked = true;
-    $('textGradGroupBox').classList.add('disabled');
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-  if (key === 'textStroke') {
-    $('textStrokeEnabled').checked = false;
-    $('textStroke').value = '4';
-    $('textStrokeOut').value = '4 px';
-    $('textStrokeColor').value = '#000000';
-    $('strokeGroupBox').classList.add('disabled');
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-  if (key === 'textShadow') {
-    $('textShadowEnabled').checked = true;
-    $('textShadow').value = '70';
-    $('textShadowOut').value = '70%';
-    $('textShadowColor').value = '#000000';
-    $('shadowGroupBox').classList.remove('disabled');
-    updateInlineResetButtons();
-    if (media.length) render();
-    return;
-  }
-
-  const el = $(key);
-  if (!el || !(key in DEFAULT_SLIDER_VALUES)) return;
-  el.value = DEFAULT_SLIDER_VALUES[key];
-  el.dispatchEvent(new Event('input', { bubbles: true }));
-}
-
-document.querySelectorAll('.reset-mini-btn[data-reset]').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    resetSingleSetting(btn.dataset.reset);
-  });
-});
-
-const toggleGroupBindings = [
-  ['localBlurEnabled', 'localBlurGroupBox'],
-  ['tintEnabled', 'tintGroupBox'],
-  ['textGradEnabled', 'textGradGroupBox'],
-  ['textStrokeEnabled', 'strokeGroupBox'],
-  ['textShadowEnabled', 'shadowGroupBox']
-];
-for (const [chkId, boxId] of toggleGroupBindings) {
-  const chk = $(chkId);
-  const box = $(boxId);
-  if (!chk || !box) continue;
-  const syncBox = () => {
-    box.classList.toggle('disabled', !chk.checked);
-    updateInlineResetButtons();
-    if (media.length) render();
-  };
-  chk.addEventListener('change', syncBox);
-  box.classList.toggle('disabled', !chk.checked);
-}
-
-const rangeOutputs = [
-  ['angle', 'angleOut', v => v + '°'],
-  ['gap', 'gapOut', v => v + ' px'],
-  ['radius', 'radiusOut', v => v + ' px'],
-  ['cols', 'colsOut', v => Number(v) === 0 ? 'Auto' : v],
-  ['stagger', 'staggerOut', v => v + '%'],
-  ['imgOpacity', 'imgOpacityOut', v => v + '%'],
-  ['shade', 'shadeOut', v => v + '%'],
-  ['canvasBlur', 'canvasBlurOut', v => v + ' px'],
-  ['filterBrightness', 'filterBrightnessOut', v => v + '%'],
-  ['filterContrast', 'filterContrastOut', v => v + '%'],
-  ['filterSaturation', 'filterSaturationOut', v => v + '%'],
-  ['filterBlur', 'filterBlurOut', v => v + ' px'],
-  ['localBlurAmt', 'localBlurAmtOut', v => v + ' px'],
-  ['localBlurReach', 'localBlurReachOut', v => v + '%'],
-  ['localBlurFeather', 'localBlurFeatherOut', v => v + '%'],
-  ['tintOpacity', 'tintOpacityOut', v => v + '%'],
-  ['globalZoom', 'globalZoomOut', v => v + '%'],
-  ['globalPanX', 'globalPanXOut', v => v + '%'],
-  ['globalPanY', 'globalPanYOut', v => v + '%'],
-  ['textScale', 'textScaleOut', v => v + '%'],
-  ['textTracking', 'textTrackingOut', v => v + '%'],
-  ['textStroke', 'textStrokeOut', v => v + ' px'],
-  ['textShadow', 'textShadowOut', v => v + '%']
-];
-
-for (const [id, outId, fmt] of rangeOutputs) {
-  const el = $(id);
-  const out = $(outId);
-  if (!el || !out) continue;
-  el.addEventListener('input', () => {
-    out.value = fmt(el.value);
-    updateLayoutMeta();
-    updateInlineResetButtons();
-    if (media.length) render();
-  });
-}
-
-$('filterPreset')?.addEventListener('change', () => {
-  const label = $('filterPreset').selectedOptions[0]?.textContent.split(' (')[0] || 'Normal';
-  $('filterMeta').textContent = label;
-  updateInlineResetButtons();
-  if (media.length) render();
-});
-
-$('resetFiltersBtn')?.addEventListener('click', () => {
-  $('filterPreset').value = 'none';
-  $('canvasBlur').value = 0;
-  $('canvasBlurOut').value = '0 px';
-  $('filterBrightness').value = 100;
-  $('filterBrightnessOut').value = '100%';
-  $('filterContrast').value = 100;
-  $('filterContrastOut').value = '100%';
-  $('filterSaturation').value = 100;
-  $('filterSaturationOut').value = '100%';
-  $('filterBlur').value = 0;
-  $('filterBlurOut').value = '0 px';
-  $('localBlurEnabled').checked = false;
-  $('localBlurDir').value = 'vignette';
-  $('localBlurAmt').value = 14;
-  $('localBlurAmtOut').value = '14 px';
-  $('localBlurReach').value = 55;
-  $('localBlurReachOut').value = '55%';
-  $('localBlurFeather').value = 65;
-  $('localBlurFeatherOut').value = '65%';
-  $('localBlurGroupBox').classList.add('disabled');
-  $('tintEnabled').checked = false;
-  $('tintColor').value = '#7c69ef';
-  $('tintMode').value = 'color';
-  $('tintOpacity').value = 35;
-  $('tintOpacityOut').value = '35%';
-  $('tintGroupBox').classList.add('disabled');
-  $('filterMeta').textContent = 'Normal';
-  updateInlineResetButtons();
-  if (media.length) render();
-});
-
-document.querySelectorAll('#textPosGrid .pos-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#textPosGrid .pos-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    $('textPos').value = btn.dataset.pos;
-    $('textPosLabel').textContent = btn.dataset.label || btn.title;
-    if (media.length) render();
-  });
-});
-
-[
-  'style', 'imgType', 'cardShape', 'ratio', 'bgColor', 'gradDir',
-  'localBlurDir', 'tintColor', 'tintMode',
-  'title', 'subtitle', 'fontFamily', 'textColor', 'textUppercase',
-  'textTrackingSub', 'textGradColor1', 'textGradColor2', 'textGradDir', 'textGradSub',
-  'textStrokeColor', 'textShadowColor'
-].forEach(id => {
-  const el = $(id);
-  if (!el) return;
-  const ev = (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'color')) ? 'input' : 'change';
-  el.addEventListener(ev, () => {
-    updateLayoutMeta();
-    updateInlineResetButtons();
-    if (media.length) render();
-    else clearCanvas();
-  });
-});
-
-// =========================================================================
-// DOWNLOAD INDIVIDUAL & LOTE ZIP
-// =========================================================================
-function canvasToBlob(canvas, format, quality) {
-  const mime = format === 'png' ? 'image/png' : 'image/webp';
-  const q = format === 'png' ? undefined : quality;
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
-      if (blob) resolve(blob);
-      else reject(Error('Falha ao codificar imagem (verifique CORS ou resolução).'));
-    }, mime, q);
-  });
-}
-
 function slugify(str) {
-  return String(str || 'backdrop')
+  return (str || 'nuvio-backdrop')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60) || 'backdrop';
+    .replace(/^-+|-+$/g, '') || 'nuvio-backdrop';
 }
 
-function triggerDownload(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 5000);
+function getExportExtension() {
+  return $('exportFormat').value === 'png' ? 'png' : 'webp';
+}
+
+function canvasToBlob(canvas) {
+  const fmt = $('exportFormat').value;
+  if (fmt === 'png') {
+    return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  }
+  const q = Number($('webpQuality').value) / 100;
+  return new Promise(resolve => canvas.toBlob(resolve, 'image/webp', q));
 }
 
 $('downloadBtn').onclick = async () => {
   if (!media.length) return;
-  $('downloadBtn').disabled = true;
-  const fmt = $('exportFormat').value;
-  const quality = Number($('webpQuality').value) / 100;
-  setStatus(`Gerando arquivo ${fmt.toUpperCase()}…`, true);
+  const exportCanvas = document.createElement('canvas');
+  await renderToCanvas(exportCanvas, media, { interactive: false });
 
-  try {
-    const exportCanvas = document.createElement('canvas');
-    await render(exportCanvas, true);
-    const blob = await canvasToBlob(exportCanvas, fmt, quality);
-    const baseName = $('title').value.trim() || activeExportLabel || 'backdrop-studio';
-    triggerDownload(blob, `${slugify(baseName)}.${fmt}`);
-    setStatus(`Arquivo ${fmt.toUpperCase()} baixado com sucesso!`);
-  } catch (e) {
-    setStatus('Erro ao exportar: ' + e.message);
-  } finally {
-    $('downloadBtn').disabled = false;
-  }
+  const blob = await canvasToBlob(exportCanvas);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const ext = getExportExtension();
+  const baseName = $('title').value.trim() || activeExportLabel || 'backdrop';
+  a.href = url;
+  a.download = `${slugify(baseName)}.${ext}`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
 };
 
-// =========================================================================
-// GERADOR DE ZIP SEM DEPENDÊNCIAS EXTERNAS
-// =========================================================================
-const CRC32_TABLE = (() => {
-  const t = new Uint32Array(256);
+function createZipBlob(files) {
+  const crcTable = new Uint32Array(256);
   for (let i = 0; i < 256; i++) {
     let c = i;
     for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
-    t[i] = c >>> 0;
+    crcTable[i] = c >>> 0;
   }
-  return t;
-})();
+  const crc32 = buf => {
+    let c = 0xffffffff;
+    for (let i = 0; i < buf.length; i++) c = crcTable[(c ^ buf[i]) & 0xff] ^ (c >>> 8);
+    return (c ^ 0xffffffff) >>> 0;
+  };
 
-function crc32(bytes) {
-  let c = 0xffffffff;
-  for (let i = 0; i < bytes.length; i++) {
-    c = CRC32_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
-  }
-  return (c ^ 0xffffffff) >>> 0;
-}
-
-function buildZipBlob(files) {
-  const encoder = new TextEncoder();
+  const enc = new TextEncoder();
   const localChunks = [];
   const centralChunks = [];
   let offset = 0;
 
   for (const file of files) {
-    const nameBytes = encoder.encode(file.name);
+    const nameBytes = enc.encode(file.name);
     const data = file.data;
     const crc = crc32(data);
 
-    const lh = new ArrayBuffer(30 + nameBytes.length);
+    const lh = new ArrayBuffer(30);
     const lv = new DataView(lh);
     lv.setUint32(0, 0x04034b50, true);
     lv.setUint16(4, 20, true);
@@ -6107,11 +5845,10 @@ function buildZipBlob(files) {
     lv.setUint32(22, data.length, true);
     lv.setUint16(26, nameBytes.length, true);
     lv.setUint16(28, 0, true);
-    new Uint8Array(lh, 30).set(nameBytes);
 
-    localChunks.push(new Uint8Array(lh), data);
+    localChunks.push(new Uint8Array(lh), nameBytes, data);
 
-    const ch = new ArrayBuffer(46 + nameBytes.length);
+    const ch = new ArrayBuffer(46);
     const cv = new DataView(ch);
     cv.setUint32(0, 0x02014b50, true);
     cv.setUint16(4, 20, true);
@@ -6130,13 +5867,12 @@ function buildZipBlob(files) {
     cv.setUint16(36, 0, true);
     cv.setUint32(38, 0, true);
     cv.setUint32(42, offset, true);
-    new Uint8Array(ch, 46).set(nameBytes);
 
-    centralChunks.push(new Uint8Array(ch));
+    centralChunks.push(new Uint8Array(ch), nameBytes);
     offset += 30 + nameBytes.length + data.length;
   }
 
-  const centralSize = centralChunks.reduce((acc, c) => acc + c.length, 0);
+  const centralSize = centralChunks.reduce((acc, u) => acc + u.length, 0);
   const eocd = new ArrayBuffer(22);
   const ev = new DataView(eocd);
   ev.setUint32(0, 0x06054b50, true);
@@ -6151,327 +5887,778 @@ function buildZipBlob(files) {
   return new Blob([...localChunks, ...centralChunks, new Uint8Array(eocd)], { type: 'application/zip' });
 }
 
-// =========================================================================
-// EXPORTAÇÃO EM LOTE (.ZIP)
-// =========================================================================
 $('cancelBatch').onclick = () => {
   cancelBatchFlag = true;
-  setStatus('Cancelando lote…', true);
 };
 
 $('batchBtn').onclick = async () => {
   const indices = [...selectedCatSet];
   if (!indices.length) return;
 
-  const includeText = Boolean($('batchIncludeText')?.checked);
-  const pullTmdbLogos = Boolean($('batchPullTmdbLogos')?.checked);
-  if (pullTmdbLogos && !ensureTmdbTokenReady()) return;
+  const useTmdbLogos = Boolean($('batchPullTmdbLogos')?.checked);
+  if (useTmdbLogos && !ensureTmdbTokenReady()) return;
 
   cancelBatchFlag = false;
   $('batchBtn').disabled = true;
   $('generateBtn').disabled = true;
   $('batchProgressBox').classList.add('open');
 
-  const fmt = $('exportFormat').value;
-  const quality = Number($('webpQuality').value) / 100;
   const perPage = Number($('jsonCount').value);
-  const savedTitle = $('title').value;
-  const savedSub = $('subtitle').value;
-  const savedMedia = [...media];
-  const savedSelected = selectedIndex;
-
-  const zipFiles = [];
-  const usedNames = new Set();
+  const ext = getExportExtension();
   const offscreen = document.createElement('canvas');
+  const zipEntries = [];
+  const usedNames = new Map();
 
-  try {
-    for (let i = 0; i < indices.length; i++) {
-      if (cancelBatchFlag) break;
-      const cat = catalogs[indices[i]];
-      $('batchProgressText').textContent = `${i + 1}/${indices.length}`;
-      $('batchProgressFill').style.width = `${Math.round(((i + 1) / indices.length) * 100)}%`;
-      setStatus(`Lote (${i + 1}/${indices.length}): buscando "${cat.name}"…`, true);
+  for (let i = 0; i < indices.length; i++) {
+    if (cancelBatchFlag) break;
+    const cat = catalogs[indices[i]];
+    $('batchProgressText').textContent = `${i + 1}/${indices.length}`;
+    $('batchProgressFill').style.width = `${Math.round(((i + 1) / indices.length) * 100)}%`;
+    setStatus(`Lote (${i + 1}/${indices.length}): gerando "${cat.name}"…`, true);
 
-      try {
-        const raw = await fetchCatalogItems(cat, perPage);
-        const valid = filterValidMedia(raw);
-        if (!valid.length) continue;
+    try {
+      const raw = await fetchCatalogItems(cat, perPage);
+      const valid = filterValidMedia(raw);
+      if (!valid.length) continue;
 
-        media = valid.map(createMediaItem);
-        selectedIndex = -1;
-
-        if (pullTmdbLogos) {
-          await applyTmdbLogosToItems(
-            media,
-            (done, tot) => setStatus(`Lote (${i + 1}/${indices.length}): posters TMDB "${cat.name}" (${done}/${tot})…`, true),
-            true
-          );
-          if (cancelBatchFlag) break;
-        }
-
-        if (includeText) {
-          $('title').value = savedTitle.trim() ? savedTitle : cat.name;
-          $('subtitle').value = savedSub;
-        } else {
-          $('title').value = '';
-          $('subtitle').value = '';
-        }
-
-        await render(offscreen, true);
-        const blob = await canvasToBlob(offscreen, fmt, quality);
-        const buf = new Uint8Array(await blob.arrayBuffer());
-
-        let base = slugify(cat.name);
-        let candidate = `${base}.${fmt}`;
-        let suffix = 2;
-        while (usedNames.has(candidate)) {
-          candidate = `${base}-${suffix++}.${fmt}`;
-        }
-        usedNames.add(candidate);
-        zipFiles.push({ name: candidate, data: buf });
-      } catch (err) {
-        console.warn('Falha no catálogo do lote:', cat.name, err);
+      const catItems = valid.map(createMediaItem);
+      if (useTmdbLogos) {
+        await applyTmdbLogosToItems(
+          catItems,
+          (done, tot) => setStatus(`Lote (${i + 1}/${indices.length}): TMDB logos "${cat.name}" (${done}/${tot})…`, true),
+          true
+        );
+        if (cancelBatchFlag) break;
       }
+
+      const includeText = $('batchIncludeText')?.checked ?? false;
+      let titleText = '';
+      let subText = '';
+      if (includeText) {
+        const customTitle = $('title').value.trim();
+        titleText = customTitle || cat.name;
+        subText = $('subtitle').value.trim();
+      }
+
+      await renderToCanvas(offscreen, catItems, {
+        interactive: false,
+        titleOverride: titleText,
+        subtitleOverride: subText
+      });
+
+      const blob = await canvasToBlob(offscreen);
+      const buf = new Uint8Array(await blob.arrayBuffer());
+      let base = slugify(cat.name);
+      const seen = usedNames.get(base) || 0;
+      usedNames.set(base, seen + 1);
+      if (seen > 0) base += `-${seen + 1}`;
+      zipEntries.push({ name: `${base}.${ext}`, data: buf });
+    } catch (err) {
+      console.warn('Falha no catálogo:', cat.name, err);
     }
 
-    if (zipFiles.length > 0) {
-      setStatus(`Empacotando ${zipFiles.length} imagens em ZIP…`, true);
-      const zipBlob = buildZipBlob(zipFiles);
-      triggerDownload(zipBlob, `aiometadata-backdrops-${zipFiles.length}.zip`);
-      setStatus(cancelBatchFlag
-        ? `Lote interrompido. ZIP parcial com ${zipFiles.length} imagens baixado.`
-        : `Concluído! ZIP com ${zipFiles.length} imagens baixado.`);
-    } else {
-      setStatus('Nenhuma imagem pôde ser gerada no lote.');
-    }
-  } finally {
-    $('title').value = savedTitle;
-    $('subtitle').value = savedSub;
-    media = savedMedia;
-    selectedIndex = savedSelected;
-    if (media.length) await render();
-    else clearCanvas();
+    await new Promise(r => setTimeout(r, 220));
+  }
 
-    $('batchProgressBox').classList.remove('open');
-    $('batchProgressFill').style.width = '0%';
-    $('generateBtn').disabled = false;
-    updateBatchCounter();
+  $('batchProgressBox').classList.remove('open');
+  $('batchProgressFill').style.width = '0%';
+  $('batchBtn').disabled = selectedCatSet.size === 0;
+  $('generateBtn').disabled = false;
+
+  if (zipEntries.length) {
+    const zipBlob = createZipBlob(zipEntries);
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nuvio-catalogos-${zipEntries.length}.zip`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    setStatus(cancelBatchFlag
+      ? `Lote interrompido. ${zipEntries.length} imagens salvas no ZIP.`
+      : `✓ Concluído! ${zipEntries.length} ${ext.toUpperCase()}s baixados em ZIP.`);
+  } else {
+    setStatus('Nenhuma imagem pôde ser gerada no lote.');
   }
 };
 
 // =========================================================================
-// TUTORIAL INTERATIVO & DICAS DE SEÇÃO (?)
+// LIVE INPUT BINDINGS & INLINE RESET BUTTONS
 // =========================================================================
-const SECTION_HELP_DATA = {
-  source: {
-    title: '1. Fonte & Presets',
-    html: `
-      Escolha como preencher seu backdrop:
-      <ul>
-        <li><strong>Presets:</strong> Estilos prontos em 1 clique para criar na hora.</li>
-        <li><strong>Explorar:</strong> Busque no AniList ou TMDB por gênero, tags, década ou ano.</li>
-        <li><strong>AIOMetadata:</strong> Importe seu <code>.json</code> e gere catálogos inteiros ou em lote ZIP.</li>
-        <li><strong>Individual:</strong> Substitua um cartaz específico pelo nome.</li>
-      </ul>
-    `
-  },
-  layout: {
-    title: '2. Estilo & Composição',
-    html: `
-      <ul>
-        <li><strong>Disposição:</strong> Alterne entre <em>Mural Inclinado</em>, <em>Grade</em>, <em>Painéis Diagonais</em>, <em>Faixas</em>, <em>Colagem</em> ou <em>1 Poster Destaque</em>.</li>
-        <li><strong>Filtro Visual:</strong> Aplique cinema, cyberpunk, noir, sépia ou etéreo.</li>
-        <li><strong>Avançado:</strong> Abra as seções recolhidas para ajustar cantos, colunas, desfoque localizado e tintura de cor.</li>
-      </ul>
-    `
-  },
-  text: {
-    title: '3. Título & Tipografia',
-    html: `
-      <ul>
-        <li><strong>Título e Subtítulo:</strong> Opcionais — deixe em branco para exportar arte limpa.</li>
-        <li><strong>Posição:</strong> Use a grade de 9 setas para alinhar com margem segura.</li>
-        <li><strong>Acabamentos:</strong> Expanda <em>Tracking, Degradê, Contorno & Sombra</em> para efeitos avançados.</li>
-      </ul>
-    `
-  },
-  export: {
-    title: '4. Exportação & Lote',
-    html: `
-      <ul>
-        <li><strong>WebP vs PNG:</strong> <em>WebP (90%)</em> cria arquivos leves ideais para apps e addons; <em>PNG</em> exporta sem compressão.</li>
-        <li><strong>Exportar Lote:</strong> Gera todos os catálogos marcados do AIOMetadata em um único arquivo <code>.zip</code>.</li>
-        <li><strong>Exportar tudo com texto:</strong> Marque a caixinha para incluir o nome de cada catálogo nos posters; desmarcada, exporta tudo limpo sem texto.</li>
-      </ul>
-    `
-  },
-  editor: {
-    title: 'Editor Individual de Cartazes',
-    html: `
-      <ul>
-        <li><strong>Enquadrar:</strong> Arraste sobre qualquer cartaz no preview e use a roda do mouse para dar zoom.</li>
-        <li><strong>Trocar de lugar:</strong> Segure <code>Ctrl</code> e arraste um cartaz sobre outro (ou ative <em>⇄ Trocar Lugar</em>).</li>
-        <li><strong>Apagar:</strong> Pressione <code>Delete</code> com um cartaz selecionado.</li>
-      </ul>
-    `
-  }
-};
-
-function openHelpPopover(triggerEl, key) {
-  const info = SECTION_HELP_DATA[key];
-  const pop = $('helpPopover');
-  if (!info || !pop) return;
-
-  $('helpPopoverTitle').textContent = info.title;
-  $('helpPopoverBody').innerHTML = info.html;
-  pop.classList.add('open');
-
-  const rect = triggerEl.getBoundingClientRect();
-  const popW = pop.offsetWidth || 310;
-  const popH = pop.offsetHeight || 180;
-
-  let left = rect.right + 10;
-  if (left + popW > window.innerWidth - 12) {
-    left = Math.max(12, rect.left - popW - 10);
-  }
-  let top = rect.top - 8;
-  if (top + popH > window.innerHeight - 12) {
-    top = Math.max(12, window.innerHeight - popH - 12);
-  }
-
-  pop.style.left = Math.round(left) + 'px';
-  pop.style.top = Math.round(top) + 'px';
+function updateFilterMeta() {
+  const presetLabels = {
+    none: 'Normal',
+    cinematic: 'Cinema',
+    cyberpunk: 'Cyberpunk',
+    grayscale: 'P&B',
+    noir: 'Noir',
+    sepia: 'Sépia',
+    vintage: 'Vintage',
+    dreamy: 'Etéreo'
+  };
+  const p = presetLabels[$('filterPreset').value] || 'Normal';
+  const extras = [];
+  if (Number($('canvasBlur').value) > 0) extras.push(`Desfoque ${$('canvasBlur').value}px`);
+  if ($('localBlurEnabled')?.checked) extras.push('Desfoque Local');
+  if ($('tintEnabled')?.checked) extras.push('Tint');
+  $('filterMeta').textContent = extras.length ? `${p} · ${extras.join(' + ')}` : p;
 }
 
-function closeHelpPopover() {
-  $('helpPopover')?.classList.remove('open');
-}
+const controlBindings = [
+  ['angle', 'angleOut', '°'],
+  ['gap', 'gapOut', ' px'],
+  ['radius', 'radiusOut', ' px'],
+  ['cols', 'colsOut', '', v => v === '0' ? 'Auto' : v],
+  ['stagger', 'staggerOut', '%'],
+  ['shade', 'shadeOut', '%'],
+  ['imgOpacity', 'imgOpacityOut', '%'],
+  ['globalZoom', 'globalZoomOut', '%'],
+  ['globalPanX', 'globalPanXOut', '%'],
+  ['globalPanY', 'globalPanYOut', '%'],
+  ['canvasBlur', 'canvasBlurOut', ' px'],
+  ['filterBrightness', 'filterBrightnessOut', '%'],
+  ['filterContrast', 'filterContrastOut', '%'],
+  ['filterSaturation', 'filterSaturationOut', '%'],
+  ['localBlurAmt', 'localBlurAmtOut', ' px'],
+  ['localBlurReach', 'localBlurReachOut', '%'],
+  ['localBlurFeather', 'localBlurFeatherOut', '%'],
+  ['tintOpacity', 'tintOpacityOut', '%'],
+  ['textScale', 'textScaleOut', '%'],
+  ['textTracking', 'textTrackingOut', '%'],
+  ['textStroke', 'textStrokeOut', ' px'],
+  ['textShadow', 'textShadowOut', '%']
+];
 
-document.querySelectorAll('.help-btn[data-help]').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const pop = $('helpPopover');
-    const isSame = pop.classList.contains('open') && pop.dataset.activeKey === btn.dataset.help;
-    if (isSame) {
-      closeHelpPopover();
-    } else {
-      pop.dataset.activeKey = btn.dataset.help;
-      openHelpPopover(btn, btn.dataset.help);
-    }
+controlBindings.forEach(([id, outId, suffix, customFmt]) => {
+  const el = $(id);
+  const out = $(outId);
+  if (!el || !out) return;
+  el.addEventListener('input', () => {
+    out.value = customFmt ? customFmt(el.value) : (el.value + suffix);
+    if (id === 'style' || id === 'ratio' || id === 'angle') updateLayoutMeta();
+    updateFilterMeta();
+    if (media.length) render();
   });
 });
 
-$('closeHelpPopover')?.addEventListener('click', closeHelpPopover);
+document.querySelectorAll('#textPosGrid .pos-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#textPosGrid .pos-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    $('textPos').value = btn.dataset.pos;
+    if ($('textPosLabel')) $('textPosLabel').textContent = btn.dataset.label;
+    if (media.length) render();
+  });
+});
+
+function setupSubGroupToggle(checkboxId, boxId) {
+  const cb = $(checkboxId);
+  const box = $(boxId);
+  if (!cb || !box) return;
+  const sync = () => box.classList.toggle('disabled', !cb.checked);
+  cb.addEventListener('change', () => {
+    sync();
+    updateFilterMeta();
+    if (media.length) render();
+  });
+  sync();
+}
+setupSubGroupToggle('localBlurEnabled', 'localBlurGroupBox');
+setupSubGroupToggle('tintEnabled', 'tintGroupBox');
+setupSubGroupToggle('textGradEnabled', 'textGradGroupBox');
+setupSubGroupToggle('textStrokeEnabled', 'strokeGroupBox');
+setupSubGroupToggle('textShadowEnabled', 'shadowGroupBox');
+
+const RESET_ACTIONS = {
+  localBlur: () => {
+    $('localBlurEnabled').checked = false;
+    $('localBlurDir').value = 'vignette';
+    $('localBlurAmt').value = 14; $('localBlurAmtOut').value = '14 px';
+    $('localBlurReach').value = 55; $('localBlurReachOut').value = '55%';
+    $('localBlurFeather').value = 65; $('localBlurFeatherOut').value = '65%';
+    $('localBlurGroupBox').classList.add('disabled');
+  },
+  tint: () => {
+    $('tintEnabled').checked = false;
+    $('tintColor').value = '#7c69ef';
+    $('tintMode').value = 'color';
+    $('tintOpacity').value = 35; $('tintOpacityOut').value = '35%';
+    $('tintGroupBox').classList.add('disabled');
+  },
+  globalFrame: () => {
+    $('globalZoom').value = 100; $('globalZoomOut').value = '100%';
+    $('globalPanX').value = 0; $('globalPanXOut').value = '0%';
+    $('globalPanY').value = 0; $('globalPanYOut').value = '0%';
+  },
+  textGrad: () => {
+    $('textGradEnabled').checked = false;
+    $('textGradColor1').value = '#ffffff';
+    $('textGradColor2').value = '#9d8df7';
+    $('textGradDir').value = 'horizontal';
+    $('textGradSub').checked = true;
+    $('textGradGroupBox').classList.add('disabled');
+  },
+  textStroke: () => {
+    $('textStrokeEnabled').checked = false;
+    $('textStroke').value = 4; $('textStrokeOut').value = '4 px';
+    $('textStrokeColor').value = '#000000';
+    $('strokeGroupBox').classList.add('disabled');
+  },
+  textShadow: () => {
+    $('textShadowEnabled').checked = true;
+    $('textShadow').value = 70; $('textShadowOut').value = '70%';
+    $('textShadowColor').value = '#000000';
+    $('shadowGroupBox').classList.remove('disabled');
+  }
+};
+
+document.querySelectorAll('[data-reset]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.reset;
+    if (RESET_ACTIONS[key]) {
+      RESET_ACTIONS[key]();
+    } else {
+      const el = $(key);
+      if (el && el.dataset.default !== undefined) {
+        el.value = el.dataset.default;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+    }
+    updateFilterMeta();
+    if (media.length) render();
+  });
+});
+
+['style', 'imgType', 'cardShape', 'gradDir', 'ratio', 'bgColor', 'title', 'subtitle', 'fontFamily', 'textColor', 'textUppercase', 'textTrackingSub', 'textGradDir', 'textGradSub', 'textStrokeColor', 'textShadowColor', 'filterPreset', 'localBlurDir', 'tintColor', 'tintMode'].forEach(id => {
+  const el = $(id);
+  if (!el) return;
+  const evt = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
+  el.addEventListener(evt, () => {
+    updateLayoutMeta();
+    updateFilterMeta();
+    if (media.length) render();
+    else if (id === 'ratio' || id === 'bgColor') clearCanvas();
+  });
+});
+
+$('resetFiltersBtn').onclick = () => {
+  $('filterPreset').value = 'none';
+  $('canvasBlur').value = 0; $('canvasBlurOut').value = '0 px';
+  $('filterBrightness').value = 100; $('filterBrightnessOut').value = '100%';
+  $('filterContrast').value = 100; $('filterContrastOut').value = '100%';
+  $('filterSaturation').value = 100; $('filterSaturationOut').value = '100%';
+  RESET_ACTIONS.localBlur();
+  RESET_ACTIONS.tint();
+  updateFilterMeta();
+  if (media.length) render();
+};
+
+// =========================================================================
+// CONTEXTUAL HELP POPOVER (?) & GUIDE MODAL
+// =========================================================================
+const HELP_CONTENT = {
+  source: {
+    title: '1. Fonte & Presets',
+    html: 'Escolha como preencher o preview:<ul><li><strong>Presets:</strong> Aplique estilos visuais prontos com 1 clique ou carregue animes populares na hora.</li><li><strong>Explorar:</strong> Busque por gênero, década, ano, temporada ou tags do AniList/TMDB.</li><li><strong>AIOMetadata:</strong> Importe seu <code>.json</code> para visualizar ou exportar catálogos em lote.</li><li><strong>Individual:</strong> Pesquise uma obra específica e insira no cartaz selecionado.</li></ul>'
+  },
+  layout: {
+    title: '2. Estilo & Composição',
+    html: 'Personalize o visual do mural:<ul><li><strong>Disposição:</strong> Alterne entre Mural Inclinado, Grade, Painéis Diagonais, Faixas ou Colagem.</li><li><strong>Geometria & Filtros:</strong> Expanda as opções avançadas abaixo do cartão para ajustar colunas, desfoque localizado, brilho, contraste ou duotone.</li></ul>'
+  },
+  text: {
+    title: '3. Título & Tipografia',
+    html: 'Adicione textos opcionais sobre a imagem:<ul><li><strong>Fonte Personalizada:</strong> Clique em <em>+ Personalizada</em> para enviar arquivos <code>.ttf/.otf/.woff</code> ou carregar qualquer fonte do Google Fonts.</li><li><strong>Posição:</strong> Use a grade de 9 setas para alinhar com margem segura.</li><li><strong>Efeitos Avançados:</strong> Expanda para configurar tracking, degradê no texto, contorno e sombra.</li></ul>'
+  },
+  export: {
+    title: '4. Exportação & Lote',
+    html: 'Salve suas artes em alta definição:<ul><li><strong>Resolução & Formato:</strong> Escolha entre WebP (leve e ideal para streaming) ou PNG sem perdas.</li><li><strong>Lote (ZIP):</strong> Gere todos os catálogos marcados do AIOMetadata de uma só vez.</li></ul>'
+  },
+  editor: {
+    title: 'Editor Direto no Preview',
+    html: 'Ajuste cada cartaz individualmente:<ul><li><strong>Arrastar & Zoom:</strong> Clique em um cartaz, arraste para enquadrar e use a rodinha do mouse para dar zoom.</li><li><strong>Trocar Lugar:</strong> Segure <code>Ctrl</code> + arraste um cartaz sobre outro (ou use o botão <em>⇄ Trocar Lugar</em>).</li><li><strong>Trocar Aleatório (🎲):</strong> Substitui o cartaz por outra obra seguindo os filtros ativos.</li></ul>'
+  }
+};
+
+const helpPopover = $('helpPopover');
+function openHelpPopover(key, triggerEl) {
+  const data = HELP_CONTENT[key];
+  if (!data) return;
+  $('helpPopoverTitle').textContent = data.title;
+  $('helpPopoverBody').innerHTML = data.html;
+  helpPopover.classList.add('open');
+
+  const rect = triggerEl.getBoundingClientRect();
+  const popW = helpPopover.offsetWidth || 310;
+  const popH = helpPopover.offsetHeight || 190;
+  let left = rect.right + 10;
+  let top = rect.top - 8;
+  if (left + popW > window.innerWidth - 12) left = Math.max(12, rect.left - popW - 10);
+  if (top + popH > window.innerHeight - 12) top = Math.max(12, window.innerHeight - popH - 12);
+  helpPopover.style.left = left + 'px';
+  helpPopover.style.top = Math.max(12, top) + 'px';
+}
+
+document.querySelectorAll('.help-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    openHelpPopover(btn.dataset.help, btn);
+  });
+});
+
+$('closeHelpPopover')?.addEventListener('click', () => helpPopover.classList.remove('open'));
 document.addEventListener('mousedown', e => {
-  const pop = $('helpPopover');
-  if (pop?.classList.contains('open') && !pop.contains(e.target) && !e.target.closest('.help-btn')) {
-    closeHelpPopover();
+  if (helpPopover.classList.contains('open') && !helpPopover.contains(e.target) && !e.target.closest('.help-btn')) {
+    helpPopover.classList.remove('open');
   }
 });
 
-// MODAL DE GUIA RÁPIDO (SOB DEMANDA)
+// GUIDE TUTORIAL MODAL (ON DEMAND VIA "? GUIA")
 const TUTORIAL_STEPS = [
   {
     badge: 'Passo 1 de 4 · Conteúdo',
-    title: 'Escolha um Preset ou Busque Obras',
-    desc: 'Use a aba Presets para aplicar estilos visuais em 1 clique, explore o AniList/TMDB ou importe seu JSON do AIOMetadata.',
+    title: 'Comece com 1 clique ou filtre do seu jeito',
+    desc: 'Na etapa 1. Conteúdo, escolha um Preset pronto para gerar imediatamente, explore por gêneros/tags ou importe seu JSON do AIOMetadata.',
     tips: [
-      '✨ <strong>1 Clique:</strong> Qualquer preset já gera o preview automaticamente se a tela estiver vazia.',
-      '🔑 <strong>TMDB Opcional:</strong> Configure sua chave gratuita no topo apenas se quiser posters oficiais com logo.'
+      '✨ Use a aba <strong>Presets</strong> para testar estilos visuais instantaneamente.',
+      '🔑 Se quiser posters oficiais com logo, clique em <strong>TMDB: Opcional</strong> no topo.'
     ]
   },
   {
-    badge: 'Passo 2 de 4 · Estilo',
-    title: 'Personalize Layout e Atmosfera',
-    desc: 'Alterne entre Backdrops (16:9), Posters (2:3) ou Capa 1:1 no topo do palco e ajuste inclinação, espaçamento e filtros.',
+    badge: 'Passo 2 de 4 · Edição no Preview',
+    title: 'Clique em qualquer cartaz para ajustar',
+    desc: 'Diretamente no preview à direita, você pode clicar em qualquer imagem para abrir o editor lateral, dar zoom, arrastar ou sortear outra obra.',
     tips: [
-      '🎨 <strong>Opções avançadas recolhidas:</strong> Abra Geometria ou Desfoque/Cor apenas quando quiser ajuste fino.',
-      '↺ <strong>Reset rápido:</strong> Passe o mouse sobre qualquer controle para restaurar o valor padrão.'
+      '🖱️ <strong>Arrastar + Scroll:</strong> Enquadra e aproxima a imagem dentro do card.',
+      '⇄ <strong>Ctrl + Arrastar:</strong> Troca dois cartazes de posição.',
+      '⌨️ <strong>Delete:</strong> Remove o cartaz selecionado.'
     ]
   },
   {
-    badge: 'Passo 3 de 4 · Edição Direta',
-    title: 'Ajuste Cada Cartaz no Preview',
-    desc: 'Clique diretamente em qualquer cartaz na imagem para mover o enquadramento, trocar por outro aleatório ou puxar o poster com logo do TMDB.',
+    badge: 'Passo 3 de 4 · Estilo & Texto',
+    title: 'Personalize layout, atmosfera e tipografia',
+    desc: 'Use as etapas 2. Estilo e 3. Texto para ajustar inclinação, filtros visuais e adicionar títulos sobre a arte.',
     tips: [
-      '🖱️ <strong>Zoom & Posição:</strong> Arraste no cartaz ou gire a roda do mouse. Segure <code>Shift</code> para mover o conjunto inteiro.',
-      '⇄ <strong>Trocar Lugar:</strong> Segure <code>Ctrl</code> + arraste um cartaz sobre outro.'
+      '🎬 Alterne entre <strong>Backdrops (16:9)</strong>, <strong>Posters (2:3)</strong> e <strong>Capa 1:1</strong> no topo do preview.',
+      '↺ Passe o mouse sobre qualquer ajuste para ver o botão de reset individual.'
     ]
   },
   {
-    badge: 'Passo 4 de 4 · Exportar',
-    title: 'Baixe em WebP, PNG ou Lote ZIP',
-    desc: 'Na aba Exportar, escolha a resolução (até 4K) e baixe sua arte ou exporte dezenas de catálogos do AIOMetadata em um único ZIP.',
+    badge: 'Passo 4 de 4 · Exportação',
+    title: 'Baixe em WebP/PNG ou gere em lote',
+    desc: 'Quando estiver satisfeito, clique em Baixar no rodapé ou vá até 4. Exportar para gerar todos os catálogos do AIOMetadata em um ZIP.',
     tips: [
-      '⚡ <strong>WebP (90%):</strong> Melhor equilíbrio entre qualidade cristalina e arquivo leve.'
+      '🚀 O formato <strong>WebP</strong> mantém alta nitidez com arquivos super leves.'
     ]
   }
 ];
 
-let currentTutStep = 0;
-
+let tutIndex = 0;
 function renderTutorialStep() {
-  const step = TUTORIAL_STEPS[currentTutStep];
-  $('tutStepBadge').textContent = step.badge;
-  $('tutTitle').textContent = step.title;
-  $('tutDesc').textContent = step.desc;
-  $('tutTips').innerHTML = step.tips.map(t => `<div>${t}</div>`).join('');
+  const s = TUTORIAL_STEPS[tutIndex];
+  $('tutStepBadge').textContent = s.badge;
+  $('tutTitle').textContent = s.title;
+  $('tutDesc').textContent = s.desc;
+  $('tutTips').innerHTML = s.tips.map(t => `<div>${t}</div>`).join('');
+  $('tutPrevBtn').disabled = tutIndex === 0;
+  $('tutNextBtn').textContent = tutIndex === TUTORIAL_STEPS.length - 1 ? 'Concluir ✓' : 'Próximo ▶';
 
   const dots = $('tutDots');
   dots.innerHTML = '';
-  TUTORIAL_STEPS.forEach((_, i) => {
+  TUTORIAL_STEPS.forEach((_, idx) => {
     const d = document.createElement('span');
-    d.className = 't-dot' + (i === currentTutStep ? ' active' : '');
+    d.className = 't-dot' + (idx === tutIndex ? ' active' : '');
     dots.append(d);
   });
-
-  $('tutPrevBtn').disabled = currentTutStep === 0;
-  $('tutNextBtn').textContent = currentTutStep === TUTORIAL_STEPS.length - 1 ? 'Entendi! ✓' : 'Próximo ▶';
 }
 
-function openTutorialModal(startStep = 0) {
-  currentTutStep = startStep;
+function openTutorial(idx = 0) {
+  tutIndex = idx;
   renderTutorialStep();
   $('tutorialModal').classList.add('open');
 }
 
-function closeTutorialModal() {
+function closeTutorial() {
   $('tutorialModal').classList.remove('open');
 }
 
-$('openTutorialBtn')?.addEventListener('click', () => openTutorialModal(0));
-$('skipTutorialBtn')?.addEventListener('click', closeTutorialModal);
+$('openTutorialBtn')?.addEventListener('click', () => openTutorial(0));
+$('skipTutorialBtn')?.addEventListener('click', closeTutorial);
 $('tutPrevBtn')?.addEventListener('click', () => {
-  if (currentTutStep > 0) {
-    currentTutStep--;
-    renderTutorialStep();
-  }
+  if (tutIndex > 0) { tutIndex--; renderTutorialStep(); }
 });
 $('tutNextBtn')?.addEventListener('click', () => {
-  if (currentTutStep < TUTORIAL_STEPS.length - 1) {
-    currentTutStep++;
-    renderTutorialStep();
-  } else {
-    closeTutorialModal();
-  }
+  if (tutIndex < TUTORIAL_STEPS.length - 1) { tutIndex++; renderTutorialStep(); }
+  else closeTutorial();
 });
 $('tutorialModal')?.addEventListener('mousedown', e => {
-  if (e.target === $('tutorialModal')) closeTutorialModal();
+  if (e.target === $('tutorialModal')) closeTutorial();
 });
 
 // =========================================================================
-// BOOTSTRAP
+// CUSTOM FONTS ENGINE (LOCAL FILE UPLOAD + GOOGLE FONTS + PERSISTENCE)
 // =========================================================================
+const CUSTOM_GFONTS_KEY = 'nuvio_custom_google_fonts';
+const CUSTOM_FONT_DB_NAME = 'BackdropStudioFontsDB';
+const CUSTOM_FONT_STORE = 'fonts';
+
+let customFontsRegistry = []; // { id, label, family, cssValue, kind: 'file'|'google', cssUrl? }
+let lastValidFontFamily = "'Inter', system-ui, -apple-system, sans-serif";
+
+function openCustomFontDB() {
+  return new Promise((resolve, reject) => {
+    if (!window.indexedDB) return reject(new Error('IndexedDB indisponível'));
+    const req = indexedDB.open(CUSTOM_FONT_DB_NAME, 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(CUSTOM_FONT_STORE)) {
+        db.createObjectStore(CUSTOM_FONT_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function saveFontFileToDB(record) {
+  try {
+    const db = await openCustomFontDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(CUSTOM_FONT_STORE, 'readwrite');
+      tx.objectStore(CUSTOM_FONT_STORE).put(record);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  } catch (e) {}
+}
+
+async function deleteFontFileFromDB(id) {
+  try {
+    const db = await openCustomFontDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(CUSTOM_FONT_STORE, 'readwrite');
+      tx.objectStore(CUSTOM_FONT_STORE).delete(id);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  } catch (e) {}
+}
+
+async function loadSavedFontFilesFromDB() {
+  try {
+    const db = await openCustomFontDB();
+    const list = await new Promise((resolve, reject) => {
+      const tx = db.transaction(CUSTOM_FONT_STORE, 'readonly');
+      const req = tx.objectStore(CUSTOM_FONT_STORE).getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return list;
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveGoogleFontsListToStorage() {
+  try {
+    const gList = customFontsRegistry
+      .filter(f => f.kind === 'google')
+      .map(({ id, label, family, cssValue, cssUrl }) => ({ id, label, family, cssValue, cssUrl }));
+    localStorage.setItem(CUSTOM_GFONTS_KEY, JSON.stringify(gList));
+  } catch (e) {}
+}
+
+function sanitizeFontDisplayName(raw) {
+  return String(raw || '')
+    .replace(/\.[^.]+$/, '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim() || 'Fonte Personalizada';
+}
+
+function formatCssFontFamily(familyName) {
+  const escaped = String(familyName || '').replace(/'/g, "\'");
+  return `'${escaped}', sans-serif`;
+}
+
+function setCustomFontStatus(msg, cls = '') {
+  const el = $('customFontStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'token-status' + (cls ? ' ' + cls : '');
+}
+
+function renderCustomFontOptionsAndChips() {
+  const group = $('customFontsOptGroup');
+  const chips = $('customFontChips');
+  const sel = $('fontFamily');
+  if (!group || !chips || !sel) return;
+
+  const currentVal = sel.value === '__custom_add__' ? lastValidFontFamily : sel.value;
+  group.innerHTML = '';
+  chips.innerHTML = '';
+  group.style.display = customFontsRegistry.length ? '' : 'none';
+
+  customFontsRegistry.forEach(item => {
+    const opt = document.createElement('option');
+    opt.value = item.cssValue;
+    opt.textContent = `${item.label} (${item.kind === 'file' ? 'Arquivo' : 'Web'})`;
+    group.append(opt);
+
+    const chip = document.createElement('span');
+    chip.className = 'sel-chip';
+    chip.style.cursor = 'pointer';
+    chip.title = 'Clique para aplicar esta fonte';
+    chip.textContent = item.label;
+    chip.onclick = () => {
+      sel.value = item.cssValue;
+      lastValidFontFamily = item.cssValue;
+      if (media.length) render();
+      setCustomFontStatus(`Fonte "${item.label}" selecionada.`, 'ok');
+    };
+
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.textContent = '✕';
+    rm.title = 'Remover fonte personalizada';
+    rm.onclick = async e => {
+      e.stopPropagation();
+      customFontsRegistry = customFontsRegistry.filter(x => x.id !== item.id);
+      if (item.kind === 'file') await deleteFontFileFromDB(item.id);
+      else saveGoogleFontsListToStorage();
+
+      const wasActive = sel.value === item.cssValue;
+      renderCustomFontOptionsAndChips();
+      if (wasActive) {
+        sel.value = "'Inter', system-ui, -apple-system, sans-serif";
+        lastValidFontFamily = sel.value;
+        if (media.length) render();
+      }
+      setCustomFontStatus(`Fonte "${item.label}" removida.`);
+    };
+
+    chip.append(rm);
+    chips.append(chip);
+  });
+
+  if ([...sel.options].some(o => o.value === currentVal)) {
+    sel.value = currentVal;
+  }
+}
+
+async function registerUploadedFontBuffer(fileName, arrayBuffer, existingId = null, autoSelect = true) {
+  const label = sanitizeFontDisplayName(fileName);
+  const id = existingId || ('file-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6));
+  const internalFamily = `CustomFont_${id.replace(/[^a-zA-Z0-9_]/g, '_')}`;
+  const face = new FontFace(internalFamily, arrayBuffer);
+  await face.load();
+  document.fonts.add(face);
+  await document.fonts.ready;
+
+  const cssValue = formatCssFontFamily(internalFamily);
+  if (!customFontsRegistry.some(f => f.id === id)) {
+    customFontsRegistry.push({ id, label, family: internalFamily, cssValue, kind: 'file' });
+  }
+  renderCustomFontOptionsAndChips();
+
+  if (autoSelect) {
+    $('fontFamily').value = cssValue;
+    lastValidFontFamily = cssValue;
+    if (media.length) await render();
+  }
+  return { id, label, family: internalFamily, cssValue };
+}
+
+function parseGoogleFontInput(rawInput) {
+  const raw = String(rawInput || '').trim();
+  if (!raw) return null;
+
+  if (/^https?:\/\/fonts\.googleapis\.com\//i.test(raw)) {
+    try {
+      const u = new URL(raw);
+      const famParam = u.searchParams.get('family') || '';
+      const cleanName = decodeURIComponent(famParam.split(':')[0].replace(/\+/g, ' ')).trim();
+      if (!cleanName) return null;
+      return { name: cleanName, cssUrl: raw };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const cleanName = raw.replace(/['"]/g, '').split(',')[0].trim();
+  if (!cleanName) return null;
+  const encoded = encodeURIComponent(cleanName).replace(/%20/g, '+');
+  return {
+    name: cleanName,
+    cssUrl: `https://fonts.googleapis.com/css2?family=${encoded}&display=swap`
+  };
+}
+
+async function registerGoogleOrSystemFont(rawInput, autoSelect = true) {
+  const parsed = parseGoogleFontInput(rawInput);
+  if (!parsed) return null;
+
+  const linkId = 'gfont-' + parsed.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  if (!document.getElementById(linkId)) {
+    const link = document.createElement('link');
+    link.id = linkId;
+    link.rel = 'stylesheet';
+    link.href = parsed.cssUrl;
+    document.head.appendChild(link);
+    await new Promise(resolve => {
+      link.onload = () => resolve();
+      link.onerror = () => resolve();
+      setTimeout(resolve, 2500);
+    });
+  }
+
+  try {
+    await Promise.allSettled([
+      document.fonts.load(`900 48px "${parsed.name}"`),
+      document.fonts.load(`400 48px "${parsed.name}"`)
+    ]);
+    await document.fonts.ready;
+  } catch (e) {}
+
+  const id = 'google-' + parsed.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const cssValue = formatCssFontFamily(parsed.name);
+  if (!customFontsRegistry.some(f => f.id === id)) {
+    customFontsRegistry.push({
+      id,
+      label: parsed.name,
+      family: parsed.name,
+      cssValue,
+      kind: 'google',
+      cssUrl: parsed.cssUrl
+    });
+    saveGoogleFontsListToStorage();
+  }
+  renderCustomFontOptionsAndChips();
+
+  if (autoSelect) {
+    $('fontFamily').value = cssValue;
+    lastValidFontFamily = cssValue;
+    if (media.length) await render();
+  }
+  return { id, label: parsed.name, cssValue };
+}
+
+function toggleCustomFontBox(forceState = null) {
+  const box = $('customFontBox');
+  if (!box) return;
+  const shouldShow = forceState !== null ? forceState : box.style.display === 'none';
+  box.style.display = shouldShow ? 'block' : 'none';
+  if (shouldShow) $('customGoogleFontInput')?.focus();
+}
+
+$('toggleCustomFontBtn')?.addEventListener('click', () => toggleCustomFontBox());
+$('closeCustomFontBoxBtn')?.addEventListener('click', () => toggleCustomFontBox(false));
+
+$('fontFamily')?.addEventListener('change', () => {
+  const sel = $('fontFamily');
+  if (sel.value === '__custom_add__') {
+    sel.value = lastValidFontFamily;
+    toggleCustomFontBox(true);
+    return;
+  }
+  lastValidFontFamily = sel.value;
+});
+
+$('customFontFile')?.addEventListener('change', async e => {
+  const files = Array.from(e.target.files || []);
+  if (!files.length) return;
+  setCustomFontStatus('Carregando fonte…');
+  try {
+    let lastAdded = null;
+    for (const file of files) {
+      const buf = await file.arrayBuffer();
+      const added = await registerUploadedFontBuffer(file.name, buf, null, true);
+      await saveFontFileToDB({ id: added.id, fileName: file.name, buffer: buf });
+      lastAdded = added;
+    }
+    if (lastAdded) {
+      setCustomFontStatus(`✓ Fonte "${lastAdded.label}" aplicada!`, 'ok');
+      setStatus(`✓ Fonte personalizada "${lastAdded.label}" aplicada no texto!`);
+    }
+  } catch (err) {
+    setCustomFontStatus('Erro ao carregar arquivo de fonte: ' + err.message, 'err');
+  } finally {
+    e.target.value = '';
+  }
+});
+
+async function handleApplyGoogleFont() {
+  const val = $('customGoogleFontInput')?.value.trim();
+  if (!val) {
+    setCustomFontStatus('Digite o nome de uma fonte (ex.: Poppins, Bangers).', 'err');
+    $('customGoogleFontInput')?.focus();
+    return;
+  }
+  const btn = $('applyGoogleFontBtn');
+  if (btn) btn.disabled = true;
+  setCustomFontStatus(`Carregando "${val}"…`);
+  try {
+    const added = await registerGoogleOrSystemFont(val, true);
+    if (added) {
+      $('customGoogleFontInput').value = '';
+      setCustomFontStatus(`✓ Fonte "${added.label}" aplicada!`, 'ok');
+      setStatus(`✓ Fonte personalizada "${added.label}" aplicada no texto!`);
+    } else {
+      setCustomFontStatus('Nome ou URL de fonte inválido.', 'err');
+    }
+  } catch (err) {
+    setCustomFontStatus('Não foi possível carregar a fonte.', 'err');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+$('applyGoogleFontBtn')?.addEventListener('click', handleApplyGoogleFont);
+$('customGoogleFontInput')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleApplyGoogleFont();
+  }
+});
+
+async function initSavedCustomFonts() {
+  try {
+    const savedGoogle = JSON.parse(localStorage.getItem(CUSTOM_GFONTS_KEY) || '[]');
+    if (Array.isArray(savedGoogle)) {
+      for (const g of savedGoogle) {
+        if (g?.cssUrl || g?.label) {
+          await registerGoogleOrSystemFont(g.cssUrl || g.label, false);
+        }
+      }
+    }
+  } catch (e) {}
+
+  try {
+    const savedFiles = await loadSavedFontFilesFromDB();
+    for (const rec of savedFiles) {
+      if (rec?.buffer && rec?.fileName) {
+        await registerUploadedFontBuffer(rec.fileName, rec.buffer, rec.id, false);
+      }
+    }
+  } catch (e) {}
+}
+
+// =========================================================================
+// INITIALIZATION
+// =========================================================================
+window.addEventListener('resize', fitCanvasToViewport);
+syncFormatOptionsForMode('backdrops');
 populateGenreDropdown();
 renderQuickTagChips();
 loadFullAniListTagCollection();
-syncFormatOptionsForMode('backdrops', '1920,1080');
 updateLayoutMeta();
+updateFilterMeta();
 updateSourceSummary();
-updateInlineResetButtons();
+initSavedCustomFonts();
+syncUIState();
 clearCanvas();
-window.addEventListener('resize', fitCanvasToViewport);
 </script>
-
 
 </body></html>
