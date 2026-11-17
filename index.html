@@ -4884,12 +4884,36 @@ function getCanvasCoords(e) {
 }
 
 function findSlotAtPoint(pt) {
+  const cv = $('canvas');
+  const cx = cv.width / 2;
+  const cy = cv.height / 2;
+  const dx = pt.x - cx;
+  const dy = pt.y - cy;
+  const cos = Math.cos(-activeRotationRad);
+  const sin = Math.sin(-activeRotationRad);
+  const lx = dx * cos - dy * sin;
+  const ly = dx * sin + dy * cos;
+
   for (let i = slotBounds.length - 1; i >= 0; i--) {
     const sb = slotBounds[i];
     if (sb.poly) {
       if (pointInPoly(pt, sb.poly)) return sb.index;
-    } else if (pt.x >= sb.x && pt.x <= sb.x + sb.w && pt.y >= sb.y && pt.y <= sb.y + sb.h) {
-      return sb.index;
+    } else {
+      let px = lx;
+      let py = ly;
+      if (sb.tilt) {
+        const scx = sb.x + sb.w / 2;
+        const scy = sb.y + sb.h / 2;
+        const tdx = lx - scx;
+        const tdy = ly - scy;
+        const tcos = Math.cos(-sb.tilt);
+        const tsin = Math.sin(-sb.tilt);
+        px = scx + tdx * tcos - tdy * tsin;
+        py = scy + tdx * tsin + tdy * tcos;
+      }
+      if (px >= sb.x && px <= sb.x + sb.w && py >= sb.y && py <= sb.y + sb.h) {
+        return sb.index;
+      }
     }
   }
   return -1;
@@ -5448,6 +5472,20 @@ function drawOverlaysAndText(ctx, w, h, titleOverride = null, subtitleOverride =
   ctx.restore();
 }
 
+function traceSlotPath(ctx, sb, r) {
+  if (sb.poly) {
+    roundedPolyPath(ctx, sb.poly, r);
+  } else if (sb.tilt) {
+    const scx = sb.x + sb.w / 2;
+    const scy = sb.y + sb.h / 2;
+    ctx.translate(scx, scy);
+    ctx.rotate(sb.tilt);
+    roundedRectPath(ctx, -sb.w / 2, -sb.h / 2, sb.w, sb.h, r);
+  } else {
+    roundedRectPath(ctx, sb.x, sb.y, sb.w, sb.h, r);
+  }
+}
+
 function drawSelectionHighlight(ctx, r, isInteractive) {
   if (!isInteractive || selectedIndex < 0) return;
   const sb = slotBounds.find(s => s.index === selectedIndex);
@@ -5457,8 +5495,7 @@ function drawSelectionHighlight(ctx, r, isInteractive) {
   ctx.lineWidth = Math.max(4, Math.round(ctx.canvas.width * 0.0026));
   ctx.shadowColor = 'rgba(124,105,239,0.75)';
   ctx.shadowBlur = 16;
-  if (sb.poly) roundedPolyPath(ctx, sb.poly, r);
-  else roundedRectPath(ctx, sb.x, sb.y, sb.w, sb.h, r);
+  traceSlotPath(ctx, sb, r);
   ctx.stroke();
   ctx.restore();
 }
@@ -5471,8 +5508,7 @@ function drawSwapOverlay(ctx, isInteractive) {
     ctx.strokeStyle = '#fbbf24';
     ctx.setLineDash([12, 8]);
     ctx.lineWidth = Math.max(4, Math.round(ctx.canvas.width * 0.0028));
-    if (srcSb.poly) roundedPolyPath(ctx, srcSb.poly, 10);
-    else roundedRectPath(ctx, srcSb.x, srcSb.y, srcSb.w, srcSb.h, 10);
+    traceSlotPath(ctx, srcSb, 10);
     ctx.stroke();
     ctx.restore();
   }
@@ -5484,8 +5520,7 @@ function drawSwapOverlay(ctx, isInteractive) {
       ctx.fillStyle = 'rgba(52, 211, 153, 0.22)';
       ctx.strokeStyle = '#34d399';
       ctx.lineWidth = Math.max(5, Math.round(ctx.canvas.width * 0.0034));
-      if (tgtSb.poly) roundedPolyPath(ctx, tgtSb.poly, 10);
-      else roundedRectPath(ctx, tgtSb.x, tgtSb.y, tgtSb.w, tgtSb.h, 10);
+      traceSlotPath(ctx, tgtSb, 10);
       ctx.fill();
       ctx.stroke();
       ctx.restore();
@@ -5496,34 +5531,44 @@ function drawSwapOverlay(ctx, isInteractive) {
 // =========================================================================
 // MAIN RENDER ENGINE
 // =========================================================================
+let interactiveRenderSeq = 0;
+
 async function renderToCanvas(targetCanvas, itemsList, options = {}) {
   const {
     interactive = true,
     titleOverride = null,
-    subtitleOverride = null
+    subtitleOverride = null,
+    renderSeq = 0
   } = options;
 
   const [w, h] = $('ratio').value.split(',').map(Number);
   if (interactive) $('dimBadge').textContent = `${w} × ${h}`;
+
+  if (!itemsList || !itemsList.length) {
+    targetCanvas.width = w;
+    targetCanvas.height = h;
+    const emptyCtx = targetCanvas.getContext('2d');
+    emptyCtx.fillStyle = $('bgColor').value;
+    emptyCtx.fillRect(0, 0, w, h);
+    return;
+  }
+
+  const urls = itemsList.map(resolveItemUrl);
+  const loadedImgs = await Promise.all(urls.map(loadImage));
+  if (interactive && renderSeq && renderSeq !== interactiveRenderSeq) return;
+
+  const validPairs = [];
+  for (let i = 0; i < itemsList.length; i++) {
+    const im = loadedImgs[i];
+    if (im) validPairs.push({ item: itemsList[i], im, index: i });
+  }
+  if (!validPairs.length) return;
 
   targetCanvas.width = w;
   targetCanvas.height = h;
   const ctx = targetCanvas.getContext('2d');
   ctx.fillStyle = $('bgColor').value;
   ctx.fillRect(0, 0, w, h);
-
-  if (!itemsList || !itemsList.length) return;
-
-  const urls = itemsList.map(resolveItemUrl);
-  const imgs = (await Promise.all(urls.map(loadImage))).filter(Boolean);
-  if (!imgs.length) return;
-
-  const validPairs = [];
-  for (let i = 0; i < itemsList.length; i++) {
-    const im = await loadImage(urls[i]);
-    if (im) validPairs.push({ item: itemsList[i], im, index: i });
-  }
-  if (!validPairs.length) return;
 
   const style = $('style').value;
   const deg = Number($('angle').value);
@@ -5703,7 +5748,7 @@ async function renderToCanvas(targetCanvas, itemsList, options = {}) {
         drawCardImage(artCtx, pair.im, pair.item, -cw / 2, -ch / 2, cw, ch);
         artCtx.restore();
 
-        if (interactive) slotBounds.push({ index: pair.index, x: cx - cw / 2, y: cy - ch / 2, w: cw, h: ch });
+        if (interactive) slotBounds.push({ index: pair.index, x: cx - cw / 2, y: cy - ch / 2, w: cw, h: ch, tilt: cardTilt });
         idx++;
       }
     }
@@ -5765,7 +5810,8 @@ async function renderToCanvas(targetCanvas, itemsList, options = {}) {
 }
 
 async function render() {
-  await renderToCanvas($('canvas'), media, { interactive: true });
+  const seq = ++interactiveRenderSeq;
+  await renderToCanvas($('canvas'), media, { interactive: true, renderSeq: seq });
 }
 
 // =========================================================================
@@ -6129,15 +6175,19 @@ document.querySelectorAll('[data-reset]').forEach(btn => {
   });
 });
 
-['style', 'imgType', 'cardShape', 'gradDir', 'ratio', 'bgColor', 'title', 'subtitle', 'fontFamily', 'textColor', 'textUppercase', 'textTrackingSub', 'textGradDir', 'textGradSub', 'textStrokeColor', 'textShadowColor', 'filterPreset', 'localBlurDir', 'tintColor', 'tintMode'].forEach(id => {
+['style', 'imgType', 'cardShape', 'gradDir', 'ratio', 'bgColor', 'title', 'subtitle', 'fontFamily', 'textColor', 'textUppercase', 'textTrackingSub', 'textGradColor1', 'textGradColor2', 'textGradDir', 'textGradSub', 'textStrokeColor', 'textShadowColor', 'filterPreset', 'localBlurDir', 'tintColor', 'tintMode'].forEach(id => {
   const el = $(id);
   if (!el) return;
-  const evt = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
-  el.addEventListener(evt, () => {
-    updateLayoutMeta();
-    updateFilterMeta();
-    if (media.length) render();
-    else if (id === 'ratio' || id === 'bgColor') clearCanvas();
+  const events = (el.tagName === 'SELECT' || el.type === 'checkbox')
+    ? ['change']
+    : (el.type === 'color' ? ['input', 'change'] : ['input']);
+  events.forEach(evt => {
+    el.addEventListener(evt, () => {
+      updateLayoutMeta();
+      updateFilterMeta();
+      if (media.length) render();
+      else if (id === 'ratio' || id === 'bgColor') clearCanvas();
+    });
   });
 });
 
