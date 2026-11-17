@@ -24,7 +24,7 @@ Você pode rodar a ferramenta online no botão abaixo.
 
 Se quiser rodar localmente você pode baixar o arquivo.html no link abaixo
 
-[📥 Baixar última versão](https://github.com/higuzord/nuvio-backdrop-studio/releases/latest)
+[📥 Baixar última versão](https://github.com/higuzord/backdrop-studio/releases/latest)
 
 Comunidade BR sobre Nuvio e Stremio
 
