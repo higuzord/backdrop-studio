@@ -1,6 +1,6 @@
 # 🎬 Backdrop Studio
 
-![Preview do Nuvio Backdrop Studio]([preview.png](https://i.postimg.cc/W1B0Yq8D/backdrop-studio.webp)
+![Preview do Nuvio Backdrop Studio](./backdrop-studio.webp)
 > Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers (como Nuvio) e etc.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
