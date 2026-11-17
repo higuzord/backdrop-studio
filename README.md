@@ -1,5 +1,3 @@
-# backdrop-studio
-Ferramenta gratuita pra criar backdrops e capas pro Nuvio.
 # 🎬 Backdrop Studio
 
 > Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers e addons (como **AIOMetadata** e **Stremio**).
