@@ -1,4 +1,5 @@
 ![Preview do Nuvio Backdrop Studio](./backdrop-studio.webp)
+![Preview do Nuvio Backdrop Studio](./image.png)
 > Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers (como Nuvio) e etc.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
@@ -34,7 +35,7 @@ Comunidade BR sobre Nuvio e Stremio
 
 ## 🚀 Funcionalidades
 
-🎬 Múltiplas fontes: integração com AniList, TMDB e importação de catálogos do AIOMetadata.
+🎬 Múltiplas fontes: integração com AniList, TMDB, via link e importação de catálogos do AIOMetadata.
 
 🎨 Estilos prontos: diversos presets para criar composições rapidamente.
 
@@ -46,7 +47,7 @@ Comunidade BR sobre Nuvio e Stremio
 
 📦 Exportação em lote: gere vários catálogos de uma só vez em ZIP.
 
-💾 Alta resolução: exportação em PNG e WebP.
+💾 Alta resolução: exportação em PNG, WebP e GIF.
 
 🌎 Multilíngue: interface em português e inglês.
 
@@ -65,6 +66,7 @@ Comunidade BR sobre Nuvio e Stremio
 | **Zoom na composição inteira** | `Shift` + Roda do mouse | Pinça com 2 dedos (sem cartaz selecionado) |
 | **Trocar dois cartazes de lugar** | `Ctrl` / `Cmd` + Arrastar sobre outro | Ativar botão `⇄ Trocar Lugar` e arrastar |
 | **Remover cartaz selecionado** | Tecla `Delete` | Botão `Remover` no editor |
+| **Desfazer e refazer ação** | Teclas `CTRL + Z` / `CTRL + Y` | Botão `↶` / `↷` no editor |
 
 ---
 
@@ -78,7 +80,7 @@ Comunidade BR sobre Nuvio e Stremio
 
 4. Ajuste os posters e adicione textos, se desejar.
 
-5. Exporte sua arte em PNG ou WebP.
+5. Exporte sua arte em PNG, WebP ou GIF.
 
 ---
 
