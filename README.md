@@ -1,5 +1,9 @@
+[![🇧🇷 Português](https://img.shields.io/badge/🇧🇷_Português-8B5CF6?style=for-the-badge)](README.md) [![🇺🇸 English](https://img.shields.io/badge/🇺🇸_English-444444?style=for-the-badge)](README.en.md)
+
 ![Preview do Nuvio Backdrop Studio](./backdrop-studio.webp)
-> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers (como Nuvio) e etc.
+![Preview do Nuvio Backdrop Studio](./image.png)
+![Preview do Nuvio Backdrop Studio](./image2.png)
+> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers, nuvio e etc.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
@@ -22,7 +26,7 @@ Você pode rodar a ferramenta online no botão abaixo.
 
 [![Abrir Nuvio Backdrop Studio](https://img.shields.io/badge/🚀_ABRIR_FERRAMENTA-8B5CF6?style=for-the-badge)](https://higuzord.github.io/backdrop-studio/)
 
-Se quiser rodar localmente você pode baixar o arquivo.html no link abaixo
+Se quiser rodar localmente você pode baixar o arquivo .html no link abaixo
 
 [📥 Baixar última versão](https://github.com/higuzord/backdrop-studio/releases/latest)
 
@@ -34,7 +38,7 @@ Comunidade BR sobre Nuvio e Stremio
 
 ## 🚀 Funcionalidades
 
-🎬 Múltiplas fontes: integração com AniList, TMDB e importação de catálogos do AIOMetadata.
+🎬 Múltiplas fontes: integração com AniList, TMDB, via link e importação de catálogos do AIOMetadata.
 
 🎨 Estilos prontos: diversos presets para criar composições rapidamente.
 
@@ -46,11 +50,13 @@ Comunidade BR sobre Nuvio e Stremio
 
 📦 Exportação em lote: gere vários catálogos de uma só vez em ZIP.
 
-💾 Alta resolução: exportação em PNG e WebP.
+💾 Alta resolução: exportação em PNG, WebP e GIF.
 
 🌎 Multilíngue: interface em português e inglês.
 
 📱 Compatível com dispositivos móveis.
+
+📺 Preview: Veja como a capa ou backdrop ficaria no nuvio sem precisar exportar
 
 ---
 
@@ -65,6 +71,7 @@ Comunidade BR sobre Nuvio e Stremio
 | **Zoom na composição inteira** | `Shift` + Roda do mouse | Pinça com 2 dedos (sem cartaz selecionado) |
 | **Trocar dois cartazes de lugar** | `Ctrl` / `Cmd` + Arrastar sobre outro | Ativar botão `⇄ Trocar Lugar` e arrastar |
 | **Remover cartaz selecionado** | Tecla `Delete` | Botão `Remover` no editor |
+| **Desfazer e refazer ação** | Teclas `CTRL + Z` / `CTRL + Y` | Botão `↶` / `↷` no editor |
 
 ---
 
@@ -78,7 +85,7 @@ Comunidade BR sobre Nuvio e Stremio
 
 4. Ajuste os posters e adicione textos, se desejar.
 
-5. Exporte sua arte em PNG ou WebP.
+5. Exporte sua arte em PNG, WebP ou GIF.
 
 ---
 
@@ -89,6 +96,8 @@ Para utilizar os recursos do TMDB, é necessário configurar um token ou API Key
 Os recursos do AniList não exigem configuração de chave.
 
 Para exportação em lote, importe um arquivo JSON do AIOMetadata.
+
+No preview do nuvio ele usa uma coleção genérica, mas você pode importar sua coleção de um arquivo JSON.
 
 ---
 
