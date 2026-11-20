@@ -95,6 +95,8 @@ Os recursos do AniList não exigem configuração de chave.
 
 Para exportação em lote, importe um arquivo JSON do AIOMetadata.
 
+No preview do nuvio ele usa uma coleção genérica, mas você pode importar sua coleção de um arquivo JSON.
+
 ---
 
 ## 👤 Créditos
