@@ -9,18 +9,18 @@
 <style>
 :root{
   color-scheme:dark;
-  --bg:#090b10;
-  --surface:#0e1118;
-  --card:#141823;
-  --card-hover:#191e2c;
-  --card-2:#1d2232;
-  --line:rgba(255,255,255,.07);
-  --line-2:rgba(255,255,255,.13);
-  --muted:#8b94ab;
-  --text:#f2f4fa;
-  --accent:#7c69ef;
-  --accent-hover:#8f7ef7;
-  --accent-soft:rgba(124,105,239,.15);
+  --bg:#0b0d12;
+  --surface:#10131b;
+  --card:#161a25;
+  --card-hover:#1c212f;
+  --card-2:#202636;
+  --line:rgba(255,255,255,.065);
+  --line-2:rgba(255,255,255,.115);
+  --muted:#8f97ad;
+  --text:#eef1f8;
+  --accent:#6c6ab8;
+  --accent-hover:#7e7cc9;
+  --accent-soft:rgba(108,106,184,.14);
   --success:#34d399;
   --danger:#f87171;
   --radius-lg:14px;
@@ -61,7 +61,8 @@ body{
   min-width:0;
 }
 .brand-title{font-weight:700;font-size:15px;line-height:1.15;letter-spacing:-.01em;white-space:nowrap}
-.brand-credit{font-size:10.5px;line-height:1.15;font-weight:600;color:var(--muted);white-space:nowrap}
+.brand-credit{font-size:10.5px;line-height:1.15;font-weight:600;color:var(--muted);white-space:nowrap;text-decoration:none;cursor:pointer;transition:color .15s}
+.brand-credit:hover,.brand-credit:focus-visible{color:var(--text,#fff);text-decoration:underline}
 .topbar-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 
 .api-pill-btn{
@@ -131,10 +132,10 @@ body{
 .sidebar-scroll{
   flex:1;
   overflow-y:auto;
-  padding:14px;
+  padding:15px;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:13px;
 }
 .sidebar-scroll::-webkit-scrollbar{width:5px}
 .sidebar-scroll::-webkit-scrollbar-thumb{background:#252a3c;border-radius:99px}
@@ -169,10 +170,10 @@ body{
   background:var(--card);
   border:1px solid var(--line);
   border-radius:var(--radius-lg);
-  padding:12px 13px;
+  padding:14px 15px;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:11px;
 }
 .panel-card-title{
   font-size:11.5px;
@@ -276,15 +277,15 @@ body{
 }
 .style-preset-btn:hover{
   border-color:var(--accent);
-  background:rgba(124,105,239,.12);
+  background:rgba(108,106,184,.11);
   color:#fff;
   transform:translateY(-1px);
 }
 .style-preset-btn.active{
   border-color:var(--accent);
-  background:rgba(124,105,239,.22);
+  background:rgba(108,106,184,.20);
   color:#fff;
-  box-shadow:0 0 0 1px rgba(124,105,239,.35);
+  box-shadow:0 0 0 1px rgba(108,106,184,.32);
 }
 .style-preset-btn .preset-name{
   display:flex;
@@ -650,8 +651,8 @@ input:focus,select:focus{border-color:var(--accent)}
 }
 .btn:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-0.5px)}
 .btn.primary-glow{
-  background:linear-gradient(135deg,#8572f5,#6651df);
-  box-shadow:0 4px 16px rgba(124,105,239,.32);
+  background:linear-gradient(135deg,#7472bf,#5d5ba6);
+  box-shadow:0 3px 12px rgba(93,91,166,.24);
 }
 .btn.secondary{background:#191d2b;color:#e5e8f2;border:1px solid var(--line-2)}
 .btn.secondary:hover:not(:disabled){background:#22283a;border-color:rgba(255,255,255,.22)}
@@ -670,7 +671,7 @@ input:focus,select:focus{border-color:var(--accent)}
   min-width:0;
   min-height:0;
   overflow:hidden;
-  background:radial-gradient(circle at 50% 45%,#2c3347 0%,#1f2536 100%);
+  background:radial-gradient(circle at 50% 45%,#232836 0%,#171a24 100%);
   position:relative;
 }
 .stage-top{
@@ -805,24 +806,59 @@ input:focus,select:focus{border-color:var(--accent)}
 }
 .empty-stage-overlay.hidden{display:none}
 .empty-placeholder{
+  pointer-events:auto;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:8px;
-  padding:18px 28px;
-  border-radius:14px;
-  border:1px dashed rgba(255,255,255,.22);
-  background:rgba(20,24,35,.78);
-  color:#b6bfd6;
-  font-size:14px;
-  font-weight:600;
+  gap:10px;
+  max-width:440px;
+  padding:22px 28px;
+  border-radius:16px;
+  border:1px dashed rgba(255,255,255,.16);
+  background:rgba(20,24,35,.86);
+  backdrop-filter:blur(8px);
+  color:#d7ddef;
+  font-size:14.5px;
+  font-weight:650;
   letter-spacing:-.01em;
   text-align:center;
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
 }
 .empty-placeholder-icon{
-  font-size:22px;
-  opacity:.85;
+  font-size:24px;
+  opacity:.9;
+}
+.empty-placeholder-sub{
+  font-size:12px;
+  font-weight:500;
+  color:var(--muted);
+  line-height:1.45;
+  margin-top:-4px;
+}
+.empty-quick-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:7px;
+  margin-top:4px;
+}
+.empty-quick-btn{
+  background:#1b2030;
+  border:1px solid var(--line-2);
+  color:#dce2f2;
+  border-radius:9px;
+  padding:7px 11px;
+  font-size:11.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+}
+.empty-quick-btn:hover{
+  background:rgba(108,106,184,.18);
+  border-color:var(--accent);
+  color:#fff;
+  transform:translateY(-1px);
 }
 
 /* DOCKABLE MANUAL EDITOR DRAWER ON RIGHT SIDE OF STAGE */
@@ -1317,6 +1353,79 @@ input:focus,select:focus{border-color:var(--accent)}
   .btn.sm{min-height:30px}
   .btn.xs{min-height:28px}
 }
+
+/* ==================== PREVIEW NUVIO ==================== */
+.nv-overlay{position:fixed;inset:0;z-index:2100;background:#05060b;display:none;flex-direction:column}
+.nv-overlay.open{display:flex}
+.nv-toolbar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:#0e1118;border-bottom:1px solid var(--line-2);flex-wrap:wrap}
+.nv-toolbar strong{font-size:13px}
+.nv-hint{color:var(--muted);font-size:11.5px;flex:1;min-width:140px}
+.nv-dim{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted)}
+.nv-dim input{width:110px;accent-color:var(--accent)}
+.nv-viewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#000}
+.nv-tv{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center;background:#07080c;overflow:hidden;font-family:'Inter',system-ui,sans-serif;color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 20px 80px rgba(0,0,0,.8)}
+.nv-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.nv-shade{position:absolute;inset:0;opacity:var(--nv-dim,1);pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.97) 0%,rgba(0,0,0,.88) 12%,rgba(0,0,0,.45) 38%,rgba(0,0,0,.08) 70%,rgba(0,0,0,0) 100%),
+    linear-gradient(0deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.72) 28%,rgba(0,0,0,.18) 58%,rgba(0,0,0,.35) 100%)}
+.nv-rail{position:absolute;left:0;top:0;bottom:0;width:120px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:52px;padding-top:70px}
+.nv-rail svg{width:24px;height:24px;fill:#9ea0a6;opacity:.95}
+.nv-rail svg.on{fill:#fff}
+.nv-content{position:absolute;inset:0}
+.nv-label{position:absolute;left:128px;font-size:17px;font-weight:500;color:#e9e9ee}
+.nv-row{position:absolute;left:128px;display:flex;gap:14px;white-space:nowrap}
+.nv-card{position:relative;flex:0 0 auto;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s}
+.nv-card.nv-focus{outline:3px solid #fff;outline-offset:2px}
+.nv-card .nv-name{position:absolute;left:12px;bottom:10px;right:8px;font-size:23px;font-weight:700;letter-spacing:-.02em;text-shadow:0 2px 8px rgba(0,0,0,.45)}
+.nv-card.nv-all .nv-name{inset:0;display:flex;align-items:center;justify-content:center;font-size:27px;text-shadow:none}
+.nv-card canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.nv-card.nv-user::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.nv-badge{position:absolute;right:8px;top:8px;background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;z-index:2}
+.nv-loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,6,11,.85);z-index:5;font-size:14px;color:#cfd3e4}
+.nv-loading.show{display:flex}
+
+.nv-ctl{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)}
+.nv-ctl select{background:#0a0c12;color:#e8ebf5;border:1px solid var(--line-2);border-radius:8px;padding:5px 8px;font:600 11.5px 'Inter',sans-serif;max-width:170px}
+.nv-seg{display:inline-flex;background:#0a0c12;border:1px solid var(--line-2);border-radius:99px;padding:2px}
+.nv-seg button{border:0;background:transparent;color:var(--muted);padding:4px 12px;border-radius:99px;font:700 11.5px 'Inter',sans-serif;cursor:pointer}
+.nv-seg button.active{background:var(--accent);color:#fff}
+.nv-hint{flex-basis:100%;order:10;margin-top:-2px}
+.nv-card .nv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.nv-hero-img{background:#000}
+
+.nv-viewport{padding:14px;touch-action:none;-webkit-user-select:none;user-select:none}
+.nv-ratio{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)}
+.nv-strip.nv-dragging,.nv-rows.nv-dragging{transition:none !important}
+.nv-m-status,.nv-m-head,.nv-bottom,.nv-gesture{display:none}
+.nv-tv.nv-mobile{width:360px;height:780px;border-radius:34px;background:#000 !important}
+.nv-tv.nv-mobile .nv-herobox,.nv-tv.nv-mobile .nv-shade,.nv-tv.nv-mobile .nv-rail{display:none !important}
+.nv-tv.nv-mobile .nv-rows,.nv-tv.nv-mobile .nv-rowwrap{width:360px}
+.nv-tv.nv-mobile .nv-rowwrap .nv-label{left:14px;top:0;font-size:15px;font-weight:600}
+.nv-tv.nv-mobile .nv-clip{left:0;top:26px;width:360px}
+.nv-tv.nv-mobile .nv-strip{left:14px;top:3px;gap:9px}
+.nv-tv.nv-mobile .nv-card{border-radius:8px}
+.nv-tv.nv-mobile .nv-card.nv-focus{outline-width:2px;outline-offset:1px}
+.nv-tv.nv-mobile .nv-card .nv-name{left:8px;bottom:7px;right:6px;font-size:14px}
+.nv-tv.nv-mobile .nv-card.nv-all .nv-name{font-size:16px}
+.nv-tv.nv-mobile .nv-badge{font-size:8px;padding:1px 5px;right:5px;top:5px}
+.nv-tv.nv-mobile .nv-m-status{display:flex;position:absolute;left:0;right:0;top:0;height:30px;padding:9px 22px 0;justify-content:space-between;font:600 11.5px 'Inter',sans-serif;background:#000;z-index:3}
+.nv-tv.nv-mobile .nv-m-head{display:block;position:absolute;left:0;right:0;top:30px;height:44px;padding:6px 14px 0;font:600 21px 'Inter',sans-serif;background:#000;z-index:3}
+.nv-tv.nv-mobile .nv-bottom{display:flex;position:absolute;left:12px;right:12px;bottom:18px;height:58px;border-radius:30px;background:rgba(28,24,24,.94);border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 24px rgba(0,0,0,.6);z-index:3;justify-content:space-around;align-items:center;padding:0 6px}
+.nv-bi{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:68px;height:46px;border-radius:24px;color:#a9adc0;font:500 11px 'Inter',sans-serif}
+.nv-bi svg{width:22px;height:22px;fill:currentColor}
+.nv-bi.on{background:rgba(200,50,40,.28);color:#ff6a5c}
+.nv-bi .nv-dot{display:block;width:22px;height:22px;border-radius:50%;background:#ff8a1f;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
+.nv-tv.nv-mobile .nv-gesture{display:block;position:absolute;left:50%;bottom:6px;width:110px;height:4px;border-radius:3px;background:#4a4a52;transform:translateX(-50%);z-index:4}
+.nv-tv{border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 20px 80px rgba(0,0,0,.85)}
+.nv-herobox{position:absolute;inset:0;transition:opacity .16s ease}
+.nv-rows{position:absolute;left:0;top:0;width:1280px;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.nv-rowwrap{position:absolute;left:0;width:1280px;height:200px;transition:opacity .2s ease}
+.nv-rowwrap .nv-label{left:128px;top:0}
+.nv-clip{position:absolute;left:116px;top:34px;width:1164px;height:160px;overflow:hidden}
+.nv-strip{position:absolute;left:12px;top:9px;display:flex;gap:14px;white-space:nowrap;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.nv-notrans .nv-rows,.nv-notrans .nv-strip,.nv-notrans .nv-rowwrap{transition:none !important}
+.nv-tgl.active{background:var(--accent);color:#fff;border-color:transparent}
 </style>
 </head>
 <body>
@@ -1325,7 +1434,7 @@ input:focus,select:focus{border-color:var(--accent)}
 <header class="topbar">
   <div class="brand">
     <div class="brand-title">Backdrop Studio</div>
-    <div class="brand-credit" id="brandCredit">desenvolvido por HIGUZORD</div>
+    <a class="brand-credit" id="brandCredit" href="https://github.com/higuzord/backdrop-studio" target="_blank" rel="noopener noreferrer" title="github.com/higuzord/backdrop-studio">desenvolvido por HIGUZORD</a>
   </div>
   <div class="topbar-right">
     <button id="openTmdbModalBtn" class="api-pill-btn" type="button" title="Configurar chave gratuita do TMDB">
@@ -1394,10 +1503,17 @@ input:focus,select:focus{border-color:var(--accent)}
 
         <!-- TAB 1: PRESETS PRONTOS (1 CLIQUE) -->
         <div class="tab-pane active" id="tabPresets">
-          <!-- CUSTOM SAVED STYLES CARD -->
-          <div class="panel-card" id="customStylesCard">
-            <div class="panel-card-title" style="flex-wrap:wrap">
+          <!-- CUSTOM SAVED STYLES COLLAPSIBLE -->
+          <div class="adv-box" id="customStylesBox">
+            <button class="adv-toggle" type="button" onclick="toggleAdv('customStylesBox')">
               <span id="myStylesTitle">⭐ Meus Estilos Salvos</span>
+              <span class="adv-chevron">▾</span>
+            </button>
+            <div class="adv-body" id="customStylesCard">
+              <div class="save-style-row">
+                <input id="customStyleNameInput" type="text" maxlength="36" placeholder="Nome do seu estilo (ex.: Meu Catálogo)...">
+                <button type="button" id="saveCustomStyleBtn" class="btn xs" style="flex-shrink:0">💾 Salvar</button>
+              </div>
               <div style="display:flex;gap:5px;flex-wrap:wrap">
                 <button type="button" id="exportCustomStylesBtn" class="btn secondary xs" style="display:none" title="Exportar estilos salvos (.json)">📤 Exportar</button>
                 <label class="btn secondary xs" id="importCustomStylesLabel" style="cursor:pointer" title="Importar estilos salvos (.json)">
@@ -1405,12 +1521,8 @@ input:focus,select:focus{border-color:var(--accent)}
                   <input id="importCustomStylesFile" type="file" accept=".json,application/json" style="display:none">
                 </label>
               </div>
+              <div id="customPresetsGrid" class="preset-pills" style="display:none"></div>
             </div>
-            <div class="save-style-row">
-              <input id="customStyleNameInput" type="text" maxlength="36" placeholder="Nome do seu estilo (ex.: Meu Catálogo)...">
-              <button type="button" id="saveCustomStyleBtn" class="btn xs" style="flex-shrink:0">💾 Salvar</button>
-            </div>
-            <div id="customPresetsGrid" class="preset-pills" style="display:none"></div>
           </div>
 
           <div class="panel-card">
@@ -1773,6 +1885,7 @@ input:focus,select:focus{border-color:var(--accent)}
                 <option value="vignette" selected="">Vinheta + Esquerda</option>
                 <option value="left">Esquerda (Clássico)</option>
                 <option value="bottom">Inferior (Poster)</option>
+                <option value="custom">Personalizado (ângulo)</option>
                 <option value="none">Nenhum</option>
               </select>
             </div>
@@ -1788,6 +1901,115 @@ input:focus,select:focus{border-color:var(--accent)}
                 <option value="vintage">Vintage Quente</option>
                 <option value="dreamy">Suave / Etéreo</option>
               </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><span id="lblGradOpacity">Opacidade do Degradê / Vinheta</span><span class="lbl-right"><output id="gradOpacityOut">100%</output><button type="button" class="reset-mini-btn" data-reset="gradOpacity" id="rstGradOpacity" title="Resetar opacidade (100%)">↺</button></span></label>
+            <div class="slider"><input id="gradOpacity" type="range" min="0" max="100" value="100" data-default="100"></div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label><span id="lblGradColor">Cor do Degradê / Vinheta</span><button type="button" class="reset-mini-btn" data-reset="gradColor" title="Resetar cor (#000000)">↺</button></label>
+              <input id="gradColor" type="color" value="#000000" data-default="#000000">
+            </div>
+            <div class="field">
+              <label><span id="lblGradReach">Alcance</span><span class="lbl-right"><output id="gradReachOut">100%</output><button type="button" class="reset-mini-btn" data-reset="gradReach" title="Resetar alcance (100%)">↺</button></span></label>
+              <div class="slider"><input id="gradReach" type="range" min="20" max="150" value="100" data-default="100"></div>
+            </div>
+          </div>
+
+          <div class="field" id="gradAngleField" style="display:none">
+            <label><span id="lblGradAngle">Ângulo do Degradê</span><span class="lbl-right"><output id="gradAngleOut">0°</output><button type="button" class="reset-mini-btn" data-reset="gradAngle" title="Resetar ângulo (0°)">↺</button></span></label>
+            <div class="slider"><input id="gradAngle" type="range" min="0" max="360" step="5" value="0" data-default="0"></div>
+          </div>
+        </div>
+
+        <!-- ADVANCED 0: FUNDO (cor, degradês e padrões) -->
+        <div class="adv-box" id="advBgBox">
+          <button class="adv-toggle" type="button" onclick="toggleAdv('advBgBox')">
+            <span id="advBgTitle">Fundo: Degradê &amp; Padrões</span>
+            <span class="adv-chevron">▾</span>
+          </button>
+          <div class="adv-body">
+            <div class="row2">
+              <div class="field">
+                <label id="lbl_bgMode">Tipo de fundo</label>
+                <select id="bgMode">
+                  <option value="solid" selected>Cor sólida</option>
+                  <option value="linear">Degradê linear</option>
+                  <option value="radial">Degradê radial</option>
+                  <option value="conic">Degradê cônico</option>
+                </select>
+              </div>
+              <div class="field">
+                <label><span id="lblBgColor">Cor de Fundo</span><button type="button" class="reset-mini-btn" data-reset="bgColor" title="Resetar cor (#000000)">↺</button></label>
+                <input id="bgColor" type="color" value="#000000" data-default="#000000">
+              </div>
+            </div>
+            <div id="bgGradBody" style="display:none">
+              <div class="row2">
+                <div class="field">
+                  <label id="lbl_bgColor2">Cor 2</label>
+                  <input id="bgColor2" type="color" value="#1b1f33" data-default="#1b1f33">
+                </div>
+                <div class="field">
+                  <label class="check"><input id="bgMidEnabled" type="checkbox"> <span id="lbl_bgMid">Cor do meio</span></label>
+                  <input id="bgColorMid" type="color" value="#7c69ef" data-default="#7c69ef">
+                </div>
+              </div>
+          <div class="field" id="bgAngleField">
+            <label><span id="lbl_bgAngle">Ângulo</span><span class="lbl-right"><output id="bgAngleOut">90°</output></span></label>
+            <div class="slider"><input id="bgAngle" type="range" min="0" max="360" value="90" data-default="90"></div>
+          </div>
+          <div class="field" id="bgCxField">
+            <label><span id="lbl_bgCx">Centro X</span><span class="lbl-right"><output id="bgCxOut">50%</output></span></label>
+            <div class="slider"><input id="bgCx" type="range" min="0" max="100" value="50" data-default="50"></div>
+          </div>
+          <div class="field" id="bgCyField">
+            <label><span id="lbl_bgCy">Centro Y</span><span class="lbl-right"><output id="bgCyOut">50%</output></span></label>
+            <div class="slider"><input id="bgCy" type="range" min="0" max="100" value="50" data-default="50"></div>
+          </div>
+          <div class="field" id="bgRadiusField">
+            <label><span id="lbl_bgRadius">Raio</span><span class="lbl-right"><output id="bgRadiusOut">100%</output></span></label>
+            <div class="slider"><input id="bgRadius" type="range" min="10" max="200" value="100" data-default="100"></div>
+          </div>
+            </div>
+
+            <div class="field" style="margin-top:8px">
+              <label id="lbl_bgPattern">Padrão sobre o fundo</label>
+              <select id="bgPattern">
+                <option value="none" selected>Nenhum</option>
+                <option value="stripes">Listras</option>
+                <option value="lines">Linhas finas</option>
+                <option value="hatch">Hachura (linhas cruzadas)</option>
+                <option value="grid">Grade</option>
+                <option value="dots">Pontos</option>
+                <option value="checker">Xadrez</option>
+              </select>
+            </div>
+            <div id="bgPatBody" style="display:none">
+              <div class="field">
+                <label id="lbl_bgPatColor">Cor do padrão</label>
+                <input id="bgPatColor" type="color" value="#ffffff" data-default="#ffffff">
+              </div>
+          <div class="field">
+            <label><span id="lbl_bgPatOpacity">Opacidade</span><span class="lbl-right"><output id="bgPatOpacityOut">25%</output></span></label>
+            <div class="slider"><input id="bgPatOpacity" type="range" min="0" max="100" value="25" data-default="25"></div>
+          </div>
+          <div class="field">
+            <label><span id="lbl_bgPatSize">Tamanho</span><span class="lbl-right"><output id="bgPatSizeOut">48 px</output></span></label>
+            <div class="slider"><input id="bgPatSize" type="range" min="6" max="240" value="48" data-default="48"></div>
+          </div>
+          <div class="field">
+            <label><span id="lbl_bgPatThick">Espessura</span><span class="lbl-right"><output id="bgPatThickOut">50%</output></span></label>
+            <div class="slider"><input id="bgPatThick" type="range" min="5" max="95" value="50" data-default="50"></div>
+          </div>
+          <div class="field" id="bgPatAngleField">
+            <label><span id="lbl_bgPatAngle">Ângulo do padrão</span><span class="lbl-right"><output id="bgPatAngleOut">45°</output></span></label>
+            <div class="slider"><input id="bgPatAngle" type="range" min="-90" max="90" value="45" data-default="45"></div>
+          </div>
             </div>
           </div>
         </div>
@@ -1808,10 +2030,6 @@ input:focus,select:focus{border-color:var(--accent)}
                   <option value="banner">Horizontal 16:9</option>
                   <option value="square">Quadrado 1:1</option>
                 </select>
-              </div>
-              <div class="field">
-                <label><span id="lblBgColor">Cor de Fundo</span><button type="button" class="reset-mini-btn" data-reset="bgColor" title="Resetar cor (#000000)">↺</button></label>
-                <input id="bgColor" type="color" value="#000000" data-default="#000000">
               </div>
             </div>
 
@@ -1845,16 +2063,16 @@ input:focus,select:focus{border-color:var(--accent)}
               <div class="sub-group-body">
                 <div class="field" style="margin-bottom:7px">
                   <label><span id="lblGlobalZoom">Zoom Global</span><output id="globalZoomOut">100%</output></label>
-                  <div class="slider"><input id="globalZoom" type="range" min="40" max="250" value="100" data-default="100"></div>
+                  <div class="slider"><input id="globalZoom" type="range" min="10" max="250" value="100" data-default="100"></div>
                 </div>
                 <div class="row2">
                   <div class="field">
                     <label><span id="lblGlobalPanX">Posição X</span><output id="globalPanXOut">0%</output></label>
-                    <div class="slider"><input id="globalPanX" type="range" min="-100" max="100" value="0" data-default="0"></div>
+                    <div class="slider"><input id="globalPanX" type="range" min="-100" max="100" step="0.1" value="0" data-default="0"></div>
                   </div>
                   <div class="field">
                     <label><span id="lblGlobalPanY">Posição Y</span><output id="globalPanYOut">0%</output></label>
-                    <div class="slider"><input id="globalPanY" type="range" min="-100" max="100" value="0" data-default="0"></div>
+                    <div class="slider"><input id="globalPanY" type="range" min="-100" max="100" step="0.1" value="0" data-default="0"></div>
                   </div>
                 </div>
               </div>
@@ -2106,8 +2324,22 @@ input:focus,select:focus{border-color:var(--accent)}
                     <option value="horizontal" selected="">Horizontal (Esquerda → Direita)</option>
                     <option value="vertical">Vertical (Cima → Baixo)</option>
                     <option value="diagonal">Diagonal (↖ → ↘)</option>
+                    <option value="angle">Personalizado (ângulo)</option>
                   </select>
                 </div>
+          <div class="field" id="textGradAngleField">
+            <label><span id="lbl_textGradAngle">Ângulo do degradê</span><span class="lbl-right"><output id="textGradAngleOut">0°</output></span></label>
+            <div class="slider"><input id="textGradAngle" type="range" min="0" max="360" value="0" data-default="0"></div>
+          </div>
+          <div class="field">
+            <label><span id="lbl_textGradStart">Início do degradê</span><span class="lbl-right"><output id="textGradStartOut">0%</output></span></label>
+            <div class="slider"><input id="textGradStart" type="range" min="0" max="100" value="0" data-default="0"></div>
+          </div>
+          <div class="field">
+            <label><span id="lbl_textGradEnd">Fim do degradê</span><span class="lbl-right"><output id="textGradEndOut">100%</output></span></label>
+            <div class="slider"><input id="textGradEnd" type="range" min="0" max="100" value="100" data-default="100"></div>
+          </div>
+
                 <label class="check" style="margin-top:6px"><input id="textGradSub" type="checkbox" checked=""> <span id="lblTextGradSub">Aplicar degradê no subtítulo</span></label>
               </div>
             </div>
@@ -2264,6 +2496,7 @@ input:focus,select:focus{border-color:var(--accent)}
           <button id="undoBtn" class="btn xs" type="button" disabled="" title="Desfazer (Ctrl+Z)">↶</button>
           <button id="redoBtn" class="btn xs" type="button" disabled="" title="Refazer (Ctrl+Y)">↷</button>
         </div>
+        <button id="nuvioPreviewBtn" class="btn sm" type="button" disabled="" title="Ver como ficará dentro do Nuvio">📺 Ver no Nuvio</button>
         <button id="shuffleBtn" class="btn secondary sm" type="button" disabled="" title="Embaralhar ordem das imagens">⇄ Embaralhar</button>
         <button id="toggleMobileStageSize" class="btn secondary sm mobile-only" type="button" title="Ajustar altura do preview">⇕ Tela</button>
       </div>
@@ -2279,6 +2512,12 @@ input:focus,select:focus{border-color:var(--accent)}
             <div class="empty-placeholder">
               <span class="empty-placeholder-icon">🎬</span>
               <span id="emptyPlaceholderText">Seu preview aparecerá aqui</span>
+              <span id="emptyPlaceholderSub" class="empty-placeholder-sub">Escolha um estilo ao lado ou comece em 1 clique:</span>
+              <div class="empty-quick-actions">
+                <button type="button" id="emptyQuickTrending" class="empty-quick-btn">🔥 Animes em Alta</button>
+                <button type="button" id="emptyQuickSearch" class="empty-quick-btn">🔍 Buscar Título</button>
+                <button type="button" id="emptyQuickUpload" class="empty-quick-btn">🖼️ Minhas Fotos</button>
+              </div>
             </div>
           </div>
         </div>
@@ -2355,7 +2594,8 @@ input:focus,select:focus{border-color:var(--accent)}
           </div>
           <div class="field">
             <label><span id="lblItemZoom">Zoom</span><output id="itemZoomOut">1.00x</output></label>
-            <div class="slider"><input id="itemZoom" type="range" min="100" max="260" value="100"></div>
+            <div class="slider"><input id="itemZoom" type="range" min="10" max="260" value="100"></div>
+            <button id="itemFitBtn" class="btn secondary xs" type="button" style="margin-top:6px" title="Ajusta o zoom para a imagem aparecer inteira">⤢ Ajustar (imagem inteira)</button>
           </div>
           <div class="field">
             <label><span id="lblItemPanX">Posição Horizontal (X)</span><output id="itemPanXOut">0%</output></label>
@@ -2498,6 +2738,54 @@ input:focus,select:focus{border-color:var(--accent)}
       <button id="tutPrevBtn" class="btn secondary sm" type="button">◀ Anterior</button>
       <div class="tutorial-dots" id="tutDots"></div>
       <button id="tutNextBtn" class="btn sm" type="button">Próximo ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW NUVIO (SIMULA A HOME DO APP) -->
+<div id="nuvioPreview" class="nv-overlay" role="dialog" aria-modal="true" aria-label="Preview Nuvio">
+  <div class="nv-toolbar">
+    <strong id="nvTitle">📺 Preview no Nuvio</strong>
+    <div class="nv-seg" role="group" aria-label="Dispositivo"><button id="nvDevTv" type="button" class="active">📺 TV</button><button id="nvDevMobile" type="button">📱 Mobile</button></div>
+    <label class="nv-ctl"><span id="nvColLbl">Coleção</span><select id="nvColSel" aria-label="Coleção"></select></label>
+    <div class="nv-seg" id="nvRoleGrp" role="group" aria-label="Uso da arte"><button id="nvRoleHero" type="button" class="active">Fundo</button><button id="nvRoleCover" type="button">Capa</button></div>
+    <div class="nv-ctl nv-ratio"><span id="nvRatioLbl">Proporção da fileira</span><div class="nv-seg" role="group" aria-label="Proporção da fileira"><button id="nvRatio169" type="button" data-shape="LANDSCAPE">16:9</button><button id="nvRatio23" type="button" data-shape="POSTER">2:3</button><button id="nvRatio11" type="button" data-shape="SQUARE">1:1</button></div><button id="nvRatioScope" class="btn secondary sm" type="button" title="Aplicar a proporção na fileira inteira ou só na pasta em foco">Fileira inteira</button></div>
+    <div class="nv-seg" role="group" aria-label="Mover fileira"><button id="nvRowUp" type="button" title="Mover fileira para cima (Alt + ↑)">↑ Fileira</button><button id="nvRowDown" type="button" title="Mover fileira para baixo (Alt + ↓)">↓ Fileira</button></div>
+    <button id="nvApplyBtn" class="btn sm" type="button">📌 Usar na pasta em foco</button>
+    <button id="nvStyleAllBtn" class="btn secondary sm nv-tgl" type="button" title="Aplica o estilo atual (fonte, filtro, degradê…) às capas das outras pastas">🎨 Estilo em todas</button>
+    <label class="btn secondary sm" style="cursor:pointer"><span id="nvImportTxt">📂 Importar coleção</span><input id="nvImportFile" type="file" accept=".json,application/json" style="display:none"></label>
+    <button id="nvExportBtn" class="btn secondary sm" type="button" style="display:none" title="Baixa o JSON da coleção importada com as proporções escolhidas">⬇ Exportar JSON</button>
+    <button id="nvLayoutResetBtn" class="btn secondary sm" type="button" title="Volta à ordem e às proporções padrão">↺ Layout padrão</button>
+    <button id="nvResetBtn" class="btn secondary sm" type="button" style="display:none">Limpar coleção</button>
+    <label class="nv-dim"><span id="nvDimLbl">Escurecimento</span><input id="nvDim" type="range" min="0" max="100" value="100" aria-label="Escurecimento"></label>
+    <button id="nvFullBtn" class="btn secondary sm" type="button" title="Tela cheia" aria-label="Tela cheia">⛶</button>
+    <button id="nvCloseBtn" class="btn secondary sm" type="button" aria-label="Fechar preview">✕ Fechar</button>
+    <span class="nv-hint" id="nvHint"></span>
+  </div>
+  <div class="nv-viewport" id="nvViewport">
+    <div class="nv-tv" id="nvTv">
+      <div class="nv-herobox" id="nvHeroBox">
+        <img id="nvHeroImg" class="nv-hero nv-hero-img" alt="" referrerpolicy="no-referrer" style="display:none">
+        <canvas id="nvHero" class="nv-hero" style="display:none"></canvas>
+      </div>
+      <div class="nv-shade" id="nvShade"></div>
+      <nav class="nv-rail" aria-hidden="true">
+        <svg class="on" viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm2-4h12v2H6zm-2 8h16v12H4zm8 2.5-3 2v-4z" opacity=".9"/><path d="M4 10h16v12H4z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M19.4 13a7.9 7.9 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.3 7.3 0 0 0-1.7-1L15 3.2h-4l-.4 2.7a7.3 7.3 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.9 7.9 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.3 7.3 0 0 0 1.7 1l.4 2.7h4l.4-2.7a7.3 7.3 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+      </nav>
+      <div class="nv-content" id="nvContent"></div>
+      <div class="nv-m-status" aria-hidden="true"><span>9:41</span><span class="nv-m-ic">5G ▮▮▮ 100%</span></div>
+      <div class="nv-m-head" id="nvMHead">Descubra...</div>
+      <nav class="nv-bottom" id="nvBottom" aria-hidden="true">
+        <div class="nv-bi on"><svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/></svg><span id="nvNavHome">Início</span></div>
+        <div class="nv-bi"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span id="nvNavSearch">Busca</span></div>
+        <div class="nv-bi"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm2-4h12v2H6zM4 10h16v12H4z"/></svg><span id="nvNavLib">Biblioteca</span></div>
+        <div class="nv-bi"><i class="nv-dot"></i><span id="nvNavProfile">Perfil</span></div>
+      </nav>
+      <div class="nv-gesture" aria-hidden="true"></div>
+      <div class="nv-loading" id="nvLoading">Gerando…</div>
     </div>
   </div>
 </div>
@@ -3174,6 +3462,12 @@ const I18N = {
     lblShade: 'Escurecimento',
     resetShadeTitle: 'Resetar escurecimento (15%)',
     lblGradDir: 'Degradê / Vinheta',
+    lblGradOpacity: 'Opacidade do Degradê / Vinheta',
+    lblGradColor: 'Cor do Degradê / Vinheta',
+    lblGradReach: 'Alcance',
+    lblGradAngle: 'Ângulo do Degradê',
+    optGradCustom: 'Personalizado (ângulo)',
+    resetGradOpacityTitle: 'Resetar opacidade (100%)',
     optGradVignette: 'Vinheta + Esquerda',
     optGradLeft: 'Esquerda (Clássico)',
     optGradBottom: 'Inferior (Poster)',
@@ -3316,6 +3610,10 @@ const I18N = {
     mobileStageBtn: '⇕ Tela',
     mobileStageBtnTitle: 'Ajustar altura do preview',
     emptyPlaceholder: 'Seu preview aparecerá aqui',
+    emptyPlaceholderSub: 'Escolha um estilo ao lado ou comece em 1 clique:',
+    emptyQuickTrending: '🔥 Animes em Alta',
+    emptyQuickSearch: '🔍 Buscar Título',
+    emptyQuickUpload: '🖼️ Minhas Fotos',
     editorTitleDefault: 'Editar Cartazes',
     editorTitleEmpty: 'Clique em um cartaz no preview',
     helpEditorTitle: 'Ajuda: Editor de Cartazes',
@@ -3735,6 +4033,12 @@ const I18N = {
     lblShade: 'Dimming',
     resetShadeTitle: 'Reset dimming (15%)',
     lblGradDir: 'Gradient / Vignette',
+    lblGradOpacity: 'Gradient / Vignette opacity',
+    lblGradColor: 'Gradient / Vignette color',
+    lblGradReach: 'Reach',
+    lblGradAngle: 'Gradient angle',
+    optGradCustom: 'Custom (angle)',
+    resetGradOpacityTitle: 'Reset opacity (100%)',
     optGradVignette: 'Vignette + Left',
     optGradLeft: 'Left (Classic)',
     optGradBottom: 'Bottom (Poster)',
@@ -3877,6 +4181,10 @@ const I18N = {
     mobileStageBtn: '⇕ Screen',
     mobileStageBtnTitle: 'Adjust preview height',
     emptyPlaceholder: 'Your preview will appear here',
+    emptyPlaceholderSub: 'Pick a style on the left or start in 1 click:',
+    emptyQuickTrending: '🔥 Trending Anime',
+    emptyQuickSearch: '🔍 Search Title',
+    emptyQuickUpload: '🖼️ My Photos',
     editorTitleDefault: 'Edit Cards',
     editorTitleEmpty: 'Click a card in the preview',
     helpEditorTitle: 'Help: Card Editor',
@@ -4193,6 +4501,7 @@ let mobileSwapMode = false;
 let pinchStartDist = 0;
 let pinchStartZoom = 1;
 let pinchIsGlobal = false;
+let pinchAnchor = null;
 let pinchMoved = false;
 let cancelBatchFlag = false;
 let userTouchedBatchLogoOpt = false;
@@ -4285,9 +4594,11 @@ let sliderPreChangeSnapshot = null;
 
 const STYLE_SETTING_KEYS = [
   'style', 'imgType', 'cardShape', 'bgColor',
+  'bgMode', 'bgColor2', 'bgMidEnabled', 'bgColorMid', 'bgAngle', 'bgCx', 'bgCy', 'bgRadius', 'bgPattern', 'bgPatColor', 'bgPatOpacity', 'bgPatSize', 'bgPatThick', 'bgPatAngle',
+  'textGradAngle', 'textGradStart', 'textGradEnd',
   'angle', 'gap', 'radius', 'cols', 'stagger', 'imgOpacity',
   'globalZoom', 'globalPanX', 'globalPanY',
-  'shade', 'gradDir', 'filterPreset',
+  'shade', 'gradDir', 'gradOpacity', 'gradColor', 'gradReach', 'gradAngle', 'filterPreset',
   'canvasBlur', 'filterBrightness', 'filterContrast', 'filterSaturation',
   'localBlurEnabled', 'localBlurDir', 'localBlurAmt', 'localBlurReach', 'localBlurFeather',
   'tintEnabled', 'tintColor', 'tintMode', 'tintOpacity',
@@ -4524,6 +4835,7 @@ function renderCustomStylesGrid() {
 
   grid.style.display = 'grid';
   if (exportBtn) exportBtn.style.display = 'inline-flex';
+  if ($('customStylesBox')) $('customStylesBox').classList.add('open');
 
   savedCustomStyles.forEach(preset => {
     const btn = document.createElement('button');
@@ -5337,6 +5649,7 @@ function applyStylePreset(key) {
   $('gradDir').value = p.gradDir;
   $('filterPreset').value = p.filterPreset;
   if ($('bgColor')) $('bgColor').value = p.bgColor || '#000000';
+  if ($('bgMode')) { $('bgMode').value = 'solid'; if ($('bgPattern')) $('bgPattern').value = 'none'; bgUiSync(); }
   $('canvasBlur').value = p.canvasBlur; $('canvasBlurOut').value = p.canvasBlur + ' px';
   $('filterBlur').value = p.canvasBlur; $('filterBlurOut').value = p.canvasBlur + ' px';
   $('filterBrightness').value = p.brightness; $('filterBrightnessOut').value = p.brightness + '%';
@@ -6781,7 +7094,9 @@ function syncUIState() {
   const hasMedia = media.length > 0;
   $('downloadBtn').disabled = !hasMedia;
   $('shuffleBtn').disabled = media.length < 2;
+  if ($('nuvioPreviewBtn')) $('nuvioPreviewBtn').disabled = !hasMedia;
   $('clearAll').disabled = !hasMedia;
+  $('clearAll').style.display = hasMedia ? '' : 'none';
 
   const hasSel = selectedIndex >= 0 && selectedIndex < media.length;
   const drawer = $('editDrawer');
@@ -7704,8 +8019,31 @@ $('itemImgMode').addEventListener('change', () => {
 $('itemZoom').addEventListener('input', () => {
   if (selectedIndex < 0) return;
   scheduleDebouncedSliderHistory();
-  media[selectedIndex].zoom = Number($('itemZoom').value) / 100;
-  $('itemZoomOut').value = media[selectedIndex].zoom.toFixed(2) + 'x';
+  const m = media[selectedIndex];
+  const nz = Number($('itemZoom').value) / 100;
+  const b = selectedSlotBounds();
+  const an = itemAnchorAt(m, b, 0.5, 0.5);
+  if (an) itemApplyAnchored(m, b, nz, an, 0.5, 0.5); else m.zoom = nz;
+  syncItemSliders(m);
+  render();
+});
+
+$('itemFitBtn')?.addEventListener('click', async () => {
+  if (selectedIndex < 0 || !media[selectedIndex]) return;
+  const m = media[selectedIndex];
+  const [W, H] = $('ratio').value.split(',').map(Number);
+  const b = (typeof slotBounds !== 'undefined' ? slotBounds : []).find(sb => sb.index === selectedIndex);
+  const fw = (b && b.w) || W, fh = (b && b.h) || H;
+  let im = null;
+  try { im = await loadImage(pickUrlForItem(m, $('imgType').value)); } catch (e) {}
+  if (!im) return;
+  const ra = fw / im.width, rb = fh / im.height;
+  const z = Math.max(0.1, Math.min(1, Math.min(ra, rb) / Math.max(ra, rb)));
+  pushUndoSnapshot();
+  m.zoom = z; m.panX = 0; m.panY = 0;
+  $('itemZoom').value = Math.round(z * 100); $('itemZoomOut').value = z.toFixed(2) + 'x';
+  if ($('itemPanX')) { $('itemPanX').value = 0; $('itemPanXOut').value = '0%'; }
+  if ($('itemPanY')) { $('itemPanY').value = 0; $('itemPanYOut').value = '0%'; }
   render();
 });
 $('itemPanX').addEventListener('input', () => {
@@ -7737,6 +8075,99 @@ $('removeItem').onclick = () => {
 // CANVAS INTERACTION (CLICK, PAN, WHEEL ZOOM, PINCH ZOOM, DRAG-TO-SWAP)
 // =========================================================================
 const canvasEl = $('canvas');
+const ITEM_ZOOM_MIN = 0.25, ITEM_ZOOM_MAX = 2.6;
+
+// Matemática de enquadramento (espelha drawCover): permite "ancorar" um ponto da imagem
+// num ponto da moldura, assim o zoom e o arrasto acontecem no ponto do cursor/dedo
+// (e não mais em direção ao centro).
+function coverAnchorAxis(imL, frL, sc, pan, u) {
+  const dw = imL * sc;
+  if (dw >= frL - 0.01) {
+    const sW = frL / sc;
+    const maxOff = Math.max(0, (imL - sW) / 2);
+    const sx = (imL - sW) / 2 - pan * maxOff;
+    return (sx + u * sW) / imL;
+  }
+  return (u * frL - (frL - dw) / 2 * (1 + pan)) / dw;
+}
+function coverPanAxis(imL, frL, sc, a, u) {
+  const dw = imL * sc;
+  let pan;
+  if (dw >= frL - 0.01) {
+    const sW = frL / sc;
+    const maxOff = (imL - sW) / 2;
+    if (maxOff < 1e-6) return 0;
+    pan = 1 - (a * imL - u * sW) / maxOff;
+  } else {
+    const sp = (frL - dw) / 2;
+    if (sp < 1e-6) return 0;
+    pan = (u * frL - a * dw) / sp - 1;
+  }
+  return Math.max(-1, Math.min(1, pan));
+}
+function itemAnchorAt(m, b, u, v) {
+  const d = imgDims.get(m);
+  if (!d || !b) return null;
+  const sc = Math.max(b.w / d.w, b.h / d.h) * (Number(m.zoom) > 0 ? Number(m.zoom) : 1);
+  return { ax: coverAnchorAxis(d.w, b.w, sc, m.panX || 0, u), ay: coverAnchorAxis(d.h, b.h, sc, m.panY || 0, v) };
+}
+// aplica zoom/posição de modo que o ponto `anchor` da imagem fique em (u,v) da moldura
+function itemApplyAnchored(m, b, zoom, anchor, u, v) {
+  const d = imgDims.get(m);
+  if (!d || !b || !anchor) { m.zoom = zoom; return false; }
+  m.zoom = zoom;
+  const sc = Math.max(b.w / d.w, b.h / d.h) * zoom;
+  m.panX = coverPanAxis(d.w, b.w, sc, anchor.ax, u);
+  m.panY = coverPanAxis(d.h, b.h, sc, anchor.ay, v);
+  return true;
+}
+function canvasToSlotLocal(x, y, b) {
+  const W = canvasEl.width, H = canvasEl.height;
+  const gZoom = Number($('globalZoom')?.value || 100) / 100;
+  const gPanX = (Number($('globalPanX')?.value || 0) / 100) * (W * 0.5);
+  const gPanY = (Number($('globalPanY')?.value || 0) / 100) * (H * 0.5);
+  const gx = (x - W / 2 - gPanX) / gZoom + W / 2;
+  const gy = (y - H / 2 - gPanY) / gZoom + H / 2;
+  const dx = gx - W / 2, dy = gy - H / 2;
+  const cos = Math.cos(-activeRotationRad), sin = Math.sin(-activeRotationRad);
+  let lx = dx * cos - dy * sin + W / 2;
+  let ly = dx * sin + dy * cos + H / 2;
+  if (b.microTilt) {
+    const bcx = b.x + b.w / 2, bcy = b.y + b.h / 2;
+    const mc = Math.cos(-b.microTilt), ms = Math.sin(-b.microTilt);
+    const mdx = lx - bcx, mdy = ly - bcy;
+    lx = mdx * mc - mdy * ms + bcx;
+    ly = mdx * ms + mdy * mc + bcy;
+  }
+  return { u: (lx - b.x) / b.w, v: (ly - b.y) / b.h };
+}
+function selectedSlotBounds() {
+  return (typeof slotBounds !== 'undefined' ? slotBounds : []).find(sb => sb.index === selectedIndex && sb.visible !== false) || null;
+}
+function syncItemSliders(m) {
+  if ($('itemZoom')) { $('itemZoom').value = Math.round(m.zoom * 100); $('itemZoomOut').value = m.zoom.toFixed(2) + 'x'; }
+  if ($('itemPanX')) { $('itemPanX').value = Math.round((m.panX || 0) * 100); $('itemPanXOut').value = Math.round((m.panX || 0) * 100) + '%'; }
+  if ($('itemPanY')) { $('itemPanY').value = Math.round((m.panY || 0) * 100); $('itemPanYOut').value = Math.round((m.panY || 0) * 100) + '%'; }
+}
+// zoom global ancorado num ponto do canvas (cx,cy) — o ponto sob o cursor/dedo não se mexe
+function globalZoomAt(newZoomPct, cx, cy, anchorG) {
+  const W = canvasEl.width, H = canvasEl.height;
+  const z = newZoomPct / 100;
+  const panPxX = cx - W / 2 - (anchorG.gx - W / 2) * z;
+  const panPxY = cy - H / 2 - (anchorG.gy - H / 2) * z;
+  const px = Math.max(-100, Math.min(100, (panPxX / (W * 0.5)) * 100));
+  const py = Math.max(-100, Math.min(100, (panPxY / (H * 0.5)) * 100));
+  $('globalZoom').value = newZoomPct; $('globalZoomOut').value = newZoomPct + '%';
+  if ($('globalPanX')) { $('globalPanX').value = px.toFixed(1); $('globalPanXOut').value = Math.round(px) + '%'; }
+  if ($('globalPanY')) { $('globalPanY').value = py.toFixed(1); $('globalPanYOut').value = Math.round(py) + '%'; }
+}
+function globalAnchorAt(cx, cy) {
+  const W = canvasEl.width, H = canvasEl.height;
+  const z = Number($('globalZoom')?.value || 100) / 100;
+  const panX = (Number($('globalPanX')?.value || 0) / 100) * (W * 0.5);
+  const panY = (Number($('globalPanY')?.value || 0) / 100) * (H * 0.5);
+  return { gx: (cx - W / 2 - panX) / z + W / 2, gy: (cy - H / 2 - panY) / z + H / 2 };
+}
 function getCanvasCoords(e) {
   const r = canvasEl.getBoundingClientRect();
   return {
@@ -7781,7 +8212,7 @@ function hitTestSlot(x, y) {
     }
 
     if (lx >= b.x && lx <= b.x + b.w && ly >= b.y && ly <= b.y + b.h) {
-      return { index: b.index, slotUid: b.slotUid };
+      return { index: b.index, slotUid: b.slotUid, b, u: (lx - b.x) / b.w, v: (ly - b.y) / b.h };
     }
   }
   return null;
@@ -7809,12 +8240,22 @@ canvasEl.addEventListener('pointerdown', e => {
     pinchStartDist = getTouchPinchDistance();
     pinchMoved = false;
     preDragSnapshot = captureFullSnapshot();
+    const pts0 = [...activePointers.values()];
+    const midX = (pts0[0].x + pts0[1].x) / 2, midY = (pts0[0].y + pts0[1].y) / 2;
+    pinchAnchor = null;
     if (selectedIndex >= 0 && media[selectedIndex]) {
       pinchIsGlobal = false;
       pinchStartZoom = media[selectedIndex].zoom || 1;
+      const b = selectedSlotBounds();
+      if (b) {
+        const loc = canvasToSlotLocal(midX, midY, b);
+        const an = itemAnchorAt(media[selectedIndex], b, loc.u, loc.v);
+        if (an) pinchAnchor = { b: { ...b }, ...an };
+      }
     } else {
       pinchIsGlobal = true;
       pinchStartZoom = Number($('globalZoom')?.value || 100);
+      pinchAnchor = globalAnchorAt(midX, midY);
     }
     return;
   }
@@ -7847,7 +8288,9 @@ canvasEl.addEventListener('pointerdown', e => {
       x: pos.x,
       y: pos.y,
       panX: media[selectedIndex].panX || 0,
-      panY: media[selectedIndex].panY || 0
+      panY: media[selectedIndex].panY || 0,
+      slotB: hit.b ? { ...hit.b } : null,
+      anchor: hit.b ? itemAnchorAt(media[selectedIndex], hit.b, hit.u, hit.v) : null
     };
     render();
   } else {
@@ -7878,15 +8321,21 @@ canvasEl.addEventListener('pointermove', e => {
     const scale = curDist / pinchStartDist;
     if (Math.abs(scale - 1) > 0.02) pinchMoved = true;
 
+    const pts = [...activePointers.values()];
+    const midX = (pts[0].x + pts[1].x) / 2, midY = (pts[0].y + pts[1].y) / 2;
     if (!pinchIsGlobal && selectedIndex >= 0 && media[selectedIndex]) {
       const m = media[selectedIndex];
-      m.zoom = Math.max(1, Math.min(2.6, pinchStartZoom * scale));
+      const nz = Math.max(ITEM_ZOOM_MIN, Math.min(ITEM_ZOOM_MAX, pinchStartZoom * scale));
+      if (pinchAnchor) {
+        const loc = canvasToSlotLocal(midX, midY, pinchAnchor.b);
+        itemApplyAnchored(m, pinchAnchor.b, nz, pinchAnchor, loc.u, loc.v);
+      } else m.zoom = nz;
       syncUIState();
       render();
     } else if (pinchIsGlobal && $('globalZoom')) {
       const nextGZoom = Math.max(40, Math.min(250, Math.round(pinchStartZoom * scale)));
-      $('globalZoom').value = nextGZoom;
-      $('globalZoomOut').value = nextGZoom + '%';
+      if (pinchAnchor) globalZoomAt(nextGZoom, midX, midY, pinchAnchor);
+      else { $('globalZoom').value = nextGZoom; $('globalZoomOut').value = nextGZoom + '%'; }
       refreshResetButtonsVisibility();
       render();
     }
@@ -7925,9 +8374,15 @@ canvasEl.addEventListener('pointermove', e => {
 
   if (selectedIndex < 0) return;
   const m = media[selectedIndex];
-  const sens = 1 / (Math.min(canvasEl.width, canvasEl.height) * 0.25);
-  m.panX = Math.max(-1, Math.min(1, dragStart.panX + (pos.x - dragStart.x) * sens));
-  m.panY = Math.max(-1, Math.min(1, dragStart.panY + (pos.y - dragStart.y) * sens));
+  if (dragStart.slotB && dragStart.anchor && imgDims.get(m)) {
+    // arrasto 1:1: o ponto da imagem pego pelo dedo/cursor acompanha o movimento (qualquer zoom)
+    const loc = canvasToSlotLocal(pos.x, pos.y, dragStart.slotB);
+    itemApplyAnchored(m, dragStart.slotB, Number(m.zoom) > 0 ? Number(m.zoom) : 1, dragStart.anchor, loc.u, loc.v);
+  } else {
+    const sens = 1 / (Math.min(canvasEl.width, canvasEl.height) * 0.25);
+    m.panX = Math.max(-1, Math.min(1, dragStart.panX + (pos.x - dragStart.x) * sens));
+    m.panY = Math.max(-1, Math.min(1, dragStart.panY + (pos.y - dragStart.y) * sens));
+  }
   syncUIState();
   render();
 });
@@ -7985,18 +8440,24 @@ canvasEl.addEventListener('wheel', e => {
   e.preventDefault();
   scheduleDebouncedSliderHistory();
 
+  const wpos = getCanvasCoords(e);
   if (selectedIndex >= 0 && media[selectedIndex]) {
     const m = media[selectedIndex];
-    const delta = e.deltaY < 0 ? 0.08 : -0.08;
-    m.zoom = Math.max(1, Math.min(2.6, (m.zoom || 1) + delta));
+    const factor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
+    const nz = Math.max(ITEM_ZOOM_MIN, Math.min(ITEM_ZOOM_MAX, (Number(m.zoom) > 0 ? Number(m.zoom) : 1) * factor));
+    // ancora no ponto sob o cursor (se estiver sobre a imagem selecionada); senão, no centro da moldura
+    const hit = hitTestSlot(wpos.x, wpos.y);
+    let b = null, u = 0.5, v = 0.5;
+    if (hit && hit.index === selectedIndex) { b = hit.b; u = hit.u; v = hit.v; }
+    else b = selectedSlotBounds();
+    const an = itemAnchorAt(m, b, u, v);
+    if (an) itemApplyAnchored(m, b, nz, an, u, v); else m.zoom = nz;
     syncUIState();
     render();
   } else if ($('globalZoom')) {
     const cur = Number($('globalZoom').value || 100);
-    const delta = e.deltaY < 0 ? 6 : -6;
-    const next = Math.max(40, Math.min(250, cur + delta));
-    $('globalZoom').value = next;
-    $('globalZoomOut').value = next + '%';
+    const next = Math.max(40, Math.min(250, Math.round(cur * (e.deltaY < 0 ? 1.06 : 1 / 1.06))));
+    if (next !== cur) globalZoomAt(next, wpos.x, wpos.y, globalAnchorAt(wpos.x, wpos.y));
     refreshResetButtonsVisibility();
     render();
   }
@@ -8011,7 +8472,7 @@ function loadImage(url) {
   const p = new Promise(res => {
     const im = new Image();
     if (!url.startsWith('data:')) im.crossOrigin = 'anonymous';
-    im.onload = () => res(im);
+    im.onload = () => res(trimTransparentMargins(im));
     im.onerror = () => res(null);
     im.src = url;
   });
@@ -8019,24 +8480,61 @@ function loadImage(url) {
   return p;
 }
 
-function drawCover(ctx, im, x, y, w, h, radius, zoom = 1, panX = 0, panY = 0) {
-  const ir = im.width / im.height;
-  const br = w / h;
-  let sw, sh;
-  if (ir > br) {
-    sh = im.height;
-    sw = sh * br;
-  } else {
-    sw = im.width;
-    sh = sw / br;
-  }
-  sw /= zoom;
-  sh /= zoom;
+// Remove margens totalmente transparentes (PNG de troféu/personagem com "ar" em volta),
+// para que o conteúdo encoste nas bordas da moldura e o arrasto/zoom funcione de ponta a ponta.
+function trimTransparentMargins(im) {
+  try {
+    const W = im.naturalWidth || im.width, H = im.naturalHeight || im.height;
+    if (!W || !H) return im;
+    const k = Math.min(1, 320 / Math.max(W, H));
+    const sw = Math.max(1, Math.round(W * k)), sh = Math.max(1, Math.round(H * k));
+    const c = document.createElement('canvas'); c.width = sw; c.height = sh;
+    const cx = c.getContext('2d', { willReadFrequently: true });
+    cx.drawImage(im, 0, 0, sw, sh);
+    const d = cx.getImageData(0, 0, sw, sh).data;
+    let x0 = sw, y0 = sh, x1 = -1, y1 = -1, transparent = 0;
+    for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) {
+      const a = d[(y * sw + x) * 4 + 3];
+      if (a < 250) transparent++;
+      if (a > 12) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    if (x1 < 0 || transparent < sw * sh * 0.02) return im;          // sem transparência relevante
+    const m = 0.02;                                                  // só recorta se sobrar ≥ 2% de margem
+    if (x0 < sw * m && y0 < sh * m && (sw - 1 - x1) < sw * m && (sh - 1 - y1) < sh * m) return im;
+    const pad = 1;
+    const rx = Math.max(0, Math.floor((x0 - pad) / k)), ry = Math.max(0, Math.floor((y0 - pad) / k));
+    const rw = Math.min(W - rx, Math.ceil((x1 - x0 + 1 + pad * 2) / k)), rh = Math.min(H - ry, Math.ceil((y1 - y0 + 1 + pad * 2) / k));
+    if (rw < 8 || rh < 8) return im;
+    const out = document.createElement('canvas'); out.width = rw; out.height = rh;
+    out.getContext('2d').drawImage(im, rx, ry, rw, rh, 0, 0, rw, rh);
+    return out;
+  } catch (e) { return im; }
+}
 
-  const maxOffX = Math.max(0, (im.width - sw) / 2);
-  const maxOffY = Math.max(0, (im.height - sh) / 2);
-  const sx = (im.width - sw) / 2 - panX * maxOffX;
-  const sy = (im.height - sh) / 2 - panY * maxOffY;
+function drawCover(ctx, im, x, y, w, h, radius, zoom = 1, panX = 0, panY = 0) {
+  // zoom >= 1: recorta (cover). zoom < 1: a imagem fica menor que a moldura (mostra o fundo).
+  zoom = Number(zoom) > 0 ? Number(zoom) : 1;
+  const sc = Math.max(w / im.width, h / im.height) * zoom;
+  const dw = im.width * sc, dh = im.height * sc;
+
+  let sx = 0, sW = im.width, dx = x, dW = w;
+  if (dw >= w - 0.01) {
+    sW = w / sc;
+    const maxOff = Math.max(0, (im.width - sW) / 2);
+    sx = (im.width - sW) / 2 - panX * maxOff;
+  } else {
+    dW = dw;
+    dx = x + (w - dw) / 2 + panX * (w - dw) / 2;
+  }
+  let sy = 0, sH = im.height, dy = y, dH = h;
+  if (dh >= h - 0.01) {
+    sH = h / sc;
+    const maxOff = Math.max(0, (im.height - sH) / 2);
+    sy = (im.height - sH) / 2 - panY * maxOff;
+  } else {
+    dH = dh;
+    dy = y + (h - dh) / 2 + panY * (h - dh) / 2;
+  }
 
   ctx.save();
   if (radius > 0) {
@@ -8044,7 +8542,93 @@ function drawCover(ctx, im, x, y, w, h, radius, zoom = 1, panX = 0, panY = 0) {
     ctx.roundRect(x, y, w, h, radius);
     ctx.clip();
   }
-  ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h);
+  ctx.drawImage(im, sx, sy, sW, sH, dx, dy, dW, dH);
+  ctx.restore();
+}
+
+// =========================================================================
+// FUNDO: cor sólida, degradês (linear / radial / cônico) e padrões
+// =========================================================================
+function paintBackground(ctx, W, H) {
+  const mode = $('bgMode')?.value || 'solid';
+  const c1 = $('bgColor')?.value || '#000000';
+  const c2 = $('bgColor2')?.value || '#1b1f33';
+  const midOn = Boolean($('bgMidEnabled')?.checked);
+  const cMid = $('bgColorMid')?.value || '#7c69ef';
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = c1;
+  ctx.fillRect(0, 0, W, H);
+
+  if (mode !== 'solid') {
+    const ang = Number($('bgAngle')?.value ?? 0) * Math.PI / 180;
+    const cx = W * Number($('bgCx')?.value ?? 50) / 100;
+    const cy = H * Number($('bgCy')?.value ?? 50) / 100;
+    let g = null;
+    if (mode === 'radial') {
+      const far = Math.max(Math.hypot(cx, cy), Math.hypot(W - cx, cy), Math.hypot(cx, H - cy), Math.hypot(W - cx, H - cy));
+      const R = Math.max(1, far * Number($('bgRadius')?.value ?? 100) / 100);
+      g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+    } else if (mode === 'conic' && typeof ctx.createConicGradient === 'function') {
+      g = ctx.createConicGradient(ang, cx, cy);
+    } else {
+      const dx = Math.cos(ang), dy = Math.sin(ang);
+      const half = (Math.abs(W * dx) + Math.abs(H * dy)) / 2;
+      g = ctx.createLinearGradient(W / 2 - dx * half, H / 2 - dy * half, W / 2 + dx * half, H / 2 + dy * half);
+    }
+    g.addColorStop(0, c1);
+    if (midOn) g.addColorStop(0.5, cMid);
+    g.addColorStop(1, mode === 'conic' ? c1 : c2);
+    if (mode === 'conic' && !midOn) { g.addColorStop(0.5, c2); }
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  const pat = $('bgPattern')?.value || 'none';
+  if (pat !== 'none') {
+    const k = Math.min(W, H) / 1080;
+    const op = Number($('bgPatOpacity')?.value ?? 25) / 100;
+    const col = $('bgPatColor')?.value || '#ffffff';
+    const period = Math.max(4, Number($('bgPatSize')?.value ?? 48) * k);
+    const thick = Math.max(0.05, Math.min(0.95, Number($('bgPatThick')?.value ?? 50) / 100));
+    const pang = Number($('bgPatAngle')?.value ?? 45) * Math.PI / 180;
+    ctx.globalAlpha = op;
+    ctx.fillStyle = col;
+    ctx.strokeStyle = col;
+    const diag = Math.hypot(W, H);
+    const bands = (a, bandW) => {
+      ctx.save();
+      ctx.translate(W / 2, H / 2);
+      ctx.rotate(a);
+      const n = Math.ceil(diag / period) + 2;
+      for (let i = -n; i <= n; i++) ctx.fillRect(-diag, i * period - bandW / 2, diag * 2, bandW);
+      ctx.restore();
+    };
+    const thin = Math.max(1, period * thick * 0.22);
+    if (pat === 'stripes') {
+      bands(pang, period * thick);
+    } else if (pat === 'lines') {
+      bands(pang, thin);
+    } else if (pat === 'hatch') {
+      bands(pang, thin); bands(pang + Math.PI / 2, thin);
+    } else if (pat === 'grid') {
+      bands(0, thin); bands(Math.PI / 2, thin);
+    } else if (pat === 'dots') {
+      const r = Math.max(1, period * 0.5 * thick);
+      let row = 0;
+      for (let y = period / 2; y < H + period; y += period, row++) {
+        for (let x = (row % 2 ? period : period / 2); x < W + period; x += period) {
+          ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    } else if (pat === 'checker') {
+      for (let y = 0, r = 0; y < H; y += period, r++) {
+        for (let x = 0, c = 0; x < W; x += period, c++) {
+          if ((r + c) % 2 === 0) ctx.fillRect(x, y, period, period);
+        }
+      }
+    }
+  }
   ctx.restore();
 }
 
@@ -8115,8 +8699,24 @@ function drawTrackedText(ctx, text, x, y, align = 'left', trackingPx = 0, mode =
   ctx.textAlign = prevAlign;
 }
 
-function createTextFillStyle(ctx, W, H, align, pos, baseColor, gradEnabled, c1, c2, dir) {
+function createTextFillStyle(ctx, W, H, align, pos, baseColor, gradEnabled, c1, c2, dir, box) {
   if (!gradEnabled) return baseColor;
+  const start = Math.max(0, Math.min(100, Number($('textGradStart')?.value ?? 0))) / 100;
+  const end = Math.max(0, Math.min(100, Number($('textGradEnd')?.value ?? 100))) / 100;
+  if (box && box.x1 > box.x0 && box.y1 > box.y0) {
+    // o degradê acompanha o bloco do texto (não muda quando a posição do texto muda)
+    const deg = dir === 'vertical' ? 90 : dir === 'diagonal' ? 45 : dir === 'angle' ? Number($('textGradAngle')?.value ?? 0) : 0;
+    const a = deg * Math.PI / 180, dx = Math.cos(a), dy = Math.sin(a);
+    const bw = box.x1 - box.x0, bh = box.y1 - box.y0;
+    const half = (Math.abs(bw * dx) + Math.abs(bh * dy)) / 2;
+    const cx = (box.x0 + box.x1) / 2, cy = (box.y0 + box.y1) / 2;
+    const s0 = -half + 2 * half * start;
+    const s1 = -half + 2 * half * Math.max(end, start + 0.002);
+    const g = ctx.createLinearGradient(cx + dx * s0, cy + dy * s0, cx + dx * s1, cy + dy * s1);
+    g.addColorStop(0, c1 || '#ffffff');
+    g.addColorStop(1, c2 || '#9d8df7');
+    return g;
+  }
   let x0 = 0, y0 = 0, x1 = W, y1 = 0;
   if (dir === 'vertical') {
     x0 = 0; y0 = H * 0.15; x1 = 0; y1 = H * 0.85;
@@ -8363,26 +8963,35 @@ function assignNonRepeatingEntriesToCells(cells, entries) {
 }
 
 let previewRenderSeq = 0;
+const imgDims = new WeakMap();
 
 async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverride = null, options = {}) {
-  const { showSelection = true, forExport = false, animTimeMs = null } = options;
+  const { showSelection = true, forExport = false, animTimeMs = null, capFirst = false } = options;
   const isMainPreview = showSelection && !forExport && canvas === $('canvas');
   const myRenderSeq = isMainPreview ? ++previewRenderSeq : 0;
   const effectiveTimeMs = animTimeMs !== null ? animTimeMs : performance.now();
-  const [W, H] = $('ratio').value.split(',').map(Number);
+  const [W, H] = options.size || $('ratio').value.split(',').map(Number);
+  const coverOpt = options.styleOverride === 'single';
 
   const bg = $('bgColor').value || '#000000';
-  const style = $('style').value;
-  const imgType = $('imgType').value;
-  const rotDeg = Number($('angle').value);
+  const style = options.styleOverride || $('style').value;
+  const imgType = options.imgTypeOverride || $('imgType').value;
+  const rotDeg = coverOpt ? 0 : Number($('angle').value);
   const rot = rotDeg * Math.PI / 180;
   const gap = Number($('gap').value) * (W / 1920);
-  const radius = Number($('radius').value) * (W / 1920);
+  const radius = coverOpt ? 0 : Number($('radius').value) * (W / 1920);
   const userCols = Number($('cols').value);
   const stagger = Number($('stagger').value) / 100;
   const imgOpacity = Number($('imgOpacity').value) / 100;
   const shade = Number($('shade').value) / 100;
   const gradDir = $('gradDir').value;
+  const gradOp = Math.max(0, Math.min(1, Number($('gradOpacity')?.value ?? 100) / 100));
+  const gradReach = Math.max(0.2, Math.min(1.5, Number($('gradReach')?.value ?? 100) / 100));
+  const gradAngle = Number($('gradAngle')?.value ?? 0) * Math.PI / 180;
+  const gradHex = /^#[0-9a-f]{6}$/i.test($('gradColor')?.value || '') ? $('gradColor').value : '#000000';
+  const gcRGB = [parseInt(gradHex.slice(1, 3), 16), parseInt(gradHex.slice(3, 5), 16), parseInt(gradHex.slice(5, 7), 16)];
+  const gc = a => `rgba(${gcRGB[0]},${gcRGB[1]},${gcRGB[2]},${a})`;
+  if ($('gradAngleField')) $('gradAngleField').style.display = gradDir === 'custom' ? '' : 'none';
   const titleTxt = titleOverride !== null ? titleOverride : $('title').value.trim();
   const subTxt = subtitleOverride !== null ? subtitleOverride : $('subtitle').value.trim();
   const textPos = $('textPos').value;
@@ -8400,6 +9009,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
 
   const loaded = await Promise.all(items.map(async (m, idx) => {
     const im = await loadImage(pickUrlForItem(m, imgType));
+    if (im) imgDims.set(m, { w: im.width, h: im.height });
     const uniqueKey = `${m.id || pickUrlForItem(m, imgType) || 'item'}__${idx}`;
     return im ? { im, m, index: idx, uniqueKey } : null;
   }));
@@ -8417,8 +9027,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d', { colorSpace: 'srgb' });
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
+  paintBackground(ctx, W, H);
 
   const artCanvas = document.createElement('canvas');
   artCanvas.width = W;
@@ -8604,34 +9213,51 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
     ctx.fillRect(0, 0, W, H);
   }
 
+  ctx.save();
+  ctx.globalAlpha = gradOp;
+  const endA = base => gradReach >= 1 ? base : 0;
   if (gradDir === 'left') {
-    const g = ctx.createLinearGradient(0, 0, W * 0.85, 0);
-    g.addColorStop(0, 'rgba(0,0,0,.92)');
-    g.addColorStop(0.55, 'rgba(0,0,0,.52)');
-    g.addColorStop(1, 'rgba(0,0,0,.10)');
+    const g = ctx.createLinearGradient(0, 0, W * 0.85 * gradReach, 0);
+    g.addColorStop(0, gc(.92));
+    g.addColorStop(0.55, gc(.52));
+    g.addColorStop(1, gc(endA(.10)));
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   } else if (gradDir === 'bottom') {
-    const g = ctx.createLinearGradient(0, H, 0, H * 0.15);
-    g.addColorStop(0, 'rgba(0,0,0,.94)');
-    g.addColorStop(0.5, 'rgba(0,0,0,.45)');
-    g.addColorStop(1, 'rgba(0,0,0,.05)');
+    const g = ctx.createLinearGradient(0, H, 0, H - H * 0.85 * gradReach);
+    g.addColorStop(0, gc(.94));
+    g.addColorStop(0.5, gc(.45));
+    g.addColorStop(1, gc(endA(.05)));
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   } else if (gradDir === 'vignette') {
-    const gl = ctx.createLinearGradient(0, 0, W * 0.78, 0);
-    gl.addColorStop(0, 'rgba(0,0,0,.90)');
-    gl.addColorStop(0.6, 'rgba(0,0,0,.40)');
-    gl.addColorStop(1, 'rgba(0,0,0,0)');
+    const gl = ctx.createLinearGradient(0, 0, W * 0.78 * gradReach, 0);
+    gl.addColorStop(0, gc(.90));
+    gl.addColorStop(0.6, gc(.40));
+    gl.addColorStop(1, gc(0));
     ctx.fillStyle = gl;
     ctx.fillRect(0, 0, W, H);
 
-    const gr = ctx.createRadialGradient(W * 0.62, H * 0.5, W * 0.18, W * 0.5, H * 0.5, Math.max(W, H) * 0.75);
-    gr.addColorStop(0, 'rgba(0,0,0,0)');
-    gr.addColorStop(1, 'rgba(0,0,0,.78)');
+    const r0 = W * 0.18 / gradReach, r1 = Math.max(r0 + 1, Math.max(W, H) * 0.75 / gradReach);
+    const gr = ctx.createRadialGradient(W * 0.62, H * 0.5, r0, W * 0.5, H * 0.5, r1);
+    gr.addColorStop(0, gc(0));
+    gr.addColorStop(1, gc(.78));
     ctx.fillStyle = gr;
     ctx.fillRect(0, 0, W, H);
+  } else if (gradDir === 'custom') {
+    // 0° = escuro à esquerda · 90° = em cima · 180° = à direita · 270° = embaixo
+    const dx = Math.cos(gradAngle), dy = Math.sin(gradAngle);
+    const half = (Math.abs(W * dx) + Math.abs(H * dy)) / 2;
+    const sx0 = W / 2 - dx * half, sy0 = H / 2 - dy * half;
+    const len = 2 * half * 0.85 * gradReach;
+    const g = ctx.createLinearGradient(sx0, sy0, sx0 + dx * len, sy0 + dy * len);
+    g.addColorStop(0, gc(.92));
+    g.addColorStop(0.55, gc(.50));
+    g.addColorStop(1, gc(0));
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
   }
+  ctx.restore();
 
   // DRAW SELECTION & SWAP HIGHLIGHT OVERLAYS ON TOP OF SHADE/GRADIENTS SO THEY ARE ALWAYS VISIBLE
   if (showSelection && (selectedIndex >= 0 || swapSourceIndex >= 0)) {
@@ -8756,7 +9382,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
     const gradDir = $('textGradDir')?.value || 'horizontal';
     const gradSub = $('textGradSub')?.checked ?? true;
 
-    const finalTitle = uppercase ? titleTxt.toUpperCase() : titleTxt;
+    const finalTitle = uppercase ? titleTxt.toUpperCase() : (capFirst && titleTxt ? titleTxt.charAt(0).toLocaleUpperCase() + titleTxt.slice(1) : titleTxt);
     const finalSub = uppercase ? subTxt.toUpperCase() : subTxt;
 
     const titleSize = Math.round(Math.min(W, H) * 0.082 * textScale);
@@ -8817,9 +9443,19 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
       }
     };
 
-    const fillStyleTitle = createTextFillStyle(ctx, W, H, align, textPos, textColor, gradOn, gradC1, gradC2, gradDir);
+    // caixa do bloco de texto (para ancorar o degradê)
+    const nvMeasure = (lines, font, track) => {
+      ctx.font = font;
+      return lines.reduce((m, l) => Math.max(m, ctx.measureText(l).width + track * l.length), 0);
+    };
+    const boxW = Math.max(1, nvMeasure(titleLines, `900 ${titleSize}px ${fontFamily}`, titleTrackPx), nvMeasure(subLines, `600 ${subSize}px ${fontFamily}`, subTrackPx));
+    const boxX0 = align === 'left' ? x : (align === 'right' ? x - boxW : x - boxW / 2);
+    const boxY0 = startY - titleSize * 0.85;
+    const textBox = { x0: boxX0, x1: boxX0 + boxW, y0: boxY0, y1: boxY0 + Math.max(1, totalBlockH) };
+
+    const fillStyleTitle = createTextFillStyle(ctx, W, H, align, textPos, textColor, gradOn, gradC1, gradC2, gradDir, textBox);
     const fillStyleSub = (gradOn && gradSub)
-      ? createTextFillStyle(ctx, W, H, align, textPos, textColor, true, gradC1, gradC2, gradDir)
+      ? createTextFillStyle(ctx, W, H, align, textPos, textColor, true, gradC1, gradC2, gradDir, textBox)
       : textColor;
 
     let curY = startY;
@@ -8878,8 +9514,7 @@ function clearCanvas() {
   c.width = W;
   c.height = H;
   const ctx = c.getContext('2d', { colorSpace: 'srgb' });
-  ctx.fillStyle = $('bgColor')?.value || '#000000';
-  ctx.fillRect(0, 0, W, H);
+  paintBackground(ctx, W, H);
   slotBounds = [];
   updateEmptyOverlayState();
 }
@@ -9193,6 +9828,9 @@ const sliderMappings = [
   ['globalPanX', 'globalPanXOut', '%'],
   ['globalPanY', 'globalPanYOut', '%'],
   ['shade', 'shadeOut', '%'],
+  ['gradOpacity', 'gradOpacityOut', '%'],
+  ['gradReach', 'gradReachOut', '%'],
+  ['gradAngle', 'gradAngleOut', '°'],
   ['canvasBlur', 'canvasBlurOut', ' px'],
   ['filterBrightness', 'filterBrightnessOut', '%'],
   ['filterContrast', 'filterContrastOut', '%'],
@@ -9220,6 +9858,10 @@ const DEFAULT_VALUES = {
   globalPanX: '0',
   globalPanY: '0',
   shade: '15',
+  gradOpacity: '100',
+  gradColor: '#000000',
+  gradReach: '100',
+  gradAngle: '0',
   canvasBlur: '0',
   filterBrightness: '100',
   filterContrast: '100',
@@ -9752,10 +10394,16 @@ function applyUiLanguage(lang, { persist = true, reRender = true } = {}) {
   const rstShade = document.querySelector('.reset-mini-btn[data-reset="shade"]');
   if (rstShade) rstShade.title = t.resetShadeTitle;
   if ($('lblGradDir')) $('lblGradDir').textContent = t.lblGradDir;
+  if ($('lblGradOpacity')) $('lblGradOpacity').textContent = t.lblGradOpacity;
+  if ($('lblGradColor')) $('lblGradColor').textContent = t.lblGradColor;
+  if ($('lblGradReach')) $('lblGradReach').textContent = t.lblGradReach;
+  if ($('lblGradAngle')) $('lblGradAngle').textContent = t.lblGradAngle;
+  if ($('rstGradOpacity')) $('rstGradOpacity').title = t.resetGradOpacityTitle;
   setSelectOptionTexts('gradDir', {
     vignette: t.optGradVignette,
     left: t.optGradLeft,
     bottom: t.optGradBottom,
+    custom: t.optGradCustom,
     none: t.optGradNone
   });
   if ($('lblFilterPreset')) $('lblFilterPreset').textContent = t.lblFilterPreset;
@@ -9923,6 +10571,10 @@ function applyUiLanguage(lang, { persist = true, reRender = true } = {}) {
     $('toggleMobileStageSize').title = t.mobileStageBtnTitle;
   }
   if ($('emptyPlaceholderText')) $('emptyPlaceholderText').textContent = t.emptyPlaceholder;
+  if ($('emptyPlaceholderSub')) $('emptyPlaceholderSub').textContent = t.emptyPlaceholderSub;
+  if ($('emptyQuickTrending')) $('emptyQuickTrending').textContent = t.emptyQuickTrending;
+  if ($('emptyQuickSearch')) $('emptyQuickSearch').textContent = t.emptyQuickSearch;
+  if ($('emptyQuickUpload')) $('emptyQuickUpload').textContent = t.emptyQuickUpload;
 
   const helpEditorBtn = document.querySelector('.help-btn[data-help="editor"]');
   if (helpEditorBtn) helpEditorBtn.title = t.helpEditorTitle;
@@ -10040,6 +10692,1028 @@ document.querySelectorAll('[data-choose-lang]').forEach(btn => {
 // =========================================================================
 // INITIALIZATION
 // =========================================================================
+// =========================================================================
+// FUNDO (degradê/padrões) e degradê do texto: interface
+// =========================================================================
+const BG_CTRL_SLIDERS = [['bgAngle', '°'], ['bgCx', '%'], ['bgCy', '%'], ['bgRadius', '%'], ['bgPatOpacity', '%'], ['bgPatSize', ' px'], ['bgPatThick', '%'], ['bgPatAngle', '°'], ['textGradAngle', '°'], ['textGradStart', '%'], ['textGradEnd', '%']];
+function bgUiSync() {
+  const mode = $('bgMode')?.value || 'solid';
+  const pat = $('bgPattern')?.value || 'none';
+  const show = (id, on) => { const e = $(id); if (e) e.style.display = on ? '' : 'none'; };
+  show('bgGradBody', mode !== 'solid');
+  show('bgAngleField', mode === 'linear' || mode === 'conic');
+  show('bgCxField', mode === 'radial' || mode === 'conic');
+  show('bgCyField', mode === 'radial' || mode === 'conic');
+  show('bgRadiusField', mode === 'radial');
+  show('bgPatBody', pat !== 'none');
+  show('bgPatAngleField', pat === 'stripes' || pat === 'lines' || pat === 'hatch');
+  show('textGradAngleField', ($('textGradDir')?.value || '') === 'angle');
+  for (const [id, unit] of BG_CTRL_SLIDERS) {
+    const el = $(id), out = $(id + 'Out');
+    if (el && out) out.value = el.value + unit;
+  }
+}
+const _bgOrigApplyVisual = applyVisualSettingsObject;
+applyVisualSettingsObject = async function () {
+  const r = await _bgOrigApplyVisual.apply(this, arguments);
+  bgUiSync();
+  return r;
+};
+[
+  'bgMode', 'bgColor', 'bgColor2', 'bgMidEnabled', 'bgColorMid', 'bgAngle', 'bgCx', 'bgCy', 'bgRadius',
+  'bgPattern', 'bgPatColor', 'bgPatOpacity', 'bgPatSize', 'bgPatThick', 'bgPatAngle',
+  'textGradAngle', 'textGradStart', 'textGradEnd', 'textGradDir'
+].forEach(id => {
+  const el = $(id);
+  if (!el) return;
+  const isDiscrete = el.tagName === 'SELECT' || el.type === 'checkbox';
+  el.addEventListener(isDiscrete ? 'change' : 'input', () => {
+    if (isDiscrete) pushUndoSnapshot(); else scheduleDebouncedSliderHistory();
+    bgUiSync();
+    if (media.length) render(); else clearCanvas();
+  });
+});
+bgUiSync();
+
+// rótulos (PT/EN) dos controles novos
+const NV2_LABELS = {
+  advBgTitle: ['Fundo: Degradê & Padrões', 'Background: Gradients & Patterns'],
+  lbl_bgMode: ['Tipo de fundo', 'Background type'], lblBgColor: ['Cor de Fundo', 'Background Color'],
+  lbl_bgColor2: ['Cor 2', 'Color 2'], lbl_bgMid: ['Cor do meio', 'Middle color'],
+  lbl_bgAngle: ['Ângulo', 'Angle'], lbl_bgCx: ['Centro X', 'Center X'], lbl_bgCy: ['Centro Y', 'Center Y'], lbl_bgRadius: ['Raio', 'Radius'],
+  lbl_bgPattern: ['Padrão sobre o fundo', 'Pattern over background'], lbl_bgPatColor: ['Cor do padrão', 'Pattern color'],
+  lbl_bgPatOpacity: ['Opacidade', 'Opacity'], lbl_bgPatSize: ['Tamanho', 'Size'], lbl_bgPatThick: ['Espessura', 'Thickness'], lbl_bgPatAngle: ['Ângulo do padrão', 'Pattern angle'],
+  lbl_textGradAngle: ['Ângulo do degradê', 'Gradient angle'], lbl_textGradStart: ['Início do degradê', 'Gradient start'], lbl_textGradEnd: ['Fim do degradê', 'Gradient end'],
+  itemFitBtn: ['⤢ Ajustar (imagem inteira)', '⤢ Fit (whole image)']
+};
+const NV2_OPTIONS = {
+  bgMode: { solid: ['Cor sólida', 'Solid color'], linear: ['Degradê linear', 'Linear gradient'], radial: ['Degradê radial', 'Radial gradient'], conic: ['Degradê cônico', 'Conic gradient'] },
+  bgPattern: { none: ['Nenhum', 'None'], stripes: ['Listras', 'Stripes'], lines: ['Linhas finas', 'Thin lines'], hatch: ['Hachura (linhas cruzadas)', 'Crosshatch'], grid: ['Grade', 'Grid'], dots: ['Pontos', 'Dots'], checker: ['Xadrez', 'Checker'] },
+  textGradDir: { angle: ['Personalizado (ângulo)', 'Custom (angle)'] }
+};
+function applyNv2Labels() {
+  const i = (typeof currentUiLang !== 'undefined' && currentUiLang === 'en') ? 1 : 0;
+  for (const [id, pair] of Object.entries(NV2_LABELS)) { const e = $(id); if (e) e.textContent = pair[i]; }
+  for (const [sid, map] of Object.entries(NV2_OPTIONS)) {
+    const sel = $(sid); if (!sel) continue;
+    for (const [val, pair] of Object.entries(map)) {
+      const o = [...sel.options].find(x => x.value === val); if (o) o.textContent = pair[i];
+    }
+  }
+}
+const _nv2OrigApplyLang = applyUiLanguage;
+applyUiLanguage = function () {
+  const r = _nv2OrigApplyLang.apply(this, arguments);
+  applyNv2Labels();
+  return r;
+};
+
+
+// =========================================================================
+// PREVIEW NUVIO: simula a home do app (coleções em fileiras, pastas, capa e fundo)
+// =========================================================================
+const NV_STORE_KEY = 'nuvio_preview_collections_v1';
+const NV_T = {
+  'pt-BR': {
+    btn: '📺 Ver no Nuvio', btnTitle: 'Ver como ficará dentro do Nuvio',
+    title: '📺 Preview no Nuvio', ratio: 'Proporção', scopeRow: 'Fileira inteira', scopeOne: 'Só esta pasta', rowBtn: ['↑ Fileira', '↓ Fileira'], exp: '⬇ Exportar JSON', layoutReset: '↺ Layout padrão', col: 'Coleção', dim: 'Escurecimento', close: '✕ Fechar', loading: 'Gerando preview…',
+    roleHero: 'Fundo', roleCover: 'Capa', apply: '📌 Usar na pasta em foco', styleAll: '🎨 Estilo em todas',
+    imp: '📂 Importar coleção', reset: 'Limpar coleção',
+    keys: ' ← → ↑ ↓, roda do mouse ou deslizar com o dedo navegam · Enter aplica na pasta em foco (se já for ela, alterna Capa/Fundo) · Esc fecha.',
+    hintHero: 'Sua arte está como FUNDO da pasta marcada.',
+    hintCover: 'Sua arte está como CAPA da pasta marcada (o corte mostra como o card fica).',
+    hintStyle: ' As outras capas usam seu estilo atual (texto, filtros, fundo…) com imagens de amostra diferentes.',
+    hintDemo: ' Dica: importe o JSON de coleções do Nuvio para ver a sua tela de verdade.',
+    noKey: ' Filmes e séries sem chave TMDB: amostras do Cinemeta.',
+    fallback: ' Algumas amostras vieram do AniList porque a fonte de filmes/séries não respondeu.',
+    offline: ' Sem amostras online: usando as imagens que você carregou.',
+    groups: { movie: 'Filmes', series: 'Séries', anime: 'Anime' },
+    rows: { topRated: 'Mais bem avaliados', upcoming: 'Em breve', continueWatching: 'Continuar assistindo', genres: 'Gêneros', popular: 'Populares', decades: 'Décadas', themes: 'Temas', trending: 'Em alta', platforms: 'Plataformas', releases: 'Lançamentos', studios: 'Estúdios' },
+    decades: ['Anos 60', 'Anos 70', 'Anos 80', 'Anos 90', 'Anos 2000', 'Anos 2010', 'Anos 2020'],
+    platforms: ['Netflix', 'Prime Video', 'Max', 'Disney+', 'Apple TV+', 'Paramount+', 'Globoplay'],
+    studios: ['Mappa', 'Bones', 'Madhouse', 'Trigger', 'Ghibli', 'Sunrise', 'Ufotable'],
+    mine: 'Sua arte', fail: 'Não foi possível gerar o preview.',
+    discover: 'Descubra...', navHome: 'Início', navSearch: 'Busca', navLib: 'Biblioteca', navProfile: 'Perfil',
+    hintMobile: 'Nuvio mobile: as coleções não têm fundo, só capas. Passe o mouse na sua arte para tocar o GIF.',
+    badFile: 'Arquivo inválido: use o JSON de coleções exportado do Nuvio.'
+  },
+  en: {
+    btn: '📺 See in Nuvio', btnTitle: 'See how it will look inside Nuvio',
+    title: '📺 Nuvio Preview', ratio: 'Ratio', scopeRow: 'Whole row', scopeOne: 'This folder only', rowBtn: ['↑ Row', '↓ Row'], exp: '⬇ Export JSON', layoutReset: '↺ Default layout', col: 'Collection', dim: 'Darkening', close: '✕ Close', loading: 'Generating preview…',
+    roleHero: 'Background', roleCover: 'Cover', apply: '📌 Use on focused folder', styleAll: '🎨 Style on all',
+    imp: '📂 Import collection', reset: 'Clear collection',
+    keys: ' Arrow keys, mouse wheel or finger swipe navigate · Enter applies to the focused folder (if it already is, toggles Cover/Background) · Esc closes.',
+    hintHero: 'Your art is the BACKGROUND of the marked folder.',
+    hintCover: 'Your art is the COVER of the marked folder (the crop shows how the card looks).',
+    hintStyle: ' Other covers use your current style (text, filters, background…) with different sample images.',
+    hintDemo: ' Tip: import your Nuvio collections JSON to see your real screen.',
+    noKey: ' Movies and series without a TMDB key: samples from Cinemeta.',
+    fallback: ' Some samples came from AniList because the movie/series source did not respond.',
+    offline: ' No online samples: using the images you loaded.',
+    groups: { movie: 'Movies', series: 'Series', anime: 'Anime' },
+    rows: { topRated: 'Top rated', upcoming: 'Coming soon', continueWatching: 'Continue watching', genres: 'Genres', popular: 'Popular', decades: 'Decades', themes: 'Themes', trending: 'Trending', platforms: 'Platforms', releases: 'New releases', studios: 'Studios' },
+    decades: ['1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020s'],
+    platforms: ['Netflix', 'Prime Video', 'Max', 'Disney+', 'Apple TV+', 'Paramount+', 'Globoplay'],
+    studios: ['Mappa', 'Bones', 'Madhouse', 'Trigger', 'Ghibli', 'Sunrise', 'Ufotable'],
+    mine: 'Your art', fail: 'Could not generate the preview.',
+    discover: 'Discover...', navHome: 'Home', navSearch: 'Search', navLib: 'Library', navProfile: 'Profile',
+    hintMobile: 'Nuvio mobile: collections have no background, only covers. Hover your art to play the GIF.',
+    badFile: 'Invalid file: use the collections JSON exported from Nuvio.'
+  }
+};
+// gêneros usados nas fileiras de exemplo: [chave em inglês (TMDB/AniList/Cinemeta), rótulo PT]
+const NV_GENRES = {
+  Action: 'Ação', Adventure: 'Aventura', Comedy: 'Comédia', Drama: 'Drama', Fantasy: 'Fantasia', Horror: 'Terror',
+  Romance: 'Romance', 'Sci-Fi': 'Ficção Científica', Crime: 'Crime', Mystery: 'Mistério', Family: 'Família',
+  Thriller: 'Suspense', Sports: 'Esportes', Mecha: 'Mecha', Music: 'Música', Supernatural: 'Sobrenatural',
+  'Slice of Life': 'Slice of Life', Psychological: 'Psicológico', Animation: 'Animação', War: 'Guerra', History: 'História'
+};
+const NV_GENRE_ALIAS = (() => {
+  const m = {};
+  for (const [en, pt] of Object.entries(NV_GENRES)) {
+    m[en.toLowerCase()] = en;
+    m[pt.toLowerCase()] = en;
+    m[pt.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')] = en;
+  }
+  m['ficcao cientifica'] = 'Sci-Fi'; m['scifi'] = 'Sci-Fi'; m['esporte'] = 'Sports'; m['esportes'] = 'Sports'; m['suspense'] = 'Thriller';
+  return m;
+})();
+const NV_ANILIST_GENRES = new Set(['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Romance', 'Sci-Fi', 'Sports', 'Mecha', 'Music', 'Mystery', 'Thriller', 'Supernatural', 'Slice of Life', 'Psychological']);
+const NV_COLORS = [['#e9b73a', '#b57d12'], ['#b3202e', '#6e0f1b'], ['#d2b48c', '#8a6b45'], ['#3d6fb6', '#1d3b6b'],
+  ['#2f9e7a', '#145a45'], ['#8a4fd0', '#46207f'], ['#d9663f', '#8e3016'], ['#5a6475', '#2b313c']];
+let NV_FOCUS_TOP = 332, NV_VIS_W = 1104;
+const NV_MAXCOLS = 30, NV_MAXROWS = 40;
+function nvT() { return NV_T[currentUiLang] || NV_T['pt-BR']; }
+
+const nv = {
+  cols: [], demo: null, demoLang: '', view: [], focus: { c: 0, f: 0 }, target: null, role: 'hero',
+  art: null, artSmall: null, scroll: {}, heroKey: null, rowTops: [],
+  styleAll: false, styled: new Map(), styling: false, styleGen: 0, lastWheel: 0,
+  pools: new Map(), srcNote: '', claims: new Map(), claimView: null, shapeScope: 'row', scale: 1, swiped: 0
+};
+let nvHeroTimer = null;
+const NV_DEVICES = {
+  tv:     { W: 1280, H: 720, focusTop: 332, visW: 1104, gap: 14, clipTop: 34, clipPad: 18, rowGap: 40,
+            tw: { SQUARE: 142, POSTER: 127, LANDSCAPE: 252 }, th: { POSTER: 190, SQUARE: 142, LANDSCAPE: 142 } },
+  mobile: { W: 360, H: 780, focusTop: 84, visW: 346, gap: 9, clipTop: 26, clipPad: 8, rowGap: 22,
+            tw: { SQUARE: 98, POSTER: 98, LANDSCAPE: 160 }, th: { POSTER: 147, SQUARE: 98, LANDSCAPE: 90 } }
+};
+nv.device = 'tv';
+try { if (localStorage.getItem('nuvio_preview_device') === 'mobile') nv.device = 'mobile'; } catch (e) {}
+const nvDev = () => NV_DEVICES[nv.device] || NV_DEVICES.tv;
+
+// ---------- dados: importação do JSON de coleções do Nuvio ----------
+function nvParseCollections(json) {
+  const arr = Array.isArray(json) ? json : (Array.isArray(json?.collections) ? json.collections : null);
+  if (!arr) throw new Error('format');
+  const okUrl = u => (typeof u === 'string' && /^https?:\/\//i.test(u.trim())) ? u.trim() : '';
+  const kindOf = f => {
+    const t = String(f?.sources?.[0]?.type || f?.catalogSources?.[0]?.type || '').toLowerCase();
+    return t === 'movie' ? 'movie' : (t === 'series' || t === 'tv') ? 'series' : t === 'anime' ? 'anime' : '';
+  };
+  const cols = arr.filter(c => c && Array.isArray(c.folders)).map(c => {
+    const folders = c.folders.filter(f => f && typeof f === 'object').map(f => ({
+      title: String(f.title ?? ''),
+      shape: String(f.tileShape || 'LANDSCAPE').toUpperCase(),
+      cover: okUrl(f.coverImageUrl),
+      hero: okUrl(f.heroBackdropUrl),
+      raw: f,
+      hideTitle: !!f.hideTitle && !!okUrl(f.coverImageUrl),
+      kind: kindOf(f),
+      genre: String(f?.sources?.[0]?.title || '')
+    }));
+    const { folders: _omit, ...meta } = c;
+    return { title: String(c.title || '—'), type: 'import', meta, folders };
+  }).filter(c => c.folders.length);
+  if (!cols.length) throw new Error('empty');
+  cols[0].wrap = !Array.isArray(json);
+  return cols;
+}
+function nvLoadStored() {
+  try {
+    const raw = localStorage.getItem(NV_STORE_KEY);
+    if (raw) { const v = JSON.parse(raw); if (Array.isArray(v) && v.length) nv.cols = v; }
+  } catch (e) {}
+}
+function nvSaveStored() {
+  try {
+    if (nv.cols.length) localStorage.setItem(NV_STORE_KEY, JSON.stringify(nv.cols, (k, v) => (k[0] === '_' ? undefined : v)));
+    else localStorage.removeItem(NV_STORE_KEY);
+  } catch (e) {}
+}
+
+const NV_LAYOUT_KEY = 'nuvio_preview_layout_v1';
+function nvPersist() {
+  try {
+    if (nv.cols.length) { nvSaveStored(); return; }
+    if (!nv.demo) return;
+    const o = { order: nv.demo.map(c => c.title), shapes: {} };
+    nv.demo.forEach(c => { o.shapes[c.title] = c.folders.map(f => f.shape); });
+    localStorage.setItem(NV_LAYOUT_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+function nvApplyDemoLayout(demo) {
+  try {
+    const o = JSON.parse(localStorage.getItem(NV_LAYOUT_KEY) || 'null');
+    if (!o) return demo;
+    demo.forEach(c => {
+      const sh = o.shapes && o.shapes[c.title];
+      if (Array.isArray(sh)) c.folders.forEach((f, i) => { if (sh[i]) f.shape = sh[i]; });
+    });
+    if (Array.isArray(o.order)) {
+      const idx = t => { const i = o.order.indexOf(t); return i < 0 ? 999 : i; };
+      demo.sort((a, b) => idx(a.title) - idx(b.title));
+    }
+  } catch (e) {}
+  return demo;
+}
+
+// ---------- coleção padrão: 3 grupos × 3 fileiras (16:9, 2:3, 1:1) ----------
+function nvDemoCols() {
+  const t = nvT();
+  const en = currentUiLang === 'en';
+  const gl = k => en ? k : (NV_GENRES[k] || k);
+  const genreRow = (group, rowKey, kind, keys) => ({
+    title: `${t.groups[group]} · ${t.rows[rowKey]}`, kind, type: 'genre', sort: 'POPULARITY_DESC',
+    folders: keys.map(k => ({ title: gl(k), shape: 'LANDSCAPE', cover: '', hero: '', hideTitle: false, genre: k }))
+  });
+  const listRow = (group, rowKey, kind, sort, shape = 'POSTER') => ({
+    title: `${t.groups[group]} · ${t.rows[rowKey]}`, kind, type: 'list', sort,
+    folders: Array.from({ length: 12 }, () => ({ title: '', shape, cover: '', hero: '', hideTitle: shape === 'POSTER' }))
+  });
+  const labelRow = (group, rowKey, kind, labels) => ({
+    title: `${t.groups[group]} · ${t.rows[rowKey]}`, kind, type: 'labels', sort: 'POPULARITY_DESC',
+    folders: labels.map(l => ({ title: l, shape: 'SQUARE', cover: '', hero: '', hideTitle: false }))
+  });
+  return [
+    genreRow('movie', 'genres', 'movie', ['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Romance', 'Sci-Fi']),
+    listRow('movie', 'popular', 'movie', 'POPULARITY_DESC'),
+    listRow('movie', 'topRated', 'movie', 'SCORE_DESC'),
+    listRow('movie', 'upcoming', 'movie', 'START_DATE_DESC'),
+    labelRow('movie', 'decades', 'movie', t.decades),
+    genreRow('series', 'themes', 'series', ['Crime', 'Mystery', 'Sci-Fi', 'Drama', 'Comedy', 'Fantasy', 'Family', 'Thriller']),
+    listRow('series', 'continueWatching', 'series', 'POPULARITY_DESC', 'LANDSCAPE'),
+    listRow('series', 'trending', 'series', 'POPULARITY_DESC'),
+    labelRow('series', 'platforms', 'series', t.platforms),
+    genreRow('anime', 'genres', 'anime', ['Action', 'Adventure', 'Comedy', 'Fantasy', 'Romance', 'Sci-Fi', 'Horror', 'Sports']),
+    listRow('anime', 'releases', 'anime', 'START_DATE_DESC'),
+    listRow('anime', 'trending', 'anime', 'TRENDING_DESC'),
+    listRow('anime', 'topRated', 'anime', 'SCORE_DESC')
+  ];
+}
+
+// ---------- amostras de imagem: TMDB (com chave) · Cinemeta (sem chave) · AniList (anime) ----------
+function nvNorm(id, title, poster, backdrop) { return { id: String(id), title: String(title || ''), poster: poster || '', backdrop: backdrop || '' }; }
+async function nvSampleAniList(genre, sort, count) {
+  const vars = { perPage: Math.min(50, count + 4), sort: [sort || 'POPULARITY_DESC'], isAdult: false };
+  if (genre && NV_ANILIST_GENRES.has(genre)) vars.genres = [genre];
+  const list = await fetchAniList(vars, count);
+  return list.filter(m => m && (m.coverImage?.extraLarge || m.coverImage?.large || m.bannerImage))
+    .map(m => nvNorm('al' + m.id, m.title?.english || m.title?.romaji, m.coverImage?.extraLarge || m.coverImage?.large, m.bannerImage));
+}
+async function nvSampleTmdb(kind, genre, sort, count) {
+  const list = await fetchTmdbDiscover({ mediaType: kind === 'movie' ? 'movie' : 'tv', genreNames: genre ? [genre] : [], sort: 'POPULARITY_DESC', count });
+  return list.map(m => nvNorm(m.id, m.title?.english || m.title?.romaji, m.coverImage?.extraLarge, m.bannerImage));
+}
+async function nvSampleCinemeta(kind, genre, count) {
+  const type = kind === 'movie' ? 'movie' : 'series';
+  const url = `https://v3-cinemeta.strem.io/catalog/${type}/top${genre ? '/genre=' + encodeURIComponent(genre) : ''}.json`;
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 9000);
+  try {
+    const res = await fetch(url, { signal: ctl.signal });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const j = await res.json();
+    return (j.metas || []).filter(m => m && (m.poster || m.background)).slice(0, count)
+      .map(m => nvNorm(m.imdb_id || m.id, m.name, m.poster, m.background));
+  } finally { clearTimeout(timer); }
+}
+function nvFetchSamples(kind, { genre = '', sort = 'POPULARITY_DESC', count = 16 } = {}) {
+  const key = [kind, genre, sort, count, getTmdbToken() ? 'tmdb' : 'free'].join('|');
+  if (nv.pools.has(key)) return nv.pools.get(key);
+  const p = (async () => {
+    let items = [];
+    try {
+      if (kind === 'anime') items = await nvSampleAniList(genre, sort, count);
+      else if (getTmdbToken()) items = await nvSampleTmdb(kind, genre, sort, count);
+      else items = await nvSampleCinemeta(kind, genre, count);
+    } catch (e) { console.warn('amostras', kind, genre, e); }
+    if (!items.length && kind !== 'anime') {
+      try { items = await nvSampleAniList(genre, 'POPULARITY_DESC', count); if (items.length) nv.srcNote = 'fallback'; } catch (e) {}
+    }
+    if (!items.length) nv.pools.delete(key);
+    return items;
+  })();
+  nv.pools.set(key, p);
+  return p;
+}
+// registro de amostras já usadas: cada pasta recebe uma imagem diferente (entre fileiras também)
+const nvSKey = (kind, s) => kind + '|' + s.id;
+const nvClaimFree = (kind, s, slot) => { const o = nv.claims.get(nvSKey(kind, s)); return !o || o === slot; };
+const nvClaim = (kind, s, slot) => { nv.claims.set(nvSKey(kind, s), slot); };
+function nvPickFree(pool, kind, slot, start = 0) {
+  const n = pool.length;
+  for (let k = 0; k < n; k++) { const s = pool[(start + k) % n]; if (s && nvClaimFree(kind, s, slot)) return s; }
+  return null;
+}
+function nvMediaSample(i) {
+  if (!media.length) return null;
+  const m = media[((i % media.length) + media.length) % media.length];
+  const poster = m.coverImage?.extraLarge || m.coverImage?.large || m.bannerImage || '';
+  return nvNorm('m' + i, m.title?.english || m.title?.romaji || '', poster, m.bannerImage || poster);
+}
+function nvGuessKind(col) {
+  const f = col.folders.find(x => x.kind);
+  if (f) return f.kind;
+  const t = (col.title || '').toLowerCase();
+  if (/filme|movie|cinema/.test(t)) return 'movie';
+  if (/s[eé]rie|series|\btv\b|show/.test(t)) return 'series';
+  return 'anime';
+}
+function nvGenreOf(folder) {
+  if (folder.genre && NV_GENRE_ALIAS[folder.genre.toLowerCase()]) return NV_GENRE_ALIAS[folder.genre.toLowerCase()];
+  const k = String(folder.title || '').toLowerCase().trim();
+  return NV_GENRE_ALIAS[k] || NV_GENRE_ALIAS[k.normalize('NFD').replace(/[̀-ͯ]/g, '')] || '';
+}
+
+// preenche as pastas da coleção padrão com amostras (cada pasta recebe uma imagem diferente)
+function nvFillRow(ci) {
+  const col = nv.view[ci];
+  if (!col || col.type === 'import') return Promise.resolve();
+  if (col._fill) return col._fill;
+  col._fill = (async () => {
+    const kind = col.kind || nvGuessKind(col);
+    const n = Math.min(col.folders.length, NV_MAXCOLS);
+    let picks = [];
+    if (col.type === 'genre') {
+      const pools = await Promise.all(col.folders.slice(0, n).map(f => nvFetchSamples(kind, { genre: f.genre, count: 20 })));
+      picks = pools.map((pool, fi) => {
+        const slot = ci + ':' + fi;
+        const s = nvPickFree(pool, kind, slot) || pool[0] || null;
+        if (s) nvClaim(kind, s, slot);
+        return s;
+      });
+    } else {
+      const pool = await nvFetchSamples(kind, { sort: col.sort || 'POPULARITY_DESC', count: 60 });
+      picks = Array.from({ length: n }, (_, i) => {
+        if (!pool.length) return null;
+        const slot = ci + ':' + i;
+        const s = nvPickFree(pool, kind, slot, 0) || pool[i % pool.length];
+        nvClaim(kind, s, slot);
+        return s;
+      });
+    }
+    picks.forEach((s, fi) => {
+      if (!s) s = nvMediaSample(ci * 5 + fi);
+      if (!s) return;
+      const f = col.folders[fi];
+      f.sample = s;
+      f.cover = f.shape === 'LANDSCAPE' ? (s.backdrop || s.poster) : (s.poster || s.backdrop);
+      f.hero = s.backdrop || s.poster;
+      if (col.type === 'list') f.title = s.title;
+      nvRefreshTile(ci, fi);
+    });
+    if (nv.focus.c === ci) { nv.heroKey = null; nvUpdateHero(false); }
+    nvUpdateHint();
+  })();
+  return col._fill;
+}
+function nvPrefetchNear() {
+  for (let ci = nv.focus.c; ci < Math.min(nvRowCount(), nv.focus.c + 3); ci++) nvFillRow(ci);
+}
+// amostra para uma pasta (usada nas capas "em estilo"): sempre uma imagem ainda não usada por outra pasta
+async function nvSampleForSlot(c, f) {
+  const col = nv.view[c], fo = col.folders[f];
+  const slot = c + ':' + f;
+  if (col.type !== 'import') await nvFillRow(c);
+  const kind = fo.kind || nvGuessKind(col);
+  const urlOf = x => fo.shape === 'LANDSCAPE' ? (x.backdrop || x.poster) : (x.poster || x.backdrop);
+  const usable = async s => !!s && nvClaimFree(kind, s, slot) && !!urlOf(s) && !!(await loadImage(urlOf(s)));
+  const take = s => { nvClaim(kind, s, slot); fo.sample = s; return s; };
+
+  if (fo.sample && await usable(fo.sample)) return take(fo.sample);
+
+  const genre = nvGenreOf(fo);
+  const getters = [];
+  if (genre) getters.push([() => nvFetchSamples(kind, { genre, count: 30 }), 0]);
+  getters.push([() => nvFetchSamples(kind, { sort: col.sort || 'POPULARITY_DESC', count: 48 }), c * 5 + f]);
+  getters.push([() => nvFetchSamples(kind, { sort: 'POPULARITY_DESC', count: 48 }), c * 7 + f * 3]);
+  if (kind === 'anime') getters.push([() => nvFetchSamples(kind, { sort: 'TRENDING_DESC', count: 48 }), f * 3 + c]);
+  const gl = Object.keys(NV_GENRES).filter(g => kind !== 'anime' || NV_ANILIST_GENRES.has(g));
+  for (let i = 0; i < 5; i++) {
+    const g = gl[(c * 7 + f * 3 + i * 5) % gl.length];
+    getters.push([() => nvFetchSamples(kind, { genre: g, count: 30 }), f]);
+  }
+  for (const [get, start] of getters) {
+    let pool = [];
+    try { pool = await get(); } catch (e) {}
+    const n = pool.length;
+    for (let k = 0; k < n; k++) {
+      const cand = pool[(start + k) % n];
+      if (await usable(cand)) return take(cand);
+    }
+  }
+  // último recurso: as imagens que você carregou, sem repetir enquanto houver sobra
+  if (media.length) {
+    for (let k = 0; k < media.length; k++) {
+      const cand = nvMediaSample(c * 5 + f + k);
+      if (cand && nvClaimFree('user', cand, slot)) { nvClaim('user', cand, slot); fo.sample = cand; return cand; }
+    }
+    return nvMediaSample(c * 5 + f);
+  }
+  return null;
+}
+
+// ---------- idioma ----------
+function nvApplyLang() {
+  const t = nvT();
+  const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  if ($('nuvioPreviewBtn')) { $('nuvioPreviewBtn').textContent = t.btn; $('nuvioPreviewBtn').title = t.btnTitle; }
+  set('nvTitle', t.title); set('nvRatioLbl', t.ratio); set('nvRatioScope', nv.shapeScope === 'folder' ? t.scopeOne : t.scopeRow); set('nvRowUp', t.rowBtn[0]); set('nvRowDown', t.rowBtn[1]); set('nvExportBtn', t.exp); set('nvLayoutResetBtn', t.layoutReset); set('nvColLbl', t.col); set('nvDimLbl', t.dim); set('nvCloseBtn', t.close);
+  set('nvMHead', t.discover); set('nvNavHome', t.navHome); set('nvNavSearch', t.navSearch); set('nvNavLib', t.navLib); set('nvNavProfile', t.navProfile);
+  set('nvLoading', t.loading); set('nvRoleHero', t.roleHero); set('nvRoleCover', t.roleCover);
+  set('nvApplyBtn', t.apply); set('nvStyleAllBtn', t.styleAll); set('nvImportTxt', t.imp); set('nvResetBtn', t.reset);
+  if ($('nuvioPreview')?.classList.contains('open') && nv.art) nvBuildScene();
+}
+const _nvOrigApplyLang = applyUiLanguage;
+applyUiLanguage = function () {
+  const r = _nvOrigApplyLang.apply(this, arguments);
+  nvApplyLang();
+  return r;
+};
+
+// ---------- tamanhos e geometria ----------
+function nvEl(tag, cls, css) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (css) e.style.cssText = css;
+  return e;
+}
+function nvTileW(shape) { const t = nvDev().tw; return t[shape] || t.LANDSCAPE; }
+function nvTileH(shape) { const t = nvDev().th; return t[shape] || t.LANDSCAPE; }
+function nvRowTileH(c) { return Math.max(...nv.view[c].folders.map(f => nvTileH(f.shape))); }
+let NV_GAP = 14;
+function nvRowShape(c) {
+  const fs = nv.view[c].folders;
+  return fs.some(f => f.shape === 'POSTER') ? 'POSTER' : (fs[0]?.shape || 'LANDSCAPE');
+}
+function nvFolderCover(f) {
+  if (!f.sample) return;
+  f.cover = f.shape === 'LANDSCAPE' ? (f.sample.backdrop || f.sample.poster) : (f.sample.poster || f.sample.backdrop);
+}
+function nvSyncRatioBtns() {
+  const fo = nv.view[nv.focus.c]?.folders[nv.focus.f];
+  const sh = fo ? fo.shape : '';
+  document.querySelectorAll('#nuvioPreview .nv-ratio .nv-seg button').forEach(b => b.classList.toggle('active', b.dataset.shape === sh));
+}
+function nvSetShape(c, f, shape) {
+  const col = nv.view[c];
+  if (!col) return;
+  const targets = nv.shapeScope === 'folder' ? [f] : col.folders.map((_, i) => i);
+  let changed = false;
+  targets.forEach(i => {
+    const fo = col.folders[i];
+    if (!fo || fo.shape === shape) return;
+    fo.shape = shape; changed = true;
+    nvFolderCover(fo);
+    nv.styled.delete(c + ':' + i);
+  });
+  if (!changed) return;
+  nv.styleGen++; nv.styling = false;
+  nvPersist();
+  nvBuildScene();
+}
+function nvRowHeight(c) { const D = nvDev(); return D.clipTop + nvRowTileH(c) + D.clipPad + D.rowGap; }
+function nvTileLeft(c, f) {
+  let x = 0;
+  for (let i = 0; i < f; i++) x += nvTileW(nv.view[c].folders[i].shape) + NV_GAP;
+  return x;
+}
+function nvCloneArt(src, maxSide) {
+  const k = Math.min(1, maxSide / Math.max(src.width, src.height));
+  const cv = document.createElement('canvas');
+  cv.width = Math.max(2, Math.round(src.width * k));
+  cv.height = Math.max(2, Math.round(src.height * k));
+  cv.getContext('2d').drawImage(src, 0, 0, cv.width, cv.height);
+  return cv;
+}
+function nvIsTarget(c, f) { return !!nv.target && nv.target.c === c && nv.target.f === f; }
+function nvRowCount() { return Math.min(nv.view.length, NV_MAXROWS); }
+function nvColLen(c) { return Math.min(nv.view[c].folders.length, NV_MAXCOLS); }
+
+function nvTile(f, ci, fi) {
+  const el = nvEl('div', 'nv-card', `width:${nvTileW(f.shape)}px;height:${nvTileH(f.shape)}px;`);
+  el.dataset.c = ci; el.dataset.f = fi;
+  const [a, b] = NV_COLORS[(fi + ci * 3) % NV_COLORS.length];
+  el.style.background = `linear-gradient(135deg,${a},${b})`;
+  const isT = nvIsTarget(ci, fi);
+  let showTitle = !f.hideTitle;
+  const styled = nv.styled.get(ci + ':' + fi);
+  if (isT && nv.role === 'cover' && nv.artSmall) {
+    el.append(nvCloneArt(nv.artSmall, 900)); el.classList.add('nv-user');
+    showTitle = false;
+  } else if (nv.styleAll && styled && styled !== 'pending' && styled !== 'fail') {
+    el.append(styled);
+    showTitle = false;
+  } else if (f.cover) {
+    const im = nvEl('img', 'nv-img');
+    im.alt = ''; im.referrerPolicy = 'no-referrer'; im.loading = 'lazy';
+    im.onerror = () => { im.remove(); if (f.title && !el.querySelector('.nv-name')) { const n = nvEl('div', 'nv-name'); n.textContent = nvLabel(f.title); el.append(n); } };
+    im.src = f.cover;
+    el.append(im);
+  }
+  if (isT) { const bd = nvEl('div', 'nv-badge'); bd.textContent = nvT().mine; el.append(bd); }
+  if (showTitle && f.title) { const n = nvEl('div', 'nv-name'); n.textContent = nvLabel(f.title); el.append(n); }
+  return el;
+}
+function nvRefreshTile(c, f) {
+  const old = $('nvContent')?.querySelector(`.nv-card[data-c="${c}"][data-f="${f}"]`);
+  const fo = nv.view[c]?.folders[f];
+  if (!old || !fo) return;
+  const nu = nvTile(fo, c, f);
+  nu.classList.toggle('nv-focus', nv.focus.c === c && nv.focus.f === f);
+  old.replaceWith(nu);
+}
+
+// ---------- fundo (hero) com transição rápida ----------
+function nvUpdateHero(instant) {
+  if (nv.device === 'mobile') { nv.heroKey = 'none'; return; }
+  const f = nv.view[nv.focus.c]?.folders[nv.focus.f];
+  let key = 'none', src = '';
+  if (nvIsTarget(nv.focus.c, nv.focus.f) && nv.role === 'hero' && nv.art) key = 'art';
+  else if (f?.hero) { key = 'img:' + f.hero; src = f.hero; }
+  if (key === nv.heroKey) return;
+  nv.heroKey = key;
+  const box = $('nvHeroBox'), hc = $('nvHero'), hi = $('nvHeroImg'), shade = $('nvShade');
+  const apply = () => {
+    hc.style.display = 'none'; hi.style.display = 'none'; shade.style.display = 'none';
+    if (key === 'art') {
+      const k = Math.min(1, 1920 / nv.art.width);
+      hc.width = Math.round(nv.art.width * k); hc.height = Math.round(nv.art.height * k);
+      hc.getContext('2d').drawImage(nv.art, 0, 0, hc.width, hc.height);
+      hc.style.display = 'block'; shade.style.display = 'block';
+    } else if (key !== 'none') {
+      hi.onload = () => { if (nv.heroKey === key) { hi.style.display = 'block'; shade.style.display = 'block'; } };
+      hi.onerror = () => { hi.style.display = 'none'; shade.style.display = 'none'; };
+      hi.src = src;
+    }
+    box.style.opacity = 1;
+  };
+  clearTimeout(nvHeroTimer);
+  if (instant) { apply(); return; }
+  box.style.opacity = 0;
+  nvHeroTimer = setTimeout(apply, 110);
+}
+
+// ---------- layout das fileiras (rolagem vertical e horizontal) ----------
+function nvLayout() {
+  const rows = $('nvRows');
+  if (!rows) return;
+  rows.style.transform = `translateY(${NV_FOCUS_TOP - (nv.rowTops[nv.focus.c] || 0)}px)`;
+  rows.querySelectorAll('.nv-rowwrap').forEach(w => {
+    const ci = Number(w.dataset.c);
+    const hide = nv.device === 'tv' && ci < nv.focus.c;
+    w.style.opacity = hide ? 0 : 1;
+    w.style.pointerEvents = hide ? 'none' : '';
+    w.querySelector('.nv-strip').style.transform = `translateX(${-(nv.scroll[ci] || 0)}px)`;
+  });
+}
+function nvScrollToFocus() {
+  const { c, f } = nv.focus;
+  const left = nvTileLeft(c, f), w = nvTileW(nv.view[c].folders[f].shape);
+  let sc = nv.scroll[c] || 0;
+  if (left - sc < 0) sc = left;
+  else if (left + w - sc > NV_VIS_W) sc = left + w - NV_VIS_W;
+  nv.scroll[c] = Math.max(0, sc);
+}
+function nvMarkFocus() {
+  $('nvContent').querySelectorAll('.nv-card').forEach(c => {
+    c.classList.toggle('nv-focus', Number(c.dataset.c) === nv.focus.c && Number(c.dataset.f) === nv.focus.f);
+  });
+}
+function nvSetFocus(c, f) {
+  if (c < 0 || c >= nvRowCount()) return;
+  f = Math.max(0, Math.min(nvColLen(c) - 1, f));
+  nv.focus = { c, f };
+  nvScrollToFocus();
+  nvLayout();
+  nvMarkFocus();
+  nvUpdateHero(false);
+  $('nvColSel').value = String(c);
+  nvSyncRatioBtns();
+  nvPrefetchNear();
+  nvQueueStyle();
+}
+
+// ---------- capas "em estilo": configuração atual da ferramenta + uma imagem de amostra por pasta ----------
+async function nvRenderSlot(c, f) {
+  const folder = nv.view[c].folders[f];
+  const shape = folder.shape;
+  const size = shape === 'SQUARE' ? [512, 512] : shape === 'POSTER' ? [400, 600] : [640, 360];
+  let s = await nvSampleForSlot(c, f);
+  const urlOf = x => shape === 'LANDSCAPE' ? (x.backdrop || x.poster) : (x.poster || x.backdrop);
+  const url = s ? urlOf(s) : '';
+  const m = { id: 'nvs-' + c + '-' + f, title: { romaji: s?.title || '', english: s?.title || '' },
+    coverImage: { extraLarge: s?.poster || url, large: s?.poster || url }, bannerImage: s?.backdrop || url, imgMode: 'inherit' };
+  const rawUserTitle = ($('title')?.value || '').trim();
+  const keepLowerCase = rawUserTitle.length > 0 && !$('textUppercase')?.checked &&
+    rawUserTitle === rawUserTitle.toLocaleLowerCase() && rawUserTitle !== rawUserTitle.toLocaleUpperCase();
+  const slotTitle = keepLowerCase ? String(folder.title || '').toLocaleLowerCase() : folder.title;
+  const cv = document.createElement('canvas');
+  await renderToCanvas(cv, [m], slotTitle, '', {
+    showSelection: false, size, styleOverride: 'single',
+    imgTypeOverride: shape === 'LANDSCAPE' ? 'bannerOnly' : 'poster'
+  });
+  return cv;
+}
+function nvNextStyleJob() {
+  const order = [];
+  const fc = nv.focus.c;
+  for (let ci = fc; ci < Math.min(nvRowCount(), fc + 3); ci++) {
+    const n = nvColLen(ci), sc = nv.scroll[ci] || 0;
+    const vis = [];
+    for (let fi = 0; fi < n; fi++) {
+      const l = nvTileLeft(ci, fi), w = nvTileW(nv.view[ci].folders[fi].shape);
+      if (l + w > sc - 40 && l < sc + NV_VIS_W + 320) vis.push(fi);
+    }
+    if (ci === fc && !vis.includes(nv.focus.f)) vis.unshift(nv.focus.f);
+    if (ci === fc) vis.sort((a, b) => Math.abs(a - nv.focus.f) - Math.abs(b - nv.focus.f));
+    vis.forEach(fi => order.push([ci, fi]));
+  }
+  for (const [ci, fi] of order) {
+    if (nvIsTarget(ci, fi) && nv.role === 'cover') continue;
+    if (!nv.styled.has(ci + ':' + fi)) return { c: ci, f: fi };
+  }
+  return null;
+}
+function nvPutStyled(c, f, cv) {
+  const el = $('nvContent').querySelector(`.nv-card[data-c="${c}"][data-f="${f}"]`);
+  if (!el || el.classList.contains('nv-user')) return;
+  el.querySelectorAll('.nv-img, .nv-name, canvas').forEach(x => x.remove());
+  el.prepend(cv);
+}
+function nvQueueStyle() {
+  if (!nv.styleAll || !nv.art || nv.styling) return;
+  nv.styling = true;
+  const gen = nv.styleGen;
+  (async () => {
+    try {
+      while (gen === nv.styleGen && $('nuvioPreview').classList.contains('open')) {
+        const job = nvNextStyleJob();
+        if (!job) break;
+        const key = job.c + ':' + job.f;
+        nv.styled.set(key, 'pending');
+        let cv = null;
+        try { cv = await nvRenderSlot(job.c, job.f); } catch (e) { console.warn(e); }
+        if (gen !== nv.styleGen) return;
+        nv.styled.set(key, cv || 'fail');
+        if (cv && nv.styleAll) nvPutStyled(job.c, job.f, cv);
+        await new Promise(r => setTimeout(r, 0));
+      }
+    } finally {
+      if (gen === nv.styleGen) { nv.styling = false; if (nv.styleAll && nvNextStyleJob()) nvQueueStyle(); }
+    }
+  })();
+}
+
+function nvUpdateHint() {
+  const t = nvT();
+  let h = (nv.device === 'mobile' ? t.hintMobile : nv.role === 'hero' ? t.hintHero : t.hintCover) + (nv.styleAll ? t.hintStyle : '') + t.keys + (nv.cols.length ? '' : t.hintDemo);
+  if (!nv.cols.length && !getTmdbToken()) h += t.noKey;
+  if (nv.srcNote === 'fallback') h += t.fallback;
+  const el = $('nvHint'); if (el) el.textContent = h;
+}
+
+function nvBuildScene() {
+  nvStopGif();
+  if (nv.device === 'mobile' && nv.role !== 'cover') { nv.roleTv = nv.role; nv.role = 'cover'; }
+  if (!nv.cols.length && (!nv.demo || nv.demoLang !== currentUiLang)) { nv.demo = nvApplyDemoLayout(nvDemoCols()); nv.demoLang = currentUiLang; }
+  nv.view = nv.cols.length ? nv.cols : nv.demo;
+  if (nv.claimView !== nv.view) {
+    nv.claimView = nv.view; nv.claims = new Map();
+    nv.view.forEach((col, ci) => col.folders.forEach((fo, fi) => {
+      if (fo.sample) nvClaim(fo.kind || nvGuessKind(col), fo.sample, ci + ':' + fi);
+    }));
+  }
+  nvSyncRatioBtns();
+  if (!nv.view[nv.focus.c]?.folders[nv.focus.f]) nv.focus = { c: 0, f: 0 };
+  if (!nv.target || !nv.view[nv.target.c]?.folders[nv.target.f]) nv.target = { ...nv.focus };
+  nv.rowTops = [];
+  let acc = 0;
+  for (let i = 0; i < nvRowCount(); i++) { nv.rowTops[i] = acc; acc += nvRowHeight(i); }
+
+  const sel = $('nvColSel');
+  sel.innerHTML = '';
+  nv.view.slice(0, NV_MAXROWS).forEach((c, i) => { const o = document.createElement('option'); o.value = i; o.textContent = c.title; sel.append(o); });
+  sel.value = String(nv.focus.c);
+  $('nvRoleHero').classList.toggle('active', nv.role === 'hero');
+  $('nvRoleCover').classList.toggle('active', nv.role === 'cover');
+  $('nvStyleAllBtn').classList.toggle('active', nv.styleAll);
+  $('nvResetBtn').style.display = nv.cols.length ? '' : 'none';
+  $('nvExportBtn').style.display = nv.cols.length ? '' : 'none';
+  $('nvLayoutResetBtn').style.display = nv.cols.length ? 'none' : '';
+  nvUpdateHint();
+
+  const box = $('nvContent');
+  box.classList.add('nv-notrans');
+  box.innerHTML = '';
+  const rows = nvEl('div', 'nv-rows'); rows.id = 'nvRows';
+  nv.view.slice(0, NV_MAXROWS).forEach((col, ci) => {
+    const th = nvRowTileH(ci);
+    const wrap = nvEl('div', 'nv-rowwrap', `top:${nv.rowTops[ci]}px`); wrap.dataset.c = ci;
+    const l = nvEl('div', 'nv-label'); l.textContent = col.title; wrap.append(l);
+    const clip = nvEl('div', 'nv-clip', `height:${th + nvDev().clipPad}px`); const strip = nvEl('div', 'nv-strip');
+    col.folders.slice(0, NV_MAXCOLS).forEach((f, fi) => strip.append(nvTile(f, ci, fi)));
+    clip.append(strip); wrap.append(clip); rows.append(wrap);
+  });
+  box.append(rows);
+  $('nvTv').style.background = nv.device === 'mobile' ? '#000' : 'radial-gradient(120% 90% at 70% 0%,#161a2a 0%,#07080c 60%)';
+  nvScrollToFocus();
+  nvLayout();
+  nvMarkFocus();
+  nv.heroKey = null;
+  nvUpdateHero(true);
+  void box.offsetWidth;
+  box.classList.remove('nv-notrans');
+  nvFit();
+  nvPrefetchNear();
+  nvQueueStyle();
+}
+
+function nvApplyDevice() {
+  const D = nvDev(), mob = nv.device === 'mobile';
+  NV_FOCUS_TOP = D.focusTop; NV_VIS_W = D.visW; NV_GAP = D.gap;
+  $('nvTv')?.classList.toggle('nv-mobile', mob);
+  $('nvDevTv')?.classList.toggle('active', !mob);
+  $('nvDevMobile')?.classList.toggle('active', mob);
+  if ($('nvRoleGrp')) $('nvRoleGrp').style.display = mob ? 'none' : '';
+  const dim = document.querySelector('#nuvioPreview .nv-dim'); if (dim) dim.style.display = mob ? 'none' : '';
+}
+function nvSetDevice(dev) {
+  if ((dev !== 'tv' && dev !== 'mobile') || nv.device === dev) return;
+  nvStopGif();
+  nv.device = dev;
+  try { localStorage.setItem('nuvio_preview_device', dev); } catch (e) {}
+  if (dev === 'tv' && nv.roleTv) { nv.role = nv.roleTv; nv.roleTv = null; }
+  nv.scroll = {};
+  nvApplyDevice();
+  if (nv.art) nvBuildScene(); else nvFit();
+}
+$('nvDevTv')?.addEventListener('click', () => nvSetDevice('tv'));
+$('nvDevMobile')?.addEventListener('click', () => nvSetDevice('mobile'));
+
+// GIF: toca ao passar o mouse na capa "Sua arte" (modo capa); no modo fundo continua estático
+let nvGifRaf = 0, nvGifCard = null;
+function nvStopGif() {
+  if (nvGifRaf) cancelAnimationFrame(nvGifRaf);
+  nvGifRaf = 0;
+  const card = nvGifCard; nvGifCard = null;
+  const cv = card && card.querySelector('canvas');
+  if (cv && nv.artSmall) { try { cv.getContext('2d').drawImage(nv.artSmall, 0, 0, cv.width, cv.height); } catch (e) {} }
+}
+function nvPlayGif(card) {
+  if (nv.role !== 'cover' || !nv.artSmall || !hasAnimatedGifMedia()) return;
+  const cv = card.querySelector('canvas');
+  if (!cv) return;
+  nvStopGif();
+  nvGifCard = card;
+  const k = Math.min(1, 540 / Math.max(nv.artSmall.width, nv.artSmall.height));
+  const size = [Math.max(2, Math.round(nv.artSmall.width * k)), Math.max(2, Math.round(nv.artSmall.height * k))];
+  const off = document.createElement('canvas');
+  let busy = false, last = 0;
+  const step = async ts => {
+    if (nvGifCard !== card) return;
+    if (!busy && ts - last >= 40) {
+      busy = true; last = ts;
+      try {
+        await renderToCanvas(off, media, null, null, { showSelection: false, size, animTimeMs: ts });
+        if (nvGifCard === card) cv.getContext('2d').drawImage(off, 0, 0, cv.width, cv.height);
+      } catch (e) {} finally { busy = false; }
+    }
+    if (nvGifCard === card) nvGifRaf = requestAnimationFrame(step);
+  };
+  nvGifRaf = requestAnimationFrame(step);
+}
+$('nvContent')?.addEventListener('pointerover', e => {
+  if (e.pointerType === 'touch') return;
+  const card = e.target.closest && e.target.closest('.nv-card.nv-user');
+  if (card && card !== nvGifCard) nvPlayGif(card);
+});
+$('nvContent')?.addEventListener('pointerout', e => {
+  const card = e.target.closest && e.target.closest('.nv-card.nv-user');
+  if (card && card === nvGifCard && !card.contains(e.relatedTarget)) nvStopGif();
+});
+$('nvContent')?.addEventListener('click', e => {
+  if (!window.matchMedia('(hover: none)').matches) return;   // toque: alterna play/pause
+  const card = e.target.closest && e.target.closest('.nv-card.nv-user');
+  if (!card) return;
+  if (card === nvGifCard) nvStopGif(); else nvPlayGif(card);
+});
+
+const nvLabel = t => ($('textUppercase')?.checked ? String(t).toLocaleUpperCase() : String(t));
+function nvMoveRow(dir) {
+  const arr = nv.cols.length ? nv.cols : nv.demo;
+  const i = nv.focus.c, j = i + dir;
+  if (!arr || j < 0 || j >= Math.min(arr.length, NV_MAXROWS)) return;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  const sc = nv.scroll[i]; nv.scroll[i] = nv.scroll[j] || 0; nv.scroll[j] = sc || 0;
+  if (nv.target) { if (nv.target.c === i) nv.target.c = j; else if (nv.target.c === j) nv.target.c = i; }
+  nv.focus = { c: j, f: nv.focus.f };
+  nv.styled = new Map(); nv.styleGen++; nv.styling = false; nv.claimView = null;
+  nvPersist();
+  nvBuildScene();
+}
+function nvExportJson() {
+  if (!nv.cols.length) return;
+  const out = nv.cols.map(c => ({ ...(c.meta || {}), title: c.title, folders: c.folders.map(f => ({ ...(f.raw || { title: f.title }), tileShape: f.shape })) }));
+  const data = nv.cols[0].wrap ? { collections: out } : out;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+  a.download = 'nuvio-collections.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+$('nvRowUp')?.addEventListener('click', () => nvMoveRow(-1));
+$('nvRowDown')?.addEventListener('click', () => nvMoveRow(1));
+$('nvExportBtn')?.addEventListener('click', nvExportJson);
+$('nvLayoutResetBtn')?.addEventListener('click', () => {
+  try { localStorage.removeItem(NV_LAYOUT_KEY); } catch (e) {}
+  if (nv.cols.length) return;
+  nv.demo = null; nv.claimView = null; nv.styled = new Map(); nv.styleGen++; nv.styling = false; nv.scroll = {}; nv.focus = { c: 0, f: 0 }; nv.target = null;
+  nvBuildScene();
+});
+function nvFit() {
+  const vp = $('nvViewport'), tv = $('nvTv');
+  if (!vp || !tv) return;
+  const D = nvDev();
+  const s = Math.min((vp.clientWidth - 28) / D.W, (vp.clientHeight - 28) / D.H);
+  nv.scale = Math.max(0.1, s);
+  tv.style.transform = `translate(-50%,-50%) scale(${nv.scale})`;
+}
+
+async function nvOpen() {
+  if (!media.length) return;
+  $('nuvioPreview').classList.add('open');
+  $('nvLoading').classList.add('show');
+  nvApplyDevice();
+  nvFit();
+  try {
+    const off = document.createElement('canvas');
+    await renderToCanvas(off, media, null, null, { showSelection: false });
+    nv.art = off;
+    nv.artSmall = nvCloneArt(off, 900);
+    nv.role = (nv.device === 'mobile' || currentPreviewMode !== 'backdrops') ? 'cover' : 'hero';
+    nv.styled = new Map(); nv.styleGen++; nv.styling = false; nv.scroll = {};
+    nvBuildScene();
+  } catch (e) {
+    console.error(e);
+    $('nvHint').textContent = nvT().fail;
+  } finally {
+    $('nvLoading').classList.remove('show');
+  }
+}
+function nvClose() {
+  nvStopGif();
+  if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) {} }
+  $('nuvioPreview').classList.remove('open');
+  nv.styleGen++; nv.styling = false;
+  nv.art = null; nv.artSmall = null; nv.styled = new Map();
+  $('nvContent').innerHTML = '';
+  $('nvHeroImg').removeAttribute('src');
+}
+function nvEnter() {
+  if (nvIsTarget(nv.focus.c, nv.focus.f)) { if (nv.device !== 'mobile') nv.role = nv.role === 'hero' ? 'cover' : 'hero'; }
+  else nv.target = { ...nv.focus };
+  nvBuildScene();
+}
+
+$('nuvioPreviewBtn')?.addEventListener('click', nvOpen);
+$('nvCloseBtn')?.addEventListener('click', nvClose);
+$('nvDim')?.addEventListener('input', e => { $('nuvioPreview').style.setProperty('--nv-dim', String(Number(e.target.value) / 100)); });
+$('nvColSel')?.addEventListener('change', e => { nvSetFocus(Number(e.target.value), 0); e.target.blur(); });
+document.querySelectorAll('#nuvioPreview .nv-ratio .nv-seg button').forEach(b => b.addEventListener('click', () => nvSetShape(nv.focus.c, nv.focus.f, b.dataset.shape)));
+$('nvRatioScope')?.addEventListener('click', () => { nv.shapeScope = nv.shapeScope === 'folder' ? 'row' : 'folder'; $('nvRatioScope').textContent = nv.shapeScope === 'folder' ? nvT().scopeOne : nvT().scopeRow; });
+$('nvRoleHero')?.addEventListener('click', () => { nv.role = 'hero'; nvBuildScene(); });
+$('nvRoleCover')?.addEventListener('click', () => { nv.role = 'cover'; nvBuildScene(); });
+$('nvApplyBtn')?.addEventListener('click', () => { nv.target = { ...nv.focus }; nvBuildScene(); });
+$('nvStyleAllBtn')?.addEventListener('click', () => { nv.styleAll = !nv.styleAll; nv.styleGen++; nv.styling = false; nvBuildScene(); });
+$('nvFullBtn')?.addEventListener('click', () => {
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else $('nuvioPreview').requestFullscreen && $('nuvioPreview').requestFullscreen();
+  } catch (e) {}
+});
+document.addEventListener('fullscreenchange', () => setTimeout(nvFit, 60));
+$('nvResetBtn')?.addEventListener('click', () => { nv.cols = []; nvSaveStored(); nv.focus = { c: 0, f: 0 }; nv.target = null; nv.scroll = {}; nv.styled = new Map(); nv.styleGen++; nv.styling = false; nvBuildScene(); });
+$('nvImportFile')?.addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  try {
+    nv.cols = nvParseCollections(JSON.parse(await file.text()));
+    nvSaveStored();
+    nv.focus = { c: 0, f: 0 }; nv.target = null; nv.scroll = {}; nv.styled = new Map(); nv.styleGen++; nv.styling = false;
+    nvBuildScene();
+  } catch (err) {
+    console.error(err);
+    $('nvHint').textContent = nvT().badFile;
+  }
+});
+$('nvContent')?.addEventListener('click', e => {
+  if (Date.now() - nv.swiped < 250) return;
+  const card = e.target.closest('.nv-card');
+  if (card) nvSetFocus(Number(card.dataset.c), Number(card.dataset.f));
+});
+document.querySelector('#nuvioPreview .nv-toolbar')?.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (b) b.blur();
+});
+$('nvViewport')?.addEventListener('wheel', e => {
+  if (!$('nuvioPreview').classList.contains('open')) return;
+  e.preventDefault();
+  const now = Date.now();
+  if (now - nv.lastWheel < 140) return;
+  nv.lastWheel = now;
+  if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) nvSetFocus(nv.focus.c + (e.deltaY > 0 ? 1 : -1), nv.focus.f);
+  else nvSetFocus(nv.focus.c, nv.focus.f + (e.deltaX > 0 ? 1 : -1));
+}, { passive: false });
+window.addEventListener('resize', () => { if ($('nuvioPreview').classList.contains('open')) nvFit(); });
+
+// deslizar com o dedo (ou arrastar com o mouse): horizontal move a fileira, vertical troca de fileira
+(() => {
+  const vp = $('nvViewport');
+  if (!vp) return;
+  let g = null;
+  const maxScroll = c => Math.max(0, nvTileLeft(c, nvColLen(c)) - NV_GAP - (NV_VIS_W - 24));
+  vp.addEventListener('pointerdown', e => {
+    if (!$('nuvioPreview').classList.contains('open') || !nv.view.length) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const wrap = e.target.closest && e.target.closest('.nv-rowwrap');
+    g = { id: e.pointerId, x: e.clientX, y: e.clientY, axis: null, c: wrap ? Number(wrap.dataset.c) : nv.focus.c, sc0: 0, t: Date.now(), lx: e.clientX, ly: e.clientY, vx: 0, vy: 0 };
+    g.sc0 = nv.scroll[g.c] || 0;
+  });
+  vp.addEventListener('pointermove', e => {
+    if (!g || e.pointerId !== g.id) return;
+    const dx = e.clientX - g.x, dy = e.clientY - g.y;
+    if (!g.axis) {
+      if (Math.hypot(dx, dy) < 8) return;
+      g.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      try { vp.setPointerCapture(e.pointerId); } catch (err) {}
+      document.querySelectorAll('#nvRows .nv-strip, #nvRows').forEach(el => el.classList.add('nv-dragging'));
+    }
+    const k = nv.scale || 1;
+    if (g.axis === 'x') {
+      nv.scroll[g.c] = Math.max(0, Math.min(maxScroll(g.c), g.sc0 - dx / k));
+      const w = $('nvRows')?.querySelector(`.nv-rowwrap[data-c="${g.c}"] .nv-strip`);
+      if (w) w.style.transform = `translateX(${-nv.scroll[g.c]}px)`;
+    } else {
+      const rows = $('nvRows');
+      if (rows) rows.style.transform = `translateY(${NV_FOCUS_TOP - (nv.rowTops[nv.focus.c] || 0) + dy / k}px)`;
+    }
+    g.swipedMove = true;
+  });
+  const end = e => {
+    if (!g || (e && e.pointerId !== g.id)) return;
+    const cur = g; g = null;
+    document.querySelectorAll('#nvRows .nv-strip, #nvRows').forEach(el => el.classList.remove('nv-dragging'));
+    if (!cur.axis) return;
+    nv.swiped = Date.now();
+    const k = nv.scale || 1;
+    if (cur.axis === 'x') {
+      // o foco vai para o primeiro card visível da fileira arrastada
+      const c = cur.c, sc = nv.scroll[c] || 0, n = nvColLen(c);
+      let f = 0;
+      for (let i = 0; i < n; i++) { if (nvTileLeft(c, i) >= sc - 20) { f = i; break; } f = i; }
+      nv.focus = { c, f };
+      nvLayout(); nvMarkFocus(); nvUpdateHero(false);
+      $('nvColSel').value = String(c); nvSyncRatioBtns();
+      nvPrefetchNear(); nvQueueStyle();
+    } else {
+      const dy = (e.clientY - cur.y) / k;
+      const rh = nvRowHeight(nv.focus.c) || 200;
+      let step = -Math.round(dy / rh);
+      if (step === 0 && Math.abs(dy) > 24) step = dy < 0 ? 1 : -1;
+      const nc = Math.max(0, Math.min(nvRowCount() - 1, nv.focus.c + step));
+      nvSetFocus(nc, Math.min(nv.focus.f, nvColLen(nc) - 1));
+      nvLayout();
+    }
+  };
+  vp.addEventListener('pointerup', end);
+  vp.addEventListener('pointercancel', end);
+})();
+document.addEventListener('keydown', e => {
+  if (!$('nuvioPreview').classList.contains('open')) return;
+  if (e.key === 'Escape') { if (!document.fullscreenElement) { e.preventDefault(); nvClose(); } return; }
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  if (tag === 'SELECT' || tag === 'INPUT') return;
+  if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); nvMoveRow(e.key === 'ArrowUp' ? -1 : 1); return; }
+  if (e.key === 'ArrowRight') { e.preventDefault(); nvSetFocus(nv.focus.c, nv.focus.f + 1); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); nvSetFocus(nv.focus.c, nv.focus.f - 1); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); nvSetFocus(nv.focus.c + 1, nv.focus.f); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); nvSetFocus(nv.focus.c - 1, nv.focus.f); }
+  else if (e.key === 'Enter') { e.preventDefault(); nvEnter(); }
+});
+nvLoadStored();
+
 let savedUiLang = null;
 try { savedUiLang = localStorage.getItem(UI_LANG_STORAGE_KEY); } catch (e) {}
 if (savedUiLang === 'pt-BR' || savedUiLang === 'en') {
@@ -10062,5 +11736,18 @@ applyUiLanguage(currentUiLang, { persist: false, reRender: false });
 if (savedUiLang !== 'pt-BR' && savedUiLang !== 'en') {
   $('langModal')?.classList.add('open');
 }
+
+// EMPTY STATE QUICK-START ACTIONS
+$('emptyQuickTrending')?.addEventListener('click', () => {
+  document.querySelector('[data-preset-feed="trending"]')?.click();
+});
+$('emptyQuickSearch')?.addEventListener('click', () => {
+  if (typeof switchSidebarStep === 'function') switchSidebarStep('navSource');
+  document.querySelector('[data-tab="tabSingle"]')?.click();
+  setTimeout(() => $('manual')?.focus(), 40);
+});
+$('emptyQuickUpload')?.addEventListener('click', () => {
+  $('uploadCustom')?.click();
+});
 </script>
 </body></html>
