@@ -1,6 +1,7 @@
 ![Preview do Nuvio Backdrop Studio](./backdrop-studio.webp)
 ![Preview do Nuvio Backdrop Studio](./image.png)
-> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers (como Nuvio) e etc.
+![Preview do Nuvio Backdrop Studio](./image2.png)
+> Estúdio web completo e sem dependências para criar **Backdrops (16:9)**, **Posters (2:3)** e **Capas Quadradas (1:1)** personalizados para catálogos de streaming, media centers, nuvio e etc.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
@@ -23,7 +24,7 @@ Você pode rodar a ferramenta online no botão abaixo.
 
 [![Abrir Nuvio Backdrop Studio](https://img.shields.io/badge/🚀_ABRIR_FERRAMENTA-8B5CF6?style=for-the-badge)](https://higuzord.github.io/backdrop-studio/)
 
-Se quiser rodar localmente você pode baixar o arquivo.html no link abaixo
+Se quiser rodar localmente você pode baixar o arquivo .html no link abaixo
 
 [📥 Baixar última versão](https://github.com/higuzord/backdrop-studio/releases/latest)
 
@@ -52,6 +53,8 @@ Comunidade BR sobre Nuvio e Stremio
 🌎 Multilíngue: interface em português e inglês.
 
 📱 Compatível com dispositivos móveis.
+
+📺 Preview: Veja como a capa ou backdrop ficaria no nuvio sem precisar exportar
 
 ---
 
