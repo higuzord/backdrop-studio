@@ -6696,6 +6696,9 @@ $('expProvider').addEventListener('change', () => {
 // AIOMETADATA JSON IMPORT & FILTERING
 // =========================================================================
 function inferProvider(cat) {
+  const srcName = String(cat.source || '').toLowerCase();
+  if (srcName === 'tmdb') return 'tmdb';
+  if (['anilist', 'mal', 'kitsu'].includes(srcName)) return 'anilist';
   const raw = `${cat.id || ''} ${cat.name || ''}`.toLowerCase();
   if (raw.includes('anilist') || raw.includes('mal') || raw.includes('kitsu')) return 'anilist';
   if (raw.includes('tmdb') || raw.includes('imdb') || raw.includes('trakt') || raw.includes('mdblist')) return 'tmdb';
@@ -7071,10 +7074,24 @@ function buildQueryFromCatalog(cat, countOverride = null, sortOverride = null) {
     params.season || params.seasonYear || params.countryOfOrigin || params.status);
   const isGenericTrending = /^(trending|popular|top rated|em alta|populares|melhores)$/i.test(cleanSearch);
 
+  // Filtros "discover" do TMDB (estúdios, gêneros, idioma...) e estúdios do MAL
+  const tmdbRaw = {};
+  for (const k of ['with_companies', 'with_genres', 'without_genres', 'with_keywords', 'with_networks', 'with_original_language', 'with_origin_country', 'vote_count.gte', 'vote_average.gte']) {
+    if (params[k] !== undefined && params[k] !== null && params[k] !== '') tmdbRaw[k] = params[k];
+  }
+  const tagsLower = (cat.tags || []).map(t => String(t).toLowerCase());
+  const isStudio = Boolean(params.with_companies || params.producers || tagsLower.some(t => /^(est[uú]dios?|studios?)$/.test(t)));
+  const srcName = String(cat.source || '').toLowerCase();
+  const noDiscoverSource = srcName === 'mdblist' || srcName === 'streaming';
+
   return {
     provider: cat.provider || inferProvider(cat),
     mediaType: cat.type === 'movie' ? 'movie' : 'tv',
-    search: (!hasDiscoverFilters && !isGenericTrending && cleanSearch.length >= 2) ? cleanSearch : '',
+    tmdbRaw,
+    tmdbSortBy: params.sort_by || '',
+    isStudio,
+    studioName: cleanSearch,
+    search: (!hasDiscoverFilters && !isGenericTrending && !isStudio && !noDiscoverSource && cleanSearch.length >= 2) ? cleanSearch : '',
     genre: validGenre || '',
     tags: tagList,
     formats: formatList,
@@ -7089,8 +7106,103 @@ function buildQueryFromCatalog(cat, countOverride = null, sortOverride = null) {
   };
 }
 
+// Estúdio no AniList: busca o estúdio pelo nome e devolve as obras dele (mais populares primeiro)
+async function fetchAniListStudio(name, count = 30) {
+  const target = Math.max(1, Math.min(100, Number(count) || 30));
+  const base = String(name || '').trim();
+  const variants = [...new Set([
+    base,
+    base.replace(/\bstudios?\b/ig, '').trim(),
+    base.replace(/[.\s]+/g, ''),
+    base.replace(/\./g, '. ').replace(/\s+/g, ' ').trim()
+  ].filter(v => v.length >= 2))];
+  const query = `query($search:String,$page:Int,$perPage:Int,$isMain:Boolean){
+    Studio(search:$search){ name
+      media(sort:POPULARITY_DESC,isMain:$isMain,page:$page,perPage:$perPage){ pageInfo{hasNextPage} nodes{ id title{romaji english} coverImage{extraLarge large} bannerImage isAdult } }
+    }
+  }`;
+  const run = async (search, isMain) => {
+    const out = [], seen = new Set();
+    for (let page = 1; page <= 3 && out.length < target; page++) {
+      const res = await fetch(ANILIST_URL, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ query, variables: { search, page, perPage: 50, isMain } })
+      });
+      const j = await res.json();
+      if (j.errors || !j.data?.Studio) break;
+      const media = j.data.Studio.media;
+      for (const m of (media?.nodes || [])) {
+        if (!m || seen.has(m.id) || (m.isAdult && !$('adult').checked) || !(m.coverImage?.extraLarge || m.coverImage?.large)) continue;
+        seen.add(m.id); out.push(m);
+        if (out.length >= target) break;
+      }
+      if (!media?.pageInfo?.hasNextPage) break;
+    }
+    return out;
+  };
+  for (const v of variants) {
+    let list = await run(v, true);
+    if (list.length < 5) { const wide = await run(v, undefined); if (wide.length > list.length) list = wide; }
+    if (list.length) return list;
+  }
+  return [];
+}
+
+// TMDB discover com os filtros do catálogo (with_companies etc.)
+async function fetchTmdbRawDiscover(q) {
+  const target = Math.max(1, Math.min(200, Number(q.count) || 30));
+  const params = { language: getTmdbLang(), include_adult: $('adult').checked, ...q.tmdbRaw };
+  const sortSel = q.sort && q.sort[0];
+  params.sort_by = (q.tmdbSortBy && /\./.test(q.tmdbSortBy)) ? q.tmdbSortBy : mapSortToTmdb(sortSel, q.mediaType);
+  const out = [], seen = new Set();
+  for (let page = 1; page <= 10 && out.length < target; page++) {
+    const data = await tmdbFetch(`/discover/${q.mediaType}`, { ...params, page });
+    const results = data.results || [];
+    for (const r of results) {
+      if ((!r.poster_path && !r.backdrop_path) || seen.has(r.id)) continue;
+      seen.add(r.id); out.push(normalizeTmdbItem(r, q.mediaType));
+      if (out.length >= target) break;
+    }
+    if (page >= (data.total_pages || 1) || !results.length) break;
+  }
+  return out;
+}
+
 async function fetchItemsForCatalog(cat, countOverride = null, sortOverride = null) {
+  // Catálogo "mesclado" do AIOMetadata: junta as listas dos catálogos de origem, intercalando
+  const mergedSources = cat.metadata?.mergedSources;
+  if (String(cat.source || '').toLowerCase() === 'merged' && Array.isArray(mergedSources) && mergedSources.length) {
+    const want = countOverride || getRequestedItemCount('jsonCount', 'jsonCustomCount', 30);
+    const per = Math.max(8, Math.ceil(want / mergedSources.length) + 4);
+    const lists = [];
+    for (const ms of mergedSources) {
+      const src = (catalogs || []).find(c => c.id === ms.catalogId);
+      if (!src || src === cat) continue;
+      try { lists.push(await fetchItemsForCatalog(src, per, sortOverride)); } catch (e) { /* ignora origem com falha */ }
+    }
+    const out = [], seen = new Set();
+    for (let i = 0; out.length < want; i++) {
+      let any = false;
+      for (const l of lists) {
+        if (i < l.length) {
+          any = true;
+          if (!seen.has(l[i].id)) { seen.add(l[i].id); out.push(l[i]); if (out.length >= want) break; }
+        }
+      }
+      if (!any) break;
+    }
+    if (out.length) return out;
+  }
+
   const q = buildQueryFromCatalog(cat, countOverride, sortOverride);
+  if (q.provider === 'tmdb' && getTmdbToken() && Object.keys(q.tmdbRaw).length) {
+    const raw = await fetchTmdbRawDiscover(q);
+    if (raw.length) return raw;
+  }
+  if (q.isStudio && q.studioName) {
+    const st = await fetchAniListStudio(q.studioName, q.count);
+    if (st.length) return st;
+  }
   if (q.provider === 'tmdb' && getTmdbToken()) {
     return await fetchTmdbDiscover({
       mediaType: q.mediaType,
