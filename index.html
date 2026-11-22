@@ -2437,6 +2437,7 @@ input:focus,select:focus{border-color:var(--accent)}
                 <option value="webp" selected="">WebP (Leve)</option>
                 <option value="png">PNG (Sem perdas)</option>
                 <option value="gif" id="optFmtGif">GIF (Animado)</option>
+                <option value="webpa" id="optFmtWebpA">WebP (Animado · leve)</option>
               </select>
             </div>
             <div class="field" id="webpQualityWrap">
@@ -3610,6 +3611,7 @@ const I18N = {
     optFmtWebp: 'WebP (Leve)',
     optFmtPng: 'PNG (Sem perdas)',
     optFmtGif: 'GIF (Animado)',
+    optFmtWebpA: 'WebP (Animado · leve)',
     lblWebpQuality: 'Qualidade WebP',
     lblGifFps: 'Fluidez (FPS)',
     lblGifScale: 'Escala GIF',
@@ -4181,6 +4183,7 @@ const I18N = {
     optFmtWebp: 'WebP (Lightweight)',
     optFmtPng: 'PNG (Lossless)',
     optFmtGif: 'GIF (Animated)',
+    optFmtWebpA: 'WebP (Animated · light)',
     lblWebpQuality: 'WebP Quality',
     lblGifFps: 'Frame Rate (FPS)',
     lblGifScale: 'GIF Scale',
@@ -6663,10 +6666,10 @@ $('ratio').addEventListener('change', () => {
 function syncExportFormatControls() {
   const fmt = $('exportFormat').value;
   const t = L();
-  $('webpQualityWrap').style.display = fmt === 'webp' ? 'block' : 'none';
-  if ($('gifExportWrap')) $('gifExportWrap').style.display = fmt === 'gif' ? 'grid' : 'none';
-  $('exportFormatBadge').textContent = fmt === 'gif' ? t.badgeGif : (fmt === 'webp' ? t.badgeWebp : t.badgePng);
-  $('downloadBtn').textContent = t.downloadBtn(fmt.toUpperCase());
+  $('webpQualityWrap').style.display = (fmt === 'webp' || fmt === 'webpa') ? 'block' : 'none';
+  if ($('gifExportWrap')) $('gifExportWrap').style.display = (fmt === 'gif' || fmt === 'webpa') ? 'grid' : 'none';
+  $('exportFormatBadge').textContent = fmt === 'gif' ? t.badgeGif : (fmt === 'webpa' ? (currentUiLang === 'en' ? 'Animated WebP · light, full color' : 'WebP animado · leve, cores completas') : (fmt === 'webp' ? t.badgeWebp : t.badgePng));
+  $('downloadBtn').textContent = t.downloadBtn(fmt === 'webpa' ? (currentUiLang === 'en' ? 'ANIMATED WEBP' : 'WEBP ANIMADO') : fmt.toUpperCase());
   updateBatchControls();
 }
 
@@ -9210,20 +9213,23 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
       if (motionOn) {
         const byRC = new Map(cells.map(c => [c.r * 10000 + c.c, c]));
         const Pp = cardW + gap;
-        lastMotionInfo = { periodPx: Pp, speedPx: motionSpeedBase() * (W / 1920) };
+        // tira curta que se repete: o movimento volta exatamente ao início a cada M células (loop sem corte)
+        const M = Math.max(1, Math.min(cols, Math.ceil((W * cosR + H * sinR) / Pp) + 1));
+        const s0 = Math.floor((cols - M) / 2);
+        lastMotionInfo = { periodPx: M * Pp, speedPx: motionSpeedBase() * (W / 1920) };
         for (let r = 0; r < rows; r++) {
           const dir = r % 2 === 0 ? -1 : 1;
-          const off = wrapMod(dir * motionDist, cols * Pp);
+          const off = wrapMod(dir * motionDist, M * Pp);
           const base = byRC.get(r * 10000);
-          for (let j = -cols; j < cols * 2; j++) {
-            const cell = byRC.get(r * 10000 + wrapMod(j, cols));
+          for (let j = -M; j < cols + M; j++) {
+            const cell = byRC.get(r * 10000 + s0 + wrapMod(j - s0, M));
             const entry = cell && cell.assigned;
             if (!entry) continue;
             const x = base.x + j * Pp + off, y = base.y;
             if (!isCellVisible(x, y, cardW, rowH)) continue;
             const drawable = getActiveDrawableForMedia(entry.m, entry.im, effectiveTimeMs);
             drawCover(actx, drawable, x, y, cardW, rowH, radius, entry.m.zoom, entry.m.panX, entry.m.panY);
-            const wrapIdx = Math.floor(j / cols);
+            const wrapIdx = Math.floor((j - s0) / M);
             recordSlot(wrapIdx ? `${cell.uid}~${wrapIdx}` : cell.uid, entry.index, x, y, cardW, rowH, true, 0);
           }
         }
@@ -9264,15 +9270,19 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
         const byRC = new Map(cells.map(c => [c.r * 10000 + c.c, c]));
         const vertical = motionMode === 'cols';
         const Pp = vertical ? cardH + gap : cardW + gap;
-        lastMotionInfo = { periodPx: Pp, speedPx: motionSpeedBase() * (W / 1920) };
         const lines = vertical ? cols : rows;   // colunas (vertical) ou linhas (horizontal)
         const N = vertical ? rows : cols;       // células por tira
+        // tira curta que se repete: o movimento volta exatamente ao início a cada M células (loop sem corte)
+        const span = vertical ? (W * sinR + H * cosR) : (W * cosR + H * sinR);
+        const M = Math.max(1, Math.min(N, Math.ceil(span / Pp) + 1));
+        const s0 = Math.floor((N - M) / 2);
+        lastMotionInfo = { periodPx: M * Pp, speedPx: motionSpeedBase() * (W / 1920) };
         for (let L = 0; L < lines; L++) {
           const dir = L % 2 === 0 ? -1 : 1;     // 1ª (ímpar) sobe/vai à esquerda, 2ª (par) desce/vai à direita
-          const off = wrapMod(dir * motionDist, N * Pp);
+          const off = wrapMod(dir * motionDist, M * Pp);
           const base = vertical ? byRC.get(L) : byRC.get(L * 10000);
-          for (let j = -N; j < N * 2; j++) {
-            const k = wrapMod(j, N);
+          for (let j = -M; j < N + M; j++) {
+            const k = s0 + wrapMod(j - s0, M);
             const cell = vertical ? byRC.get(k * 10000 + L) : byRC.get(L * 10000 + k);
             const entry = cell && cell.assigned;
             if (!entry) continue;
@@ -9289,7 +9299,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
             } else {
               drawCover(actx, drawable, x, y, cardW, cardH, radius, entry.m.zoom, entry.m.panX, entry.m.panY);
             }
-            const wrapIdx = Math.floor(j / N);
+            const wrapIdx = Math.floor((j - s0) / M);
             recordSlot(wrapIdx ? `${cell.uid}~${wrapIdx}` : cell.uid, entry.index, x, y, cardW, cardH, true, cell.microTilt || 0);
           }
         }
@@ -9691,10 +9701,53 @@ function canvasToBlobSafe(canvas, mime, quality) {
   });
 }
 
+// WebP animado: junta quadros WebP (gerados pelo canvas) no contêiner animado (VP8X + ANIM + ANMF)
+function buildAnimatedWebpBlob(frames, width, height) {
+  const u24 = n => [n & 255, (n >> 8) & 255, (n >> 16) & 255];
+  const u32 = n => [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >>> 24) & 255];
+  const ascii = t => [...t].map(c => c.charCodeAt(0));
+  const chunk = (id, data) => {
+    const body = data instanceof Uint8Array ? data : Uint8Array.from(data);
+    const out = new Uint8Array(8 + body.length + (body.length & 1));
+    out.set(ascii(id), 0); out.set(u32(body.length), 4); out.set(body, 8);
+    return out;
+  };
+  const concat = parts => {
+    const out = new Uint8Array(parts.reduce((a, b) => a + b.length, 0));
+    let o = 0; for (const b of parts) { out.set(b, o); o += b.length; }
+    return out;
+  };
+  let hasAlpha = false;
+  const anmf = [];
+  for (const fr of frames) {
+    const u = new Uint8Array(fr.buf);
+    const dv = new DataView(fr.buf);
+    const parts = [];
+    let pos = 12;
+    while (pos + 8 <= u.length) {
+      const id = String.fromCharCode(u[pos], u[pos + 1], u[pos + 2], u[pos + 3]);
+      const size = dv.getUint32(pos + 4, true);
+      if (id === 'ALPH' || id === 'VP8 ' || id === 'VP8L') {
+        if (id === 'ALPH' || id === 'VP8L') hasAlpha = true;
+        parts.push(chunk(id, u.subarray(pos + 8, pos + 8 + size)));
+      }
+      pos += 8 + size + (size & 1);
+    }
+    if (!parts.length) continue;
+    const head = Uint8Array.from([...u24(0), ...u24(0), ...u24(width - 1), ...u24(height - 1), ...u24(Math.max(1, Math.round(fr.delayMs))), 0x02]);
+    anmf.push(chunk('ANMF', concat([head, ...parts])));
+  }
+  const vp8x = chunk('VP8X', [0x02 | (hasAlpha ? 0x10 : 0), 0, 0, 0, ...u24(width - 1), ...u24(height - 1)]);
+  const anim = chunk('ANIM', [0, 0, 0, 0, 0, 0]);   // fundo + loop infinito (0)
+  const payload = concat([Uint8Array.from(ascii('WEBP')), vp8x, anim, ...anmf]);
+  const file = concat([Uint8Array.from(ascii('RIFF')), Uint8Array.from(u32(payload.length)), payload]);
+  return new Blob([file], { type: 'image/webp' });
+}
+
 async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverride = null, options = {}) {
   const fmt = $('exportFormat').value;
 
-  if (fmt === 'gif') {
+  if (fmt === 'gif' || fmt === 'webpa') {
     const fps = Math.max(6, Math.min(30, Number($('gifFps')?.value || 15)));
     const scale = Math.max(0.25, Math.min(1, Number($('gifScale')?.value || 0.75)));
     const animatedItems = items.filter(m => m && m.isGif && Array.isArray(m.gifFrames) && m.gifFrames.length > 1);
@@ -9705,6 +9758,7 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       ? Math.max(2, Math.min(80, Math.round(loopDurationMs / dt)))
       : 1;
     let delayCs = Math.max(2, Math.round(dt / 10));
+    let timeScale = 1;
     if (motionActive()) {
       // Loop perfeito: dura um número inteiro de "passos" de célula
       const probe = document.createElement('canvas');
@@ -9713,10 +9767,17 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       if (info && info.speedPx > 0) {
         const periodMs = info.periodPx / info.speedPx * 1000;
         const reps = Math.max(1, Math.floor(4000 / periodMs));
-        const D = Math.min(8000, periodMs * reps);
-        frameCount = Math.max(8, Math.min(100, Math.round(D / (1000 / fps))));
-        dt = D / frameCount;
-        delayCs = Math.max(2, Math.round(dt / 10));
+        const natural = periodMs * reps;              // tempo exato para o movimento voltar ao início (mesma velocidade do preview)
+        let delayMs = fmt === 'gif' ? Math.max(20, Math.round(1000 / fps / 10) * 10) : 1000 / fps;
+        frameCount = Math.max(8, Math.round(natural / delayMs));
+        if (frameCount > 300) {                       // muitos quadros: reduz o FPS, nunca a velocidade
+          frameCount = 300;
+          delayMs = natural / frameCount;
+          if (fmt === 'gif') delayMs = Math.max(20, Math.round(delayMs / 10) * 10);
+        }
+        dt = delayMs;
+        delayCs = Math.max(2, Math.round(delayMs / 10));
+        timeScale = natural / (frameCount * delayMs); // ajuste mínimo (<1%) por arredondamento do GIF
       }
     }
 
@@ -9736,15 +9797,23 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       await renderToCanvas(fullCanvas, items, titleOverride, subtitleOverride, {
         showSelection: false,
         forExport: true,
-        animTimeMs: f * dt
+        animTimeMs: f * dt * timeScale
       });
       sctx.clearRect(0, 0, outW, outH);
       sctx.drawImage(fullCanvas, 0, 0, outW, outH);
+      if (fmt === 'webpa') {
+        const wb = await canvasToBlobSafe(scaledCanvas, 'image/webp', Number($('webpQuality').value) / 100);
+        if (!wb) return { blob: null, ext: 'webp', skippedCors: 0 };
+        capturedFrames.push({ buf: await wb.arrayBuffer(), delayMs: dt });
+        if (f % 2 === 1) await new Promise(r => setTimeout(r, 0));
+        continue;
+      }
       const imgData = sctx.getImageData(0, 0, outW, outH);
       capturedFrames.push({ rgba: imgData.data, delayCs });
       if (f % 2 === 1) await new Promise(r => setTimeout(r, 0));
     }
 
+    if (fmt === 'webpa') return { blob: buildAnimatedWebpBlob(capturedFrames, outW, outH), ext: 'webp', skippedCors: 0 };
     const blob = await buildAnimatedGifBlob(capturedFrames, outW, outH, options.onProgress);
     return { blob, ext: 'gif', skippedCors: 0 };
   }
@@ -9792,7 +9861,7 @@ $('downloadBtn').onclick = async () => {
   try {
     const { blob, ext, skippedCors } = await exportMediaItemsAsBlob(media, null, null, {
       onProgress: (cur, tot) => {
-        if (fmt === 'gif') setStatus(L().msg.encodingGif(cur, tot), true);
+        if (fmt === 'gif' || fmt === 'webpa') setStatus(L().msg.encodingGif(cur, tot), true);
       }
     });
     if (!blob) {
@@ -9804,7 +9873,7 @@ $('downloadBtn').onclick = async () => {
     a.href = URL.createObjectURL(blob);
     a.download = `${slugify(baseName)}.${ext}`;
     a.click();
-    if (fmt === 'gif') {
+    if (fmt === 'gif' || fmt === 'webpa') {
       setStatus(L().msg.gifExported(Math.max(1, Math.round(Number($('gifFps')?.value || 15)))));
     } else if (skippedCors > 0) {
       setStatus(L().msg.corsWarningSkipped(skippedCors));
@@ -10697,7 +10766,8 @@ function applyUiLanguage(lang, { persist = true, reRender = true } = {}) {
   setSelectOptionTexts('exportFormat', {
     webp: t.optFmtWebp,
     png: t.optFmtPng,
-    gif: t.optFmtGif
+    gif: t.optFmtGif,
+    webpa: t.optFmtWebpA
   });
   if ($('lblWebpQuality')) $('lblWebpQuality').textContent = t.lblWebpQuality;
   if ($('lblGifFps')) $('lblGifFps').textContent = t.lblGifFps;
@@ -11654,6 +11724,37 @@ function nvPlayGif(card) {
   };
   nvGifRaf = requestAnimationFrame(step);
 }
+// Movimento (colunas/linhas): anima a arte automaticamente dentro do preview (fundo ou capa)
+let nvMotionRaf = 0;
+function nvMotionStop() { if (nvMotionRaf) cancelAnimationFrame(nvMotionRaf); nvMotionRaf = 0; }
+function nvMotionStart() {
+  nvMotionStop();
+  const open = () => $('nuvioPreview')?.classList.contains('open') && nv.art;
+  if (!open() || !motionActive() || !media.length) return;
+  const off = document.createElement('canvas');
+  let busy = false, last = 0;
+  const step = async ts => {
+    if (!open() || !motionActive()) { nvMotionRaf = 0; return; }
+    if (!busy && ts - last >= 45 && !motionPaused && !nvGifCard) {
+      busy = true; last = ts;
+      try {
+        const hc = $('nvHero');
+        const heroOn = nv.role === 'hero' && nv.heroKey === 'art' && hc.style.display !== 'none';
+        const cvs = heroOn ? [] : [...document.querySelectorAll('#nvContent .nv-card.nv-user canvas')];
+        if (heroOn || cvs.length) {
+          const src = heroOn ? nv.art : nv.artSmall;
+          const k = Math.min(1, (heroOn ? 1280 : 540) / Math.max(src.width, src.height));
+          const size = [Math.max(2, Math.round(src.width * k)), Math.max(2, Math.round(src.height * k))];
+          await renderToCanvas(off, media, null, null, { showSelection: false, size, animTimeMs: ts });
+          if (heroOn) hc.getContext('2d').drawImage(off, 0, 0, hc.width, hc.height);
+          else for (const cv of cvs) cv.getContext('2d').drawImage(off, 0, 0, cv.width, cv.height);
+        }
+      } catch (e) {} finally { busy = false; }
+    }
+    nvMotionRaf = requestAnimationFrame(step);
+  };
+  nvMotionRaf = requestAnimationFrame(step);
+}
 $('nvContent')?.addEventListener('pointerover', e => {
   if (e.pointerType === 'touch') return;
   const card = e.target.closest && e.target.closest('.nv-card.nv-user');
@@ -11725,6 +11826,7 @@ async function nvOpen() {
     nv.role = (nv.device === 'mobile' || currentPreviewMode !== 'backdrops') ? 'cover' : 'hero';
     nv.styled = new Map(); nv.styleGen++; nv.styling = false; nv.scroll = {};
     nvBuildScene();
+    nvMotionStart();
   } catch (e) {
     console.error(e);
     $('nvHint').textContent = nvT().fail;
@@ -11734,6 +11836,7 @@ async function nvOpen() {
 }
 function nvClose() {
   nvStopGif();
+  nvMotionStop();
   if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) {} }
   $('nuvioPreview').classList.remove('open');
   nv.styleGen++; nv.styling = false;
