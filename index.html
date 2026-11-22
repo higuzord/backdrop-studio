@@ -1926,6 +1926,30 @@ input:focus,select:focus{border-color:var(--accent)}
           </div>
         </div>
 
+        <!-- ANIMAÇÃO -->
+        <div class="adv-box" id="advMotionBox">
+          <button class="adv-toggle" type="button" onclick="toggleAdv('advMotionBox')">
+            <span id="advMotionTitle">🎞 Animação (movimento)</span>
+            <span class="adv-chevron">▾</span>
+          </button>
+          <div class="adv-body">
+            <div class="field">
+              <label id="lblMotionMode">Tipo de movimento</label>
+              <select id="motionMode">
+                <option value="off" selected>Desligado</option>
+                <option value="cols">Colunas: ímpares sobem, pares descem</option>
+                <option value="rows">Linhas: ímpares vão pra esquerda, pares pra direita</option>
+              </select>
+            </div>
+            <div class="field">
+              <label><span id="lblMotionSpeed">Velocidade</span><span class="lbl-right"><output id="motionSpeedOut">30%</output><button type="button" class="reset-mini-btn" data-reset="motionSpeed" title="Resetar velocidade (30%)">↺</button></span></label>
+              <div class="slider"><input id="motionSpeed" type="range" min="5" max="100" value="30" data-default="30"></div>
+            </div>
+            <button type="button" class="btn" id="motionPauseBtn" style="width:100%;margin-top:6px">⏸ Pausar</button>
+            <div class="hint-box" id="motionHint" style="margin-top:8px">Funciona em Mural, Grade Uniforme, Cartazes e Faixas. Para salvar a animação, escolha o formato GIF na exportação.</div>
+          </div>
+        </div>
+
         <!-- ADVANCED 0: FUNDO (cor, degradês e padrões) -->
         <div class="adv-box" id="advBgBox">
           <button class="adv-toggle" type="button" onclick="toggleAdv('advBgBox')">
@@ -4509,6 +4533,16 @@ let userTouchedBatchLogoOpt = false;
 let gifAnimRafId = null;
 let lastGifTickTs = 0;
 let isRenderingFrame = false;
+let motionDistBase = 0;      // distância acumulada (px em base 1920) para o preview
+let motionPaused = false;
+let motionLastTs = 0;
+let lastMotionInfo = null;   // {periodPx, speedPx} da última renderização com movimento
+const MOTION_STYLES = ['masonry', 'grid', 'collage', 'strip'];
+function motionActive() {
+  const m = $('motionMode')?.value || 'off';
+  return m !== 'off' && MOTION_STYLES.includes($('style')?.value);
+}
+function motionSpeedBase() { return Number($('motionSpeed')?.value || 30) * 6; }
 
 const imageCache = new Map();
 const tmdbImagesCache = new Map();
@@ -4561,18 +4595,22 @@ function getActiveDrawableForMedia(m, fallbackIm, animTimeMs) {
 
 function ensureGifAnimationLoop() {
   if (gifAnimRafId !== null) return;
-  if (!hasAnimatedGifMedia()) return;
+  if (!hasAnimatedGifMedia() && !motionActive()) return;
 
+  motionLastTs = performance.now();
   const step = async ts => {
-    if (!hasAnimatedGifMedia()) {
+    if (!hasAnimatedGifMedia() && !motionActive()) {
       gifAnimRafId = null;
       return;
     }
-    if (!isDragging && !isRenderingFrame && ts - lastGifTickTs >= 33) {
+    const dtS = Math.min(0.1, Math.max(0, (ts - motionLastTs) / 1000));
+    motionLastTs = ts;
+    if (motionActive() && !motionPaused && media.length) motionDistBase += motionSpeedBase() * dtS;
+    if (media.length && !isDragging && !isRenderingFrame && ts - lastGifTickTs >= 33 && !(motionPaused && !hasAnimatedGifMedia())) {
       lastGifTickTs = ts;
       isRenderingFrame = true;
       try {
-        await renderToCanvas($('canvas'), media, null, null, { showSelection: true, animTimeMs: ts });
+        await renderToCanvas($('canvas'), media, null, null, { showSelection: true, animTimeMs: ts, previewLoop: true });
       } finally {
         isRenderingFrame = false;
       }
@@ -4593,7 +4631,7 @@ let sliderHistoryTimer = null;
 let sliderPreChangeSnapshot = null;
 
 const STYLE_SETTING_KEYS = [
-  'style', 'imgType', 'cardShape', 'bgColor',
+  'motionMode', 'motionSpeed', 'style', 'imgType', 'cardShape', 'bgColor',
   'bgMode', 'bgColor2', 'bgMidEnabled', 'bgColorMid', 'bgAngle', 'bgCx', 'bgCy', 'bgRadius', 'bgPattern', 'bgPatColor', 'bgPatOpacity', 'bgPatSize', 'bgPatThick', 'bgPatAngle',
   'textGradAngle', 'textGradStart', 'textGradEnd',
   'angle', 'gap', 'radius', 'cols', 'stagger', 'imgOpacity',
@@ -6877,10 +6915,10 @@ function normalizeTmdbItem(item, mediaType = 'tv') {
 
 async function fetchAniList(vars, desiredCount = null) {
   const targetCount = Math.max(1, Math.min(200, Number(desiredCount || vars.perPage || 30)));
-  const q = `query($page:Int,$perPage:Int,$search:String,$genres:[String],$tags:[String],$format:MediaFormat,$season:MediaSeason,$seasonYear:Int,$startDateGreater:FuzzyDateInt,$startDateLesser:FuzzyDateInt,$sort:[MediaSort],$isAdult:Boolean){
+  const q = `query($page:Int,$perPage:Int,$search:String,$genres:[String],$tags:[String],$formats:[MediaFormat],$season:MediaSeason,$seasonYear:Int,$countryOfOrigin:CountryCode,$status:MediaStatus,$startDateGreater:FuzzyDateInt,$startDateLesser:FuzzyDateInt,$sort:[MediaSort],$isAdult:Boolean){
     Page(page:$page,perPage:$perPage){
       pageInfo{hasNextPage}
-      media(type:ANIME,search:$search,genre_in:$genres,tag_in:$tags,format:$format,season:$season,seasonYear:$seasonYear,startDate_greater:$startDateGreater,startDate_lesser:$startDateLesser,sort:$sort,isAdult:$isAdult){
+      media(type:ANIME,search:$search,genre_in:$genres,tag_in:$tags,format_in:$formats,season:$season,seasonYear:$seasonYear,countryOfOrigin:$countryOfOrigin,status:$status,startDate_greater:$startDateGreater,startDate_lesser:$startDateLesser,sort:$sort,isAdult:$isAdult){
         id title{romaji english} coverImage{extraLarge large} bannerImage
       }
     }
@@ -6988,29 +7026,61 @@ function buildQueryFromCatalog(cat, countOverride = null, sortOverride = null) {
     .replace(/\(.*?\)|\[.*?\]/g, '')
     .trim();
 
+  const discover = cat.metadata?.discover || {};
+  const params = discover.params || {};
+  const formState = discover.formState || {};
+  const source = String(discover.source || cat.source || cat.provider || '').toLowerCase();
+  const isAniList = source === 'anilist' || String(cat.id || '').toLowerCase().startsWith('anilist.');
+
   const sortSel = sortOverride || $('jsonSort').value;
   let sort = ['TRENDING_DESC', 'POPULARITY_DESC'];
   if (sortSel !== 'CATALOG') {
     sort = [sortSel];
   } else {
-    const lower = `${cat.id || ''} ${rawName}`.toLowerCase();
-    if (lower.includes('trending') || lower.includes('alta')) sort = ['TRENDING_DESC'];
-    else if (lower.includes('top') || lower.includes('score') || lower.includes('rated') || lower.includes('nota')) sort = ['SCORE_DESC'];
-    else if (lower.includes('popular')) sort = ['POPULARITY_DESC'];
-    else if (lower.includes('upcoming') || lower.includes('new') || lower.includes('recent') || lower.includes('lançamento')) sort = ['START_DATE_DESC'];
+    const catalogSort = params.sort || params.sort_by || formState.sortBy;
+    if (catalogSort) sort = [catalogSort];
+    else {
+      const lower = `${cat.id || ''} ${rawName}`.toLowerCase();
+      if (lower.includes('trending') || lower.includes('alta')) sort = ['TRENDING_DESC'];
+      else if (lower.includes('top') || lower.includes('score') || lower.includes('rated') || lower.includes('nota')) sort = ['SCORE_DESC'];
+      else if (lower.includes('popular')) sort = ['POPULARITY_DESC'];
+      else if (lower.includes('upcoming') || lower.includes('new') || lower.includes('recent') || lower.includes('lançamento')) sort = ['START_DATE_DESC'];
+    }
   }
 
   const count = countOverride || getRequestedItemCount('jsonCount', 'jsonCustomCount', 30);
   const genreExtra = (cat.extra || []).find(x => x.name === 'genre');
   const firstGenre = genreExtra?.options?.[0];
-  const validGenre = firstGenre && ANILIST_GENRES_LIST.some(g => g.value === firstGenre) ? firstGenre : null;
+  const paramGenre = params.genre_in || params.genre;
+  const genre = Array.isArray(paramGenre) ? paramGenre : (paramGenre ? String(paramGenre).split(',') : []);
+  const validGenre = genre.find(g => ANILIST_GENRES_LIST.some(item => item.value === g)) ||
+    (firstGenre && ANILIST_GENRES_LIST.some(item => item.value === firstGenre) ? firstGenre : null);
 
+  const tags = params.tag_in || params.tags || [];
+  const tagList = Array.isArray(tags) ? tags : String(tags).split(',').filter(Boolean);
+  const formats = params.format_in || params.format || formState.anilistFormats || [];
+  const formatList = Array.isArray(formats) ? formats : String(formats).split(',').filter(Boolean);
+  const startDateGreater = params.startDate_greater ?? params.startDateGreater ??
+    (formState.anilistStartDateFrom ? String(formState.anilistStartDateFrom).replace(/-/g, '') : null);
+  const startDateLesser = params.startDate_lesser ?? params.startDateLesser ??
+    (formState.anilistStartDateTo ? String(formState.anilistStartDateTo).replace(/-/g, '') : null);
+  const hasDiscoverFilters = Boolean(validGenre || tagList.length || formatList.length || startDateGreater || startDateLesser ||
+    params.season || params.seasonYear || params.countryOfOrigin || params.status);
   const isGenericTrending = /^(trending|popular|top rated|em alta|populares|melhores)$/i.test(cleanSearch);
+
   return {
     provider: cat.provider || inferProvider(cat),
     mediaType: cat.type === 'movie' ? 'movie' : 'tv',
-    search: (!validGenre && !isGenericTrending && cleanSearch.length >= 2) ? cleanSearch : '',
+    search: (!hasDiscoverFilters && !isGenericTrending && cleanSearch.length >= 2) ? cleanSearch : '',
     genre: validGenre || '',
+    tags: tagList,
+    formats: formatList,
+    season: params.season || '',
+    seasonYear: params.seasonYear || '',
+    countryOfOrigin: params.countryOfOrigin || '',
+    status: params.status || '',
+    startDateGreater: startDateGreater ? Number(String(startDateGreater).replace(/-/g, '')) : null,
+    startDateLesser: startDateLesser ? Number(String(startDateLesser).replace(/-/g, '')) : null,
     sort,
     count
   };
@@ -7035,6 +7105,14 @@ async function fetchItemsForCatalog(cat, countOverride = null, sortOverride = nu
   };
   if (q.search) vars.search = q.search;
   if (q.genre) vars.genres = [q.genre];
+  if (q.tags?.length) vars.tags = q.tags;
+  if (q.formats?.length) vars.formats = q.formats;
+  if (q.season) vars.season = q.season;
+  if (q.seasonYear) vars.seasonYear = Number(q.seasonYear);
+  if (q.countryOfOrigin) vars.countryOfOrigin = q.countryOfOrigin;
+  if (q.status) vars.status = q.status;
+  if (q.startDateGreater) vars.startDateGreater = q.startDateGreater;
+  if (q.startDateLesser) vars.startDateLesser = q.startDateLesser;
 
   let list = await fetchAniList(vars, q.count);
   if (!list.length && q.search) {
@@ -8997,6 +9075,17 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
   const textPos = $('textPos').value;
   const textColor = $('textColor').value;
   const textScale = Number($('textScale').value) / 100;
+  const motionOn = !coverOpt && (options.styleOverride ? false : motionActive());
+  const motionMode = motionOn ? $('motionMode').value : 'off';
+  let motionDist = 0;
+  if (motionOn) {
+    const sc = W / 1920;
+    if (forExport && animTimeMs !== null) motionDist = motionSpeedBase() * sc * animTimeMs / 1000;
+    else if (canvas === $('canvas') && !forExport) motionDist = motionDistBase * sc;
+    else if (animTimeMs !== null) motionDist = motionSpeedBase() * sc * animTimeMs / 1000;
+  }
+  lastMotionInfo = null;
+  const wrapMod = (a, n) => ((a % n) + n) % n;
 
   if (!items.length) {
     canvas.width = W;
@@ -9118,6 +9207,27 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
       }
 
       assignNonRepeatingEntriesToCells(cells, valid);
+      if (motionOn) {
+        const byRC = new Map(cells.map(c => [c.r * 10000 + c.c, c]));
+        const Pp = cardW + gap;
+        lastMotionInfo = { periodPx: Pp, speedPx: motionSpeedBase() * (W / 1920) };
+        for (let r = 0; r < rows; r++) {
+          const dir = r % 2 === 0 ? -1 : 1;
+          const off = wrapMod(dir * motionDist, cols * Pp);
+          const base = byRC.get(r * 10000);
+          for (let j = -cols; j < cols * 2; j++) {
+            const cell = byRC.get(r * 10000 + wrapMod(j, cols));
+            const entry = cell && cell.assigned;
+            if (!entry) continue;
+            const x = base.x + j * Pp + off, y = base.y;
+            if (!isCellVisible(x, y, cardW, rowH)) continue;
+            const drawable = getActiveDrawableForMedia(entry.m, entry.im, effectiveTimeMs);
+            drawCover(actx, drawable, x, y, cardW, rowH, radius, entry.m.zoom, entry.m.panX, entry.m.panY);
+            const wrapIdx = Math.floor(j / cols);
+            recordSlot(wrapIdx ? `${cell.uid}~${wrapIdx}` : cell.uid, entry.index, x, y, cardW, rowH, true, 0);
+          }
+        }
+      } else
       for (const cell of cells) {
         const entry = cell.assigned;
         if (!entry) continue;
@@ -9150,6 +9260,40 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
       }
 
       assignNonRepeatingEntriesToCells(cells, valid);
+      if (motionOn) {
+        const byRC = new Map(cells.map(c => [c.r * 10000 + c.c, c]));
+        const vertical = motionMode === 'cols';
+        const Pp = vertical ? cardH + gap : cardW + gap;
+        lastMotionInfo = { periodPx: Pp, speedPx: motionSpeedBase() * (W / 1920) };
+        const lines = vertical ? cols : rows;   // colunas (vertical) ou linhas (horizontal)
+        const N = vertical ? rows : cols;       // células por tira
+        for (let L = 0; L < lines; L++) {
+          const dir = L % 2 === 0 ? -1 : 1;     // 1ª (ímpar) sobe/vai à esquerda, 2ª (par) desce/vai à direita
+          const off = wrapMod(dir * motionDist, N * Pp);
+          const base = vertical ? byRC.get(L) : byRC.get(L * 10000);
+          for (let j = -N; j < N * 2; j++) {
+            const k = wrapMod(j, N);
+            const cell = vertical ? byRC.get(k * 10000 + L) : byRC.get(L * 10000 + k);
+            const entry = cell && cell.assigned;
+            if (!entry) continue;
+            const x = vertical ? cell.x : base.x + j * Pp + off;
+            const y = vertical ? base.y + j * Pp + off : cell.y;
+            if (!isCellVisible(x, y, cardW, cardH)) continue;
+            const drawable = getActiveDrawableForMedia(entry.m, entry.im, effectiveTimeMs);
+            if (style === 'collage') {
+              actx.save();
+              actx.translate(x + cardW / 2, y + cardH / 2);
+              actx.rotate(cell.microTilt);
+              drawCover(actx, drawable, -cardW / 2, -cardH / 2, cardW, cardH, radius, entry.m.zoom, entry.m.panX, entry.m.panY);
+              actx.restore();
+            } else {
+              drawCover(actx, drawable, x, y, cardW, cardH, radius, entry.m.zoom, entry.m.panX, entry.m.panY);
+            }
+            const wrapIdx = Math.floor(j / N);
+            recordSlot(wrapIdx ? `${cell.uid}~${wrapIdx}` : cell.uid, entry.index, x, y, cardW, cardH, true, cell.microTilt || 0);
+          }
+        }
+      } else
       for (const cell of cells) {
         const entry = cell.assigned;
         if (!entry) continue;
@@ -9505,6 +9649,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
 }
 
 async function render() {
+  ensureGifAnimationLoop();
   await renderToCanvas($('canvas'), media, null, null, { showSelection: true });
 }
 
@@ -9555,11 +9700,25 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
     const animatedItems = items.filter(m => m && m.isGif && Array.isArray(m.gifFrames) && m.gifFrames.length > 1);
     const maxGifDur = animatedItems.reduce((mx, m) => Math.max(mx, m.gifTotalDuration || 0), 0);
     const loopDurationMs = maxGifDur > 0 ? Math.min(8000, Math.max(400, maxGifDur)) : 1200;
-    const dt = Math.round(1000 / fps);
-    const frameCount = maxGifDur > 0
+    let dt = Math.round(1000 / fps);
+    let frameCount = maxGifDur > 0
       ? Math.max(2, Math.min(80, Math.round(loopDurationMs / dt)))
       : 1;
-    const delayCs = Math.max(2, Math.round(dt / 10));
+    let delayCs = Math.max(2, Math.round(dt / 10));
+    if (motionActive()) {
+      // Loop perfeito: dura um número inteiro de "passos" de célula
+      const probe = document.createElement('canvas');
+      await renderToCanvas(probe, items, titleOverride, subtitleOverride, { showSelection: false, forExport: true, animTimeMs: 0 });
+      const info = lastMotionInfo;
+      if (info && info.speedPx > 0) {
+        const periodMs = info.periodPx / info.speedPx * 1000;
+        const reps = Math.max(1, Math.floor(4000 / periodMs));
+        const D = Math.min(8000, periodMs * reps);
+        frameCount = Math.max(8, Math.min(100, Math.round(D / (1000 / fps))));
+        dt = D / frameCount;
+        delayCs = Math.max(2, Math.round(dt / 10));
+      }
+    }
 
     const [baseW, baseH] = $('ratio').value.split(',').map(Number);
     const outW = Math.max(64, Math.round((baseW * scale) / 2) * 2);
@@ -9829,6 +9988,7 @@ const sliderMappings = [
   ['globalPanY', 'globalPanYOut', '%'],
   ['shade', 'shadeOut', '%'],
   ['gradOpacity', 'gradOpacityOut', '%'],
+  ['motionSpeed', 'motionSpeedOut', '%'],
   ['gradReach', 'gradReachOut', '%'],
   ['gradAngle', 'gradAngleOut', '°'],
   ['canvasBlur', 'canvasBlurOut', ' px'],
@@ -11731,6 +11891,43 @@ updateFilterMeta();
 updateLayoutMeta();
 updateUndoRedoButtons();
 clearCanvas();
+
+// =========================================================================
+// ANIMAÇÃO: controles
+// =========================================================================
+const MOTION_T = {
+  'pt-BR': { title: '🎞 Animação (movimento)', mode: 'Tipo de movimento', speed: 'Velocidade', pause: '⏸ Pausar', play: '▶ Continuar',
+    hint: 'Funciona em Mural, Grade Uniforme, Cartazes e Faixas. Para salvar a animação, escolha o formato GIF na exportação.',
+    off: 'Desligado', cols: 'Colunas: ímpares sobem, pares descem', rows: 'Linhas: ímpares vão pra esquerda, pares pra direita' },
+  en: { title: '🎞 Animation (motion)', mode: 'Motion type', speed: 'Speed', pause: '⏸ Pause', play: '▶ Resume',
+    hint: 'Works with Tilted Wall, Uniform Grid, Loose Posters and Strips. To save the animation, pick GIF in the export format.',
+    off: 'Off', cols: 'Columns: odd go up, even go down', rows: 'Rows: odd go left, even go right' }
+};
+function applyMotionLabels() {
+  const t = MOTION_T[(typeof currentUiLang !== 'undefined' && currentUiLang === 'en') ? 'en' : 'pt-BR'];
+  const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  set('advMotionTitle', t.title); set('lblMotionMode', t.mode); set('lblMotionSpeed', t.speed); set('motionHint', t.hint);
+  set('motionPauseBtn', motionPaused ? t.play : t.pause);
+  const sel = $('motionMode');
+  if (sel) for (const o of sel.options) if (t[o.value]) o.textContent = t[o.value];
+}
+{
+  const _motionOrigLang = applyUiLanguage;
+  applyUiLanguage = function () { const r = _motionOrigLang.apply(this, arguments); applyMotionLabels(); return r; };
+}
+$('motionPauseBtn')?.addEventListener('click', () => { motionPaused = !motionPaused; applyMotionLabels(); });
+$('motionMode')?.addEventListener('change', () => {
+  pushUndoSnapshot();
+  motionPaused = false; applyMotionLabels();
+  if ($('motionMode').value !== 'off') {
+    motionDistBase = 0;
+    $('advMotionBox')?.classList.add('open');
+  }
+  ensureGifAnimationLoop();
+  if (media.length) render();
+});
+$('style')?.addEventListener('change', () => ensureGifAnimationLoop());
+applyMotionLabels();
 applyUiLanguage(currentUiLang, { persist: false, reRender: false });
 
 if (savedUiLang !== 'pt-BR' && savedUiLang !== 'en') {
