@@ -548,6 +548,19 @@ input:focus,select:focus{border-color:var(--accent)}
 
 /* CATALOG LIST & TAG CHIPS (AIOMetadata) */
 .chip-row{display:flex;flex-wrap:wrap;gap:4px}
+body.simple-mode #advBgBox,body.simple-mode #advGeomBox,body.simple-mode #advFxBox,body.simple-mode #advTextBox{display:none}
+.mode-hint{display:none;width:100%;margin-top:10px;padding:10px 12px;border:1px dashed rgba(124,106,240,.5);border-radius:10px;background:rgba(124,106,240,.07);color:#c9c2ff;font-size:12.5px;font-weight:600;cursor:pointer;text-align:center}
+.mode-hint:hover{background:rgba(124,106,240,.16)}
+body.simple-mode .mode-hint{display:block}
+#modeToggleBtn.is-simple{border-color:#7c6af0;color:#fff;background:rgba(124,106,240,.2)}
+.next-step-row{grid-column:1/-1;display:flex}
+.next-step-row .btn{flex:1;justify-content:center;font-size:12.5px;padding:8px}
+.type-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.type-check{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border:1px solid var(--border,#2a2f3a);border-radius:10px;cursor:pointer;font-size:12.5px;font-weight:600;user-select:none;background:rgba(255,255,255,.03);transition:background .15s,border-color .15s}
+.type-check input{position:absolute;opacity:0;pointer-events:none}
+.type-check:has(input:checked){background:rgba(124,106,240,.22);border-color:#7c6af0;color:#fff}
+.type-check:focus-within{outline:2px solid #7c6af0;outline-offset:1px}
+.exp-note{font-size:11.5px;line-height:1.4;margin-top:6px;padding:7px 9px;border-radius:8px;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.35);color:#ffd77a;display:none}
 .chip{
   background:#0b0d13;border:1px solid var(--line-2);color:var(--muted);
   border-radius:99px;padding:3px 8px;font-size:10.5px;cursor:pointer;transition:all .12s;
@@ -1449,6 +1462,7 @@ input:focus,select:focus{border-color:var(--accent)}
       <span id="openLinkModalBtnText">🔗 Link</span>
     </button>
     <button id="clearAll" class="btn secondary sm" type="button" disabled="">Limpar</button>
+    <button id="modeToggleBtn" class="btn secondary sm" type="button" title="Alternar entre modo simples e avançado">🎚 Simples</button>
     <button id="openTutorialBtn" class="btn secondary sm" type="button" title="Abrir guia rápido">? Guia</button>
     <button id="langToggleBtn" class="btn secondary sm" type="button" title="Mudar idioma / Switch language">🌐 PT</button>
   </div>
@@ -1596,14 +1610,9 @@ input:focus,select:focus{border-color:var(--accent)}
                 <label id="lblExpProvider">Provedor</label>
                 <select id="expProvider">
                   <option value="anilist" selected="">AniList (Animes)</option>
-                  <option value="tmdb">TMDB (Filmes / Séries)</option>
-                </select>
-              </div>
-              <div class="field" id="expTmdbTypeWrap" style="display:none">
-                <label id="lblExpTmdbType">Tipo TMDB</label>
-                <select id="expTmdbType">
-                  <option value="tv">Séries / Animes</option>
-                  <option value="movie">Filmes</option>
+                  <option value="tmdb">TMDB (Filmes / Séries / Animes)</option>
+                  <option value="trakt">Trakt (Filmes / Séries)</option>
+                  <option value="mdblist">MDBList (Listas)</option>
                 </select>
               </div>
               <div class="field" id="expFormatWrap">
@@ -1619,6 +1628,75 @@ input:focus,select:focus{border-color:var(--accent)}
                 </select>
               </div>
             </div>
+
+            <div class="field" id="expTypesWrap" style="display:none">
+              <label id="lblExpTypes">O que retornar (marque um ou mais)</label>
+              <div class="type-checks">
+                <label class="type-check"><input type="checkbox" id="expTypeMovie"><span id="lblTypeMovie">🎬 Filmes</span></label>
+                <label class="type-check"><input type="checkbox" id="expTypeSeries" checked><span id="lblTypeSeries">📺 Séries</span></label>
+                <label class="type-check" id="expTypeAnimeWrap"><input type="checkbox" id="expTypeAnime" checked><span id="lblTypeAnime">🌸 Animes</span></label>
+              </div>
+            </div>
+
+            <div class="field" id="expTmdbCodeWrap" style="display:none">
+              <label id="lblExpTmdbCode">Buscar por código TMDB / IMDb</label>
+              <input id="expTmdbCode" type="text" placeholder="603, movie:603, tv:1399, tt0133093, link do TMDB…">
+              <div class="hint" id="hintExpTmdbCode" style="font-size:11px;opacity:.65;margin-top:3px">Separe vários por vírgula. Só o número usa Séries/Animes marcados; use movie:ID para filme. Ignora os outros filtros.</div>
+            </div>
+
+            <div class="field" id="expStreamWrap" style="display:none">
+              <label id="lblExpStreaming">Serviço de streaming (opcional)</label>
+              <div class="row2" style="grid-template-columns:1.6fr 1fr;gap:6px">
+                <select id="expStreaming">
+                  <option value="">Qualquer serviço</option>
+                  <option value="8">Netflix</option>
+                  <option value="119">Amazon Prime Video</option>
+                  <option value="337">Disney+</option>
+                  <option value="1899">Max</option>
+                  <option value="350">Apple TV+</option>
+                  <option value="15">Hulu</option>
+                  <option value="531">Paramount+</option>
+                  <option value="283">Crunchyroll</option>
+                  <option value="619">Star+</option>
+                  <option value="307">Globoplay</option>
+                  <option value="386">Peacock</option>
+                  <option value="11">MUBI</option>
+                </select>
+                <select id="expRegion" title="Região">
+                  <option value="BR" selected>🇧🇷 BR</option><option value="US">🇺🇸 US</option><option value="PT">🇵🇹 PT</option>
+                  <option value="ES">🇪🇸 ES</option><option value="MX">🇲🇽 MX</option><option value="AR">🇦🇷 AR</option>
+                  <option value="FR">🇫🇷 FR</option><option value="DE">🇩🇪 DE</option><option value="GB">🇬🇧 GB</option>
+                  <option value="IT">🇮🇹 IT</option><option value="JP">🇯🇵 JP</option><option value="CA">🇨🇦 CA</option><option value="AU">🇦🇺 AU</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field" id="expStudioWrap" style="display:none">
+              <label id="lblExpStudio">Estúdio / produtora (opcional)</label>
+              <select id="expStudio"></select>
+              <input id="expStudioCustom" type="text" list="expStudioSuggest" autocomplete="off" style="margin-top:6px" placeholder="Ou digite outro: nome ou ID da produtora">
+              <datalist id="expStudioSuggest"></datalist>
+              <div style="font-size:11px;opacity:.65;margin-top:3px" id="hintExpStudio">Comece a digitar para ver sugestões de qualquer estúdio. O campo tem prioridade sobre a lista.</div>
+            </div>
+
+            <div class="field" id="expTraktWrap" style="display:none">
+              <label id="lblExpTraktSource">Lista do Trakt</label>
+              <select id="expTraktSource">
+                <option value="trending">Em alta agora</option>
+                <option value="popular">Populares</option>
+                <option value="anticipated">Mais aguardados</option>
+                <option value="watched/weekly">Mais assistidos da semana</option>
+                <option value="list">Lista de um usuário (colar link)</option>
+              </select>
+              <input id="expTraktList" type="text" placeholder="https://trakt.tv/users/usuario/lists/nome-da-lista" style="display:none;margin-top:6px">
+            </div>
+
+            <div class="field" id="expMdblistWrap" style="display:none">
+              <label id="lblExpMdblistList">Lista do MDBList (link ou ID)</label>
+              <input id="expMdblistList" type="text" placeholder="https://mdblist.com/lists/usuario/nome-da-lista">
+            </div>
+
+            <div class="exp-note" id="expProviderNote"></div>
 
             <div class="field">
               <label id="lblExpSearch">Palavra-chave ou Título (opcional)</label>
@@ -1950,6 +2028,50 @@ input:focus,select:focus{border-color:var(--accent)}
           </div>
         </div>
 
+        <!-- REFLEXO DE LUZ -->
+        <div class="adv-box" id="advShineBox">
+          <button class="adv-toggle" type="button" onclick="toggleAdv('advShineBox')">
+            <span id="advShineTitle">✨ Reflexo de luz</span>
+            <span class="adv-chevron">▾</span>
+          </button>
+          <div class="adv-body">
+            <div class="field">
+              <label id="lblShineMode">Onde passa a luz</label>
+              <select id="shineMode">
+                <option value="off" selected>Desligado</option>
+                <option value="global">Uma faixa grande passando por tudo</option>
+                <option value="each">Uma faixa em cada poster, ao mesmo tempo</option>
+                <option value="one">Só em um poster específico</option>
+              </select>
+            </div>
+            <div class="field" id="shineOneWrap" style="display:none">
+              <button type="button" class="btn" id="shineUseSelectedBtn" style="width:100%">🎯 Usar o poster selecionado</button>
+              <div class="hint-box" id="shineTargetInfo" style="margin-top:6px">Clique num poster no preview e depois neste botão.</div>
+            </div>
+            <div class="field">
+              <label><span id="lblShineSpeed">Velocidade</span><span class="lbl-right"><output id="shineSpeedOut">40%</output><button type="button" class="reset-mini-btn" data-reset="shineSpeed" title="Resetar (40%)">↺</button></span></label>
+              <div class="slider"><input id="shineSpeed" type="range" min="5" max="100" value="40" data-default="40"></div>
+            </div>
+            <div class="field">
+              <label><span id="lblShineWidth">Largura da faixa</span><span class="lbl-right"><output id="shineWidthOut">22%</output><button type="button" class="reset-mini-btn" data-reset="shineWidth" title="Resetar (22%)">↺</button></span></label>
+              <div class="slider"><input id="shineWidth" type="range" min="5" max="70" value="22" data-default="22"></div>
+            </div>
+            <div class="field">
+              <label><span id="lblShineAngle">Inclinação</span><span class="lbl-right"><output id="shineAngleOut">20°</output><button type="button" class="reset-mini-btn" data-reset="shineAngle" title="Resetar (20°)">↺</button></span></label>
+              <div class="slider"><input id="shineAngle" type="range" min="-70" max="70" value="20" data-default="20"></div>
+            </div>
+            <div class="field">
+              <label><span id="lblShineIntensity">Intensidade</span><span class="lbl-right"><output id="shineIntensityOut">55%</output><button type="button" class="reset-mini-btn" data-reset="shineIntensity" title="Resetar (55%)">↺</button></span></label>
+              <div class="slider"><input id="shineIntensity" type="range" min="5" max="100" value="55" data-default="55"></div>
+            </div>
+            <div class="field">
+              <label id="lblShineColor">Cor da luz</label>
+              <input id="shineColor" type="color" value="#ffffff">
+            </div>
+            <div class="hint-box" id="shineHint" style="margin-top:8px">Funciona em todos os estilos, sozinho ou junto com o movimento. O botão Pausar também pausa o reflexo. Para salvar animado, use GIF ou WebP animado; em PNG/WebP comum o reflexo sai parado no meio do trajeto.</div>
+          </div>
+        </div>
+
         <!-- ADVANCED 0: FUNDO (cor, degradês e padrões) -->
         <div class="adv-box" id="advBgBox">
           <button class="adv-toggle" type="button" onclick="toggleAdv('advBgBox')">
@@ -2089,6 +2211,7 @@ input:focus,select:focus{border-color:var(--accent)}
                   <label><span id="lblGlobalZoom">Zoom Global</span><output id="globalZoomOut">100%</output></label>
                   <div class="slider"><input id="globalZoom" type="range" min="10" max="250" value="100" data-default="100"></div>
                 </div>
+                <label class="check" style="padding-bottom:7px"><input id="globalZoomFill" type="checkbox"> <span id="lblGlobalZoomFill">Preencher ao diminuir (mais posters ao redor)</span></label>
                 <div class="row2">
                   <div class="field">
                     <label><span id="lblGlobalPanX">Posição X</span><output id="globalPanXOut">0%</output></label>
@@ -2497,6 +2620,7 @@ input:focus,select:focus{border-color:var(--accent)}
         <span id="statusText">Pronto. Escolha um preset ou clique em Gerar.</span>
       </div>
       <div class="footer-actions">
+        <div class="next-step-row"><button id="nextStepBtn" class="btn secondary" type="button">Próximo: Estilo →</button></div>
         <button id="generateBtn" class="btn primary-glow" type="button">✨ Gerar Preview</button>
         <button id="downloadBtn" class="btn secondary" type="button" disabled="">Baixar WebP</button>
       </div>
@@ -2716,6 +2840,20 @@ input:focus,select:focus{border-color:var(--accent)}
         </label>
         <input id="tmdbToken" type="password" autocomplete="off" spellcheck="false" placeholder="Cole seu token eyJhbGci... ou chave v3">
         <div id="tmdbTokenStatus" class="token-status"></div>
+      </div>
+      <div class="field">
+        <label>
+          <span id="lblTraktId">Trakt · Client ID (opcional)</span>
+          <a href="https://trakt.tv/oauth/applications" target="_blank" rel="noopener">Obter grátis ↗</a>
+        </label>
+        <input id="traktClientId" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o Client ID do seu app Trakt">
+      </div>
+      <div class="field">
+        <label>
+          <span id="lblMdblistKey">MDBList · API Key (opcional)</span>
+          <a href="https://mdblist.com/preferences/" target="_blank" rel="noopener">Obter grátis ↗</a>
+        </label>
+        <input id="mdblistKey" type="password" autocomplete="off" spellcheck="false" placeholder="Cole sua API Key do MDBList">
       </div>
       <div class="row2">
         <div class="field">
@@ -3364,7 +3502,7 @@ const I18N = {
     sourcePaneTitle: 'Fonte & Presets',
     helpSourceTitle: 'Ajuda: Fonte & Presets',
     summaryPresets: 'Presets Rápidos (1 clique)',
-    summaryExploreTmdb: 'Explorar TMDB (Filmes / Séries)',
+    summaryExploreTmdb: 'Explorar TMDB (Filmes / Séries / Animes)',
     summaryExploreAnilist: 'Explorar AniList (Animes)',
     summaryJsonLoaded: n => `AIOMetadata (${n} catálogos)`,
     summaryJsonEmpty: 'Importar JSON do AIOMetadata',
@@ -3936,7 +4074,7 @@ const I18N = {
     sourcePaneTitle: 'Source & Presets',
     helpSourceTitle: 'Help: Source & Presets',
     summaryPresets: 'Quick Presets (1 click)',
-    summaryExploreTmdb: 'Explore TMDB (Movies / Series)',
+    summaryExploreTmdb: 'Explore TMDB (Movies / Series / Anime)',
     summaryExploreAnilist: 'Explore AniList (Anime)',
     summaryJsonLoaded: n => `AIOMetadata (${n} catalogs)`,
     summaryJsonEmpty: 'Import AIOMetadata JSON',
@@ -4492,6 +4630,36 @@ function L() {
   return I18N[currentUiLang] || I18N['pt-BR'];
 }
 
+function applyExploreLabels() {
+  const en = typeof currentUiLang !== 'undefined' && currentUiLang === 'en';
+  const T = en ? {
+    types: 'What to return (pick one or more)', movie: '🎬 Movies', series: '📺 Series', anime: '🌸 Anime',
+    traktSrc: 'Trakt list', mdbList: 'MDBList list (link or ID)', traktId: 'Trakt · Client ID (optional)', mdbKey: 'MDBList · API Key (optional)',
+    optTmdb: 'TMDB (Movies / Series / Anime)', optTrakt: 'Trakt (Movies / Series)', optMdb: 'MDBList (Lists)',
+    trending: 'Trending now', popular: 'Popular', anticipated: 'Most anticipated', 'watched/weekly': 'Most watched this week', list: "A user's list (paste link)"
+  } : {
+    types: 'O que retornar (marque um ou mais)', movie: '🎬 Filmes', series: '📺 Séries', anime: '🌸 Animes',
+    traktSrc: 'Lista do Trakt', mdbList: 'Lista do MDBList (link ou ID)', traktId: 'Trakt · Client ID (opcional)', mdbKey: 'MDBList · API Key (opcional)',
+    optTmdb: 'TMDB (Filmes / Séries / Animes)', optTrakt: 'Trakt (Filmes / Séries)', optMdb: 'MDBList (Listas)',
+    trending: 'Em alta agora', popular: 'Populares', anticipated: 'Mais aguardados', 'watched/weekly': 'Mais assistidos da semana', list: 'Lista de um usuário (colar link)'
+  };
+  const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  set('lblGlobalZoomFill', en ? 'Fill when zooming out (more posters around)' : 'Preencher ao diminuir (mais posters ao redor)');
+  set('lblExpTypes', T.types); set('lblTypeMovie', T.movie); set('lblTypeSeries', T.series); set('lblTypeAnime', T.anime);
+  set('lblExpTmdbCode', en ? 'Search by TMDB / IMDb code' : 'Buscar por código TMDB / IMDb');
+  set('hintExpTmdbCode', en ? 'Separate several with commas. A bare number uses the checked Series/Anime; use movie:ID for movies. Ignores other filters.' : 'Separe vários por vírgula. Só o número usa Séries/Animes marcados; use movie:ID para filme. Ignora os outros filtros.');
+  set('lblExpStreaming', en ? 'Streaming service (optional)' : 'Serviço de streaming (opcional)');
+  set('hintExpStudio', en ? 'Start typing to see suggestions for any studio. This field takes priority over the list.' : 'Comece a digitar para ver sugestões de qualquer estúdio. O campo tem prioridade sobre a lista.');
+  set('lblExpStudio', en ? 'Studio / company (optional)' : 'Estúdio / produtora (opcional)');
+  { const o = $('expStreaming')?.options[0]; if (o) o.textContent = en ? 'Any service' : 'Qualquer serviço';
+    const c = $('expStudioCustom'); if (c) c.placeholder = en ? 'Or type another: company name or ID' : 'Ou digite outro: nome ou ID da produtora';
+    if (typeof populateStudioSelect === 'function') populateStudioSelect(); }
+  set('lblExpTraktSource', T.traktSrc); set('lblExpMdblistList', T.mdbList); set('lblTraktId', T.traktId); set('lblMdblistKey', T.mdbKey);
+  setSelectOptionTexts('expProvider', { tmdb: T.optTmdb, trakt: T.optTrakt, mdblist: T.optMdb });
+  setSelectOptionTexts('expTraktSource', { trending: T.trending, popular: T.popular, anticipated: T.anticipated, 'watched/weekly': T['watched/weekly'], list: T.list });
+  if (typeof updateProviderNote === 'function') updateProviderNote();
+}
+
 function setSelectOptionTexts(selectId, map) {
   const sel = $(selectId);
   if (!sel) return;
@@ -4544,6 +4712,44 @@ const MOTION_STYLES = ['masonry', 'grid', 'collage', 'strip'];
 function motionActive() {
   const m = $('motionMode')?.value || 'off';
   return m !== 'off' && MOTION_STYLES.includes($('style')?.value);
+}
+let shineT = 0;                 // segundos acumulados do reflexo (preview)
+let shineTargetId = null;       // poster específico do reflexo
+let exportShinePeriodS = null;  // período ajustado durante exportação
+const shineModeVal = () => $('shineMode')?.value || 'off';
+function shineActive() { return shineModeVal() !== 'off'; }
+function shinePeriodS() { return exportShinePeriodS || 240 / Math.max(5, Number($('shineSpeed')?.value || 40)); }
+function animActive() { return motionActive() || shineActive(); }
+function drawShineBand(g, x, y, w, h, phase, radius = 0, clip = true) {
+  const ang = Number($('shineAngle')?.value ?? 20) * Math.PI / 180;
+  const wid = Number($('shineWidth')?.value || 22) / 100;
+  const inten = Number($('shineIntensity')?.value || 55) / 100;
+  const hex = ($('shineColor')?.value || '#ffffff').replace('#', '');
+  const rr = parseInt(hex.slice(0, 2), 16), gg = parseInt(hex.slice(2, 4), 16), bb = parseInt(hex.slice(4, 6), 16);
+  const col = a => `rgba(${rr},${gg},${bb},${a})`;
+  const L = Math.abs(w * Math.cos(ang)) + Math.abs(h * Math.sin(ang));
+  const bw = Math.max(4, L * wid);
+  g.save();
+  g.globalAlpha = 1;
+  if (clip) {
+    g.beginPath();
+    if (radius > 0) g.roundRect(x, y, w, h, radius); else g.rect(x, y, w, h);
+    g.clip();
+  }
+  g.translate(x + w / 2, y + h / 2);
+  g.rotate(ang);
+  const pos = -L / 2 - bw / 2 + phase * (L + bw);
+  const grad = g.createLinearGradient(pos - bw / 2, 0, pos + bw / 2, 0);
+  grad.addColorStop(0, col(0));
+  grad.addColorStop(0.3, col(inten * 0.35));
+  grad.addColorStop(0.5, col(inten));
+  grad.addColorStop(0.7, col(inten * 0.35));
+  grad.addColorStop(1, col(0));
+  g.globalCompositeOperation = 'lighter';
+  g.fillStyle = grad;
+  const ext = Math.hypot(w, h);
+  g.fillRect(pos - bw / 2, -ext, bw, ext * 2);
+  g.restore();
 }
 function motionSpeedBase() { return Number($('motionSpeed')?.value || 30) * 6; }
 
@@ -4598,17 +4804,18 @@ function getActiveDrawableForMedia(m, fallbackIm, animTimeMs) {
 
 function ensureGifAnimationLoop() {
   if (gifAnimRafId !== null) return;
-  if (!hasAnimatedGifMedia() && !motionActive()) return;
+  if (!hasAnimatedGifMedia() && !animActive()) return;
 
   motionLastTs = performance.now();
   const step = async ts => {
-    if (!hasAnimatedGifMedia() && !motionActive()) {
+    if (!hasAnimatedGifMedia() && !animActive()) {
       gifAnimRafId = null;
       return;
     }
     const dtS = Math.min(0.1, Math.max(0, (ts - motionLastTs) / 1000));
     motionLastTs = ts;
     if (motionActive() && !motionPaused && media.length) motionDistBase += motionSpeedBase() * dtS;
+    if (shineActive() && !motionPaused && media.length) shineT += dtS;
     if (media.length && !isDragging && !isRenderingFrame && ts - lastGifTickTs >= 33 && !(motionPaused && !hasAnimatedGifMedia())) {
       lastGifTickTs = ts;
       isRenderingFrame = true;
@@ -4634,11 +4841,11 @@ let sliderHistoryTimer = null;
 let sliderPreChangeSnapshot = null;
 
 const STYLE_SETTING_KEYS = [
-  'motionMode', 'motionSpeed', 'style', 'imgType', 'cardShape', 'bgColor',
+  'motionMode', 'motionSpeed', 'shineMode', 'shineSpeed', 'shineWidth', 'shineAngle', 'shineIntensity', 'shineColor', 'style', 'imgType', 'cardShape', 'bgColor',
   'bgMode', 'bgColor2', 'bgMidEnabled', 'bgColorMid', 'bgAngle', 'bgCx', 'bgCy', 'bgRadius', 'bgPattern', 'bgPatColor', 'bgPatOpacity', 'bgPatSize', 'bgPatThick', 'bgPatAngle',
   'textGradAngle', 'textGradStart', 'textGradEnd',
   'angle', 'gap', 'radius', 'cols', 'stagger', 'imgOpacity',
-  'globalZoom', 'globalPanX', 'globalPanY',
+  'globalZoom', 'globalZoomFill', 'globalPanX', 'globalPanY',
   'shade', 'gradDir', 'gradOpacity', 'gradColor', 'gradReach', 'gradAngle', 'filterPreset',
   'canvasBlur', 'filterBrightness', 'filterContrast', 'filterSaturation',
   'localBlurEnabled', 'localBlurDir', 'localBlurAmt', 'localBlurReach', 'localBlurFeather',
@@ -5152,7 +5359,15 @@ function getCurrentExploreFilterSnapshot() {
   return {
     kind: 'explore',
     provider: $('expProvider').value,
-    tmdbType: $('expTmdbType').value,
+    types: getExpTypes(),
+    streaming: $('expStreaming')?.value || '',
+    region: $('expRegion')?.value || 'BR',
+    studioKey: $('expStudio')?.value || '',
+    studioCustom: $('expStudioCustom')?.value.trim() || '',
+    tmdbCode: $('expTmdbCode')?.value.trim() || '',
+    traktSource: $('expTraktSource')?.value || 'trending',
+    traktList: $('expTraktList')?.value.trim() || '',
+    mdblistList: $('expMdblistList')?.value.trim() || '',
     format: $('expFormat').value,
     search: $('expSearch').value.trim(),
     genres: [...selectedExpGenres],
@@ -5172,7 +5387,7 @@ function getGenreDisplayLabel(val, shortForm = false) {
 function populateGenreDropdown() {
   const sel = $('expGenreSelect');
   if (!sel) return;
-  const isTmdb = $('expProvider').value === 'tmdb';
+  const isTmdb = $('expProvider').value !== 'anilist';
   const includeAdult = $('adult').checked;
   sel.innerHTML = `<option value="">${L().optAddGenre}</option>`;
 
@@ -5349,6 +5564,42 @@ $('expYear')?.addEventListener('input', () => {
   $(id)?.addEventListener('change', syncLiveExploreFilterContext);
 });
 $('expSearch')?.addEventListener('input', syncLiveExploreFilterContext);
+['expStreaming', 'expRegion', 'expStudio'].forEach(id => $(id)?.addEventListener('change', syncLiveExploreFilterContext));
+['expStudioCustom', 'expTmdbCode'].forEach(id => $(id)?.addEventListener('input', syncLiveExploreFilterContext));
+{
+  let studioSuggestTimer = null, studioSuggestSeq = 0;
+  $('expStudioCustom')?.addEventListener('input', () => {
+    clearTimeout(studioSuggestTimer);
+    const q = $('expStudioCustom').value.trim();
+    const dl = $('expStudioSuggest');
+    if (!dl || q.length < 2 || /^[\d|,\s]+$/.test(q)) return;
+    studioSuggestTimer = setTimeout(async () => {
+      const seq = ++studioSuggestSeq;
+      const prov = $('expProvider').value;
+      let names = [];
+      try {
+        if (prov === 'anilist') {
+          const r = await fetch(ANILIST_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ query: 'query($s:String){Page(perPage:12){studios(search:$s){name}}}', variables: { s: q } }) });
+          const j = await r.json();
+          names = (j.data?.Page?.studios || []).map(x => x.name);
+        } else if (prov === 'tmdb' && getTmdbToken()) {
+          const d = await tmdbFetch('/search/company', { query: q });
+          for (const c of (d.results || []).slice(0, 12)) { names.push(c.name); _tmdbCompanyNameToId[c.name.toLowerCase()] = c.id; }
+        }
+      } catch (e) {}
+      if (seq !== studioSuggestSeq) return;
+      dl.innerHTML = [...new Set(names)].sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' })).map(n => `<option value="${n.replace(/"/g, '&quot;')}">`).join('');
+    }, 300);
+  });
+}
+$('expStudio')?.addEventListener('change', () => {
+  // ao escolher um estúdio de cinema no TMDB, inclui filmes automaticamente
+  if ($('expProvider').value === 'tmdb' && $('expStudio').value) {
+    const st = STUDIOS.find(x => x.key === $('expStudio').value);
+    if (st && st.group.includes('Cinema') && $('expTypeMovie')) $('expTypeMovie').checked = true;
+  }
+});
 
 async function loadFullAniListTagCollection() {
   try {
@@ -5398,7 +5649,9 @@ function updateSourceSummary() {
   if (tab === 'tabPresets') {
     $('sourceSummary').textContent = L().summaryPresets;
   } else if (tab === 'tabExplore') {
-    $('sourceSummary').textContent = $('expProvider').value === 'tmdb' ? L().summaryExploreTmdb : L().summaryExploreAnilist;
+    const pv = $('expProvider').value;
+    const en = typeof currentUiLang !== 'undefined' && currentUiLang === 'en';
+    $('sourceSummary').textContent = pv === 'tmdb' ? L().summaryExploreTmdb : pv === 'trakt' ? (en ? 'Explore Trakt (Movies / Series)' : 'Explorar Trakt (Filmes / Séries)') : pv === 'mdblist' ? (en ? 'Explore MDBList (Lists)' : 'Explorar MDBList (Listas)') : L().summaryExploreAnilist;
   } else if (tab === 'tabJson') {
     $('sourceSummary').textContent = catalogs.length ? L().summaryJsonLoaded(catalogs.length) : L().summaryJsonEmpty;
   } else {
@@ -6680,17 +6933,401 @@ $('webpQuality').addEventListener('input', () => {
 });
 
 // =========================================================================
-// EXPLORAR: PROVEDOR (ANILIST vs TMDB)
+// EXPLORAR: TMDB (filmes/séries/animes), TRAKT e MDBLIST
 // =========================================================================
+const TRAKT_BASE = 'https://api.trakt.tv';
+const TRAKT_STORAGE_KEY = 'bs_trakt_client_id';
+const MDBLIST_STORAGE_KEY = 'bs_mdblist_key';
+const TRAKT_GENRES = {
+  'Action': 'action', 'Adventure': 'adventure', 'Comedy': 'comedy', 'Drama': 'drama', 'Fantasy': 'fantasy',
+  'Horror': 'horror', 'Mystery': 'mystery', 'Romance': 'romance', 'Sci-Fi': 'science-fiction', 'Thriller': 'thriller',
+  'Music': 'music', 'Sports': 'sport', 'Crime': 'crime', 'Family': 'family', 'War': 'war', 'Western': 'western',
+  'Animation': 'animation', 'Documentary': 'documentary', 'History': 'history'
+};
+function getTraktId() { return ($('traktClientId')?.value || '').trim(); }
+function getMdblistKey() { return ($('mdblistKey')?.value || '').trim(); }
+(function loadExtraKeys() {
+  try {
+    const t = localStorage.getItem(TRAKT_STORAGE_KEY); if (t && $('traktClientId')) $('traktClientId').value = t;
+    const m = localStorage.getItem(MDBLIST_STORAGE_KEY); if (m && $('mdblistKey')) $('mdblistKey').value = m;
+  } catch (e) {}
+  $('traktClientId')?.addEventListener('input', () => { try { localStorage.setItem(TRAKT_STORAGE_KEY, getTraktId()); } catch (e) {} updateProviderNote(); });
+  $('mdblistKey')?.addEventListener('input', () => { try { localStorage.setItem(MDBLIST_STORAGE_KEY, getMdblistKey()); } catch (e) {} updateProviderNote(); });
+})();
+
+function getExpTypes() {
+  return { movie: !!$('expTypeMovie')?.checked, series: !!$('expTypeSeries')?.checked, anime: !!$('expTypeAnime')?.checked };
+}
+
+const interleaveLists = (lists, count) => {
+  const out = [], seen = new Set();
+  for (let i = 0; out.length < count; i++) {
+    let any = false;
+    for (const l of lists) {
+      if (i < l.length) {
+        any = true;
+        if (!seen.has(String(l[i].id))) { seen.add(String(l[i].id)); out.push(l[i]); if (out.length >= count) break; }
+      }
+    }
+    if (!any) break;
+  }
+  return out;
+};
+
+// TMDB: cada caixa marcada vira uma consulta; resultados intercalados
+// key, label, grupo, ids de company no TMDB (pipe = OR), nome no AniList
+const STUDIOS = [
+  { key:'marvel', label:'Marvel Studios', group:'🎬 Cinema', tmdb:'420' },
+  { key:'dc', label:'DC (Studios / Films / Comics)', group:'🎬 Cinema', tmdb:'9993|128064|429' },
+  { key:'wb', label:'Warner Bros.', group:'🎬 Cinema', tmdb:'174' },
+  { key:'disney', label:'Walt Disney Pictures', group:'🎬 Cinema', tmdb:'2' },
+  { key:'pixar', label:'Pixar', group:'🎬 Cinema', tmdb:'3' },
+  { key:'lucasfilm', label:'Lucasfilm', group:'🎬 Cinema', tmdb:'1' },
+  { key:'fox', label:'20th Century Studios', group:'🎬 Cinema', tmdb:'25|127928' },
+  { key:'universal', label:'Universal Pictures', group:'🎬 Cinema', tmdb:'33' },
+  { key:'paramount', label:'Paramount Pictures', group:'🎬 Cinema', tmdb:'4' },
+  { key:'columbia', label:'Columbia Pictures', group:'🎬 Cinema', tmdb:'5' },
+  { key:'newline', label:'New Line Cinema', group:'🎬 Cinema', tmdb:'12' },
+  { key:'legendary', label:'Legendary Pictures', group:'🎬 Cinema', tmdb:'923' },
+  { key:'a24', label:'A24', group:'🎬 Cinema', tmdb:'41077' },
+  { key:'blumhouse', label:'Blumhouse', group:'🎬 Cinema', tmdb:'3172' },
+  { key:'sonyanim', label:'Sony Pictures Animation', group:'🎬 Cinema', tmdb:'2251' },
+  { key:'dreamworks', label:'DreamWorks Animation', group:'🎬 Cinema', tmdb:'521' },
+  { key:'illumination', label:'Illumination', group:'🎬 Cinema', tmdb:'6704' },
+  { key:'hbo', label:'HBO', group:'📺 TV / Streaming', tmdb:'3268' },
+  { key:'amazon', label:'Amazon Studios', group:'📺 TV / Streaming', tmdb:'20580' },
+  { key:'ghibli', label:'Studio Ghibli', group:'🌸 Anime', tmdb:'10342', ani:'Studio Ghibli' },
+  { key:'mappa', label:'MAPPA', group:'🌸 Anime', tmdb:'21444', ani:'MAPPA' },
+  { key:'bones', label:'Bones', group:'🌸 Anime', tmdb:'2849', ani:'Bones' },
+  { key:'madhouse', label:'Madhouse', group:'🌸 Anime', tmdb:'3464', ani:'Madhouse' },
+  { key:'ufotable', label:'ufotable', group:'🌸 Anime', tmdb:'280276|5887', ani:'ufotable' },
+  { key:'wit', label:'WIT Studio', group:'🌸 Anime', tmdb:'31058', ani:'Wit Studio' },
+  { key:'a1', label:'A-1 Pictures', group:'🌸 Anime', tmdb:'13113', ani:'A-1 Pictures' },
+  { key:'cloverworks', label:'CloverWorks', group:'🌸 Anime', tmdb:'121589', ani:'CloverWorks' },
+  { key:'kyoani', label:'Kyoto Animation', group:'🌸 Anime', tmdb:'5438', ani:'Kyoto Animation' },
+  { key:'productionig', label:'Production I.G', group:'🌸 Anime', tmdb:'166624|529', ani:'Production I.G' },
+  { key:'pierrot', label:'Studio Pierrot', group:'🌸 Anime', tmdb:'3234', ani:'Studio Pierrot' },
+  { key:'toei', label:'Toei Animation', group:'🌸 Anime', tmdb:'292385|5542', ani:'Toei Animation' },
+  { key:'tms', label:'TMS Entertainment', group:'🌸 Anime', tmdb:'7164|292193|237375|302092', ani:'TMS Entertainment' },
+  { key:'toho', label:'Toho Animation', group:'🌸 Anime', tmdb:'882|193504', ani:'Toho Animation' },
+  { key:'kadokawa', label:'Kadokawa', group:'🌸 Anime', tmdb:'2073|1194|267090|157001', ani:'Kadokawa' },
+  { key:'davidprod', label:'David Production', group:'🌸 Anime', tmdb:'45188', ani:'David Production' },
+  { key:'jcstaff', label:'J.C.Staff', group:'🌸 Anime', tmdb:'11884', ani:'J.C.Staff' },
+  { key:'pa', label:'P.A. Works', group:'🌸 Anime', tmdb:'20867', ani:'P.A.Works' },
+  { key:'sunrise', label:'Sunrise', group:'🌸 Anime', ani:'Sunrise' },
+  { key:'gainax', label:'Gainax', group:'🌸 Anime', ani:'Gainax' },
+  { key:'khara', label:'Khara', group:'🌸 Anime', ani:'Khara' },
+  { key:'dogakobo', label:'Doga Kobo', group:'🌸 Anime', ani:'Doga Kobo' },
+  { key:'brainsbase', label:"Brain's Base", group:'🌸 Anime', ani:"Brain's Base" },
+  { key:'orange', label:'Orange', group:'🌸 Anime', ani:'Orange' },
+  { key:'satelight', label:'Satelight', group:'🌸 Anime', ani:'Satelight' },
+  { key:'polygon', label:'Polygon Pictures', group:'🌸 Anime', ani:'Polygon Pictures' },
+  { key:'bnpictures', label:'Bandai Namco Pictures', group:'🌸 Anime', ani:'Bandai Namco Pictures' },
+  { key:'aniplex', label:'Aniplex', group:'🌸 Anime', ani:'Aniplex' },
+  { key:'actas', label:'Actas', group:'🌸 Anime', ani:'Actas' },
+  { key:'feel', label:'feel.', group:'🌸 Anime', ani:'feel.' },
+  { key:'studio4c', label:'Studio 4°C', group:'🌸 Anime', ani:'Studio 4°C' },
+  { key:'nippon', label:'Nippon Animation', group:'🌸 Anime', ani:'Nippon Animation' },
+  { key:'colorido', label:'Studio Colorido', group:'🌸 Anime', ani:'Studio Colorido' },
+  { key:'passione', label:'Passione', group:'🌸 Anime', ani:'Passione' },
+  { key:'trigger', label:'Trigger', group:'🌸 Anime', ani:'Trigger' },
+  { key:'shaft', label:'Shaft', group:'🌸 Anime', ani:'Shaft' },
+  { key:'lerche', label:'Lerche', group:'🌸 Anime', ani:'Lerche' },
+  { key:'deen', label:'Studio Deen', group:'🌸 Anime', ani:'Studio Deen' },
+  { key:'saru', label:'Science SARU', group:'🌸 Anime', ani:'Science SARU' },
+  { key:'silverlink', label:'Silver Link', group:'🌸 Anime', ani:'Silver Link' }
+];
+
+function populateStudioSelect() {
+  const sel = $('expStudio'); if (!sel) return;
+  const prov = $('expProvider')?.value;
+  const en = typeof currentUiLang !== 'undefined' && currentUiLang === 'en';
+  const prev = sel.value;
+  const list = STUDIOS.filter(x => prov === 'anilist' ? x.ani : true);
+  const groups = [];
+  const byLabel = (a, b) => a.label.localeCompare(b.label, 'pt', { sensitivity: 'base', numeric: true });
+  for (const x of [...list].sort(byLabel)) { let g = groups.find(g => g.n === x.group); if (!g) groups.push(g = { n: x.group, items: [] }); g.items.push(x); }
+  const gname = n => en ? n.replace('Cinema', 'Cinema').replace('TV / Streaming', 'TV / Streaming') : n;
+  sel.innerHTML = `<option value="">${en ? 'Any studio' : 'Qualquer estúdio'}</option>` +
+    groups.map(g => `<optgroup label="${gname(g.n)}">${g.items.map(x => `<option value="${x.key}">${x.label}</option>`).join('')}</optgroup>`).join('');
+  if ([...sel.options].some(o => o.value === prev)) sel.value = prev;
+}
+
+const _tmdbCompanyCache = {};
+// Resolve a seleção de estúdio para ids de company do TMDB (string com | = OU)
+async function resolveTmdbCompanies(ctx) {
+  const custom = (ctx.studioCustom || '').trim();
+  if (custom) {
+    if (/^[\d|,\s]+$/.test(custom)) return custom.replace(/[,\s]+/g, '|').replace(/\|+/g, '|').replace(/^\||\|$/g, '');
+    const m = custom.match(/themoviedb\.org\/company\/(\d+)/); if (m) return m[1];
+    return await searchTmdbCompanyIds(custom);
+  }
+  const st = STUDIOS.find(x => x.key === ctx.studioKey);
+  if (!st) return '';
+  if (st.tmdb) return st.tmdb;
+  return await searchTmdbCompanyIds(st.ani || st.label);
+}
+const _tmdbCompanyNameToId = {};
+async function searchTmdbCompanyIds(name) {
+  const k = name.toLowerCase();
+  if (_tmdbCompanyNameToId[k]) return String(_tmdbCompanyNameToId[k]);
+  if (_tmdbCompanyCache[k]) return _tmdbCompanyCache[k];
+  const d = await tmdbFetch('/search/company', { query: name });
+  const ids = (d.results || []).slice(0, 3).map(r => r.id).join('|');
+  _tmdbCompanyCache[k] = ids;
+  return ids;
+}
+function getAniStudioName(ctx) {
+  const custom = (ctx.studioCustom || '').trim();
+  if (custom) return /^[\d|,\s]+$/.test(custom) ? '' : custom;
+  const st = STUDIOS.find(x => x.key === ctx.studioKey);
+  return st ? (st.ani || st.label) : '';
+}
+
+// Busca por código: ID, movie:ID, tv:ID, tt do IMDb ou link do TMDB
+async function fetchTmdbByCodes(ctx, count) {
+  const tokens = String(ctx.tmdbCode || '').split(/[\s,;]+/).filter(Boolean).slice(0, Math.max(count, 60));
+  const t = ctx.types || { movie: false, series: true, anime: true };
+  const jobs = [];
+  for (const tok of tokens) {
+    let m;
+    if ((m = tok.match(/themoviedb\.org\/(movie|tv)\/(\d+)/i))) jobs.push({ type: m[1].toLowerCase(), id: m[2] });
+    else if ((m = tok.match(/^(movie|tv|filme|serie|série):(\d+)$/i))) jobs.push({ type: /^(movie|filme)$/i.test(m[1]) ? 'movie' : 'tv', id: m[2] });
+    else if (/^tt\d+$/i.test(tok)) jobs.push({ imdb: tok });
+    else if (/^\d+$/.test(tok)) {
+      const wantTv = t.series || t.anime, wantMovie = t.movie;
+      if (wantMovie) jobs.push({ type: 'movie', id: tok });
+      if (wantTv || !wantMovie) jobs.push({ type: 'tv', id: tok });
+    }
+  }
+  const out = await Promise.all(jobs.map(async j => {
+    try {
+      if (j.imdb) {
+        const f = await tmdbFetch(`/find/${j.imdb}`, { external_source: 'imdb_id', language: getTmdbLang() });
+        const mv = f.movie_results?.[0], tv = f.tv_results?.[0];
+        if (mv) return normalizeTmdbItem(mv, 'movie');
+        if (tv) return normalizeTmdbItem(tv, 'tv');
+        return null;
+      }
+      const d = await tmdbFetch(`/${j.type}/${j.id}`, { language: getTmdbLang() });
+      return (d.poster_path || d.backdrop_path) ? normalizeTmdbItem(d, j.type) : null;
+    } catch (e) { return null; }
+  }));
+  const seen = new Set();
+  return out.filter(x => x && !seen.has(x.id) && seen.add(x.id)).slice(0, count);
+}
+
+async function fetchTmdbExploreMulti(ctx, count, startPage = 1) {
+  const types = ctx.types || { movie: false, series: true, anime: true };
+  const kinds = [];
+  if (types.movie) kinds.push({ mediaType: 'movie' });
+  else if (types.anime) kinds.push({ mediaType: 'movie', animeOnly: true });
+  if (types.series) kinds.push({ mediaType: 'tv', excludeAnime: !types.anime });
+  else if (types.anime) kinds.push({ mediaType: 'tv', animeOnly: true });
+  if (!kinds.length) return [];
+  const per = Math.ceil(count / kinds.length) + 2;
+  const lists = [];
+  const extra = {};
+  const companies = await resolveTmdbCompanies(ctx);
+  if (companies) extra.with_companies = companies;
+  if (ctx.streaming) {
+    extra.with_watch_providers = ctx.streaming;
+    extra.watch_region = ctx.region || 'BR';
+    extra.watch_monetization_types = 'flatrate';
+  }
+  const hasExtra = Object.keys(extra).length > 0;
+  if (hasExtra && ((ctx.studioCustom || ctx.studioKey) && !companies)) return [];
+  for (const k of kinds) {
+    lists.push(await fetchTmdbDiscover({
+      ...k, extra, search: hasExtra ? '' : (ctx.search || ''), genreNames: ctx.genres || [], decade: ctx.decade || '', year: ctx.year || '',
+      sort: ctx.sort || 'POPULARITY_DESC', count: per, startPage
+    }));
+  }
+  return interleaveLists(lists, count);
+}
+
+// Imagens para itens sem poster próprio (Trakt/MDBList): TMDB se houver chave, senão Metahub (por IMDb)
+async function resolveExternalImages(entries) {
+  const hasTmdb = !!getTmdbToken();
+  const out = new Array(entries.length).fill(null);
+  const mk = (e, poster, backdrop) => ({
+    id: e.imdbId ? `imdb-${e.imdbId}` : `ext-${e.type}-${e.tmdbId}`,
+    tmdbId: e.tmdbId, tmdbMediaType: e.type,
+    title: { romaji: e.title, english: e.title },
+    coverImage: { extraLarge: poster || backdrop, large: poster || backdrop },
+    bannerImage: backdrop || poster, year: e.year || ''
+  });
+  const work = async (e, i) => {
+    try {
+      if (e.poster || e.backdrop) { out[i] = mk(e, e.poster, e.backdrop); return; }
+      if (hasTmdb) {
+        let d = null;
+        if (e.tmdbId) d = await tmdbFetch(`/${e.type}/${e.tmdbId}`, { language: getTmdbLang() });
+        else if (e.imdbId) {
+          const f = await tmdbFetch(`/find/${e.imdbId}`, { external_source: 'imdb_id', language: getTmdbLang() });
+          d = (e.type === 'movie' ? f.movie_results : f.tv_results)?.[0] || f.movie_results?.[0] || f.tv_results?.[0];
+        }
+        if (d && (d.poster_path || d.backdrop_path)) {
+          const n = normalizeTmdbItem(d, e.type);
+          n.title = { romaji: e.title || n.title.romaji, english: e.title || n.title.english };
+          out[i] = n; return;
+        }
+      }
+      if (e.imdbId) {
+        out[i] = mk(e, `https://images.metahub.space/poster/large/${e.imdbId}/img`, `https://images.metahub.space/background/large/${e.imdbId}/img`);
+      }
+    } catch (err) {
+      if (e.imdbId) out[i] = mk(e, `https://images.metahub.space/poster/large/${e.imdbId}/img`, `https://images.metahub.space/background/large/${e.imdbId}/img`);
+    }
+  };
+  let next = 0;
+  await Promise.all(Array.from({ length: 6 }, async () => {
+    while (next < entries.length) { const i = next++; await work(entries[i], i); }
+  }));
+  return out.filter(Boolean);
+}
+
+async function traktFetch(path, params = {}) {
+  const id = getTraktId();
+  if (!id) throw Error('Cole o Client ID do Trakt em Configurações (⚙).');
+  const url = new URL(TRAKT_BASE + path);
+  for (const [k, v] of Object.entries(params)) if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, String(v));
+  const res = await fetch(url.toString(), { headers: { 'Content-Type': 'application/json', 'trakt-api-version': '2', 'trakt-api-key': id } });
+  if (!res.ok) throw Error(res.status === 401 || res.status === 403 ? 'Client ID do Trakt inválido.' : `Erro Trakt HTTP ${res.status}`);
+  return res.json();
+}
+
+async function fetchTraktExplore(ctx, count, page = 1) {
+  const types = ctx.types || { movie: false, series: true, anime: false };
+  const source = ctx.traktSource || 'trending';
+  const kinds = [];
+  if (types.movie) kinds.push({ kind: 'movies', type: 'movie' });
+  else if (types.anime) kinds.push({ kind: 'movies', type: 'movie', anime: true });
+  if (types.series) kinds.push({ kind: 'shows', type: 'tv' });
+  else if (types.anime) kinds.push({ kind: 'shows', type: 'tv', anime: true });
+  if (!kinds.length) return [];
+  const per = Math.ceil(count / kinds.length) + 2;
+  const toEntry = (e, type) => {
+    const o = e.movie || e.show || e;
+    if (!o || !o.title) return null;
+    return { type, title: o.title, year: o.year, tmdbId: o.ids?.tmdb, imdbId: o.ids?.imdb };
+  };
+  const lists = [];
+
+  if (source === 'list') {
+    const m = String(ctx.traktList || '').match(/users\/([^/]+)\/lists\/([^/?#]+)/i);
+    if (!m) throw Error('Cole o link de uma lista do Trakt (trakt.tv/users/.../lists/...).');
+    const want = [types.movie || types.anime ? 'movies' : '', types.series || types.anime ? 'shows' : ''].filter(Boolean).join(',');
+    const data = await traktFetch(`/users/${m[1]}/lists/${m[2]}/items/${want || 'movies,shows'}`, { limit: Math.min(100, count + 5) });
+    const entries = data.map(e => toEntry(e, e.type === 'movie' ? 'movie' : 'tv')).filter(Boolean);
+    return (await resolveExternalImages(entries)).slice(0, count);
+  }
+
+  const years = ctx.year ? String(ctx.year) : (ctx.decade ? `${ctx.decade}-${Number(ctx.decade) + 9}` : '');
+  const genreSlugs = (ctx.genres || []).map(g => TRAKT_GENRES[g]).filter(Boolean);
+  for (const k of kinds) {
+    let data;
+    if (ctx.search) {
+      data = await traktFetch(`/search/${k.type === 'movie' ? 'movie' : 'show'}`, { query: ctx.search, limit: per, page });
+    } else {
+      const g = [...genreSlugs, ...(k.anime ? ['anime'] : [])];
+      if (source === 'popular' && k.anime && !g.length) g.push('anime');
+      data = await traktFetch(`/${k.kind}/${source}`, { limit: per, page, years, genres: g.join(',') });
+    }
+    const entries = (data || []).map(e => toEntry(e, k.type)).filter(Boolean);
+    lists.push(await resolveExternalImages(entries));
+  }
+  return interleaveLists(lists, count);
+}
+
+async function fetchMdblistExplore(ctx, count) {
+  const key = getMdblistKey();
+  if (!key) throw Error('Cole a API Key do MDBList em Configurações (⚙).');
+  const raw = String(ctx.mdblistList || '').trim();
+  if (!raw) throw Error('Cole o link ou ID de uma lista do MDBList.');
+  const m = raw.match(/mdblist\.com\/lists\/([^/?#]+)\/([^/?#]+)/i);
+  const path = m ? `lists/${m[1]}/${m[2]}/items` : `lists/${raw.replace(/\D/g, '') || raw}/items`;
+  const url = new URL(`https://api.mdblist.com/${path}`);
+  url.searchParams.set('apikey', key);
+  url.searchParams.set('limit', String(Math.min(200, count + 10)));
+  const res = await fetch(url.toString());
+  if (!res.ok) throw Error(res.status === 401 || res.status === 403 ? 'API Key do MDBList inválida.' : `Erro MDBList HTTP ${res.status}`);
+  const j = await res.json();
+  const all = Array.isArray(j) ? j : [...(j.movies || []).map(x => ({ ...x, mediatype: 'movie' })), ...(j.shows || []).map(x => ({ ...x, mediatype: 'show' }))];
+  const types = ctx.types || { movie: true, series: true };
+  const entries = all.map(x => {
+    const isMovie = /movie/i.test(x.mediatype || x.type || '');
+    if (isMovie && !types.movie) return null;
+    if (!isMovie && !types.series && !types.anime) return null;
+    return {
+      type: isMovie ? 'movie' : 'tv', title: x.title || x.name, year: x.release_year || x.year,
+      tmdbId: undefined, imdbId: x.imdb_id || x.ids?.imdb,
+      poster: typeof x.poster === 'string' && /^https?:/.test(x.poster) ? x.poster : '',
+      backdrop: typeof x.backdrop === 'string' && /^https?:/.test(x.backdrop) ? x.backdrop : '',
+      _tmdb: x.tmdb_id || x.ids?.tmdb || x.id
+    };
+  }).filter(e => e && e.title);
+  // sem IMDb: usa o id como TMDB
+  entries.forEach(e => { if (!e.imdbId && e._tmdb) e.tmdbId = e._tmdb; });
+  return (await resolveExternalImages(entries)).slice(0, count);
+}
+
+async function fetchProviderItems(ctx, count, page = 1) {
+  if (ctx.provider === 'tmdb' && ctx.tmdbCode) return fetchTmdbByCodes(ctx, count);
+  if (ctx.provider === 'trakt') return fetchTraktExplore(ctx, count, page);
+  if (ctx.provider === 'mdblist') return fetchMdblistExplore(ctx, count);
+  return fetchTmdbExploreMulti(ctx, count, page);
+}
+
+function updateProviderNote() {
+  const prov = $('expProvider')?.value;
+  const note = $('expProviderNote'); if (!note) return;
+  const en = typeof currentUiLang !== 'undefined' && currentUiLang === 'en';
+  let msg = '';
+  if (prov === 'tmdb' && !getTmdbToken()) msg = en ? 'TMDB needs a free key. Open Settings (⚙) and paste it.' : 'O TMDB precisa de uma chave grátis. Abra as Configurações (⚙) e cole.';
+  else if (prov === 'trakt' && !getTraktId()) msg = en ? 'Trakt needs a free Client ID. Open Settings (⚙) and paste it.' : 'O Trakt precisa de um Client ID grátis. Abra as Configurações (⚙) e cole.';
+  else if (prov === 'mdblist' && !getMdblistKey()) msg = en ? 'MDBList needs a free API Key. Open Settings (⚙) and paste it.' : 'O MDBList precisa de uma API Key grátis. Abra as Configurações (⚙) e cole.';
+  note.textContent = msg; note.style.display = msg ? 'block' : 'none';
+}
+
+// =========================================================================
+// EXPLORAR: PROVEDOR (ANILIST, TMDB, TRAKT, MDBLIST)
+// =========================================================================
+function syncProviderUi() {
+  const prov = $('expProvider').value;
+  const isAni = prov === 'anilist';
+  const show = (id, on) => { const e = $(id); if (e) e.style.display = on ? '' : 'none'; };
+  show('expTypesWrap', prov === 'tmdb' || prov === 'trakt' || prov === 'mdblist');
+  show('expTypeAnimeWrap', prov !== 'mdblist');
+  show('expTmdbCodeWrap', prov === 'tmdb');
+  show('expStreamWrap', prov === 'tmdb');
+  show('expStudioWrap', prov === 'tmdb' || isAni);
+  populateStudioSelect();
+  show('expFormatWrap', isAni);
+  const provRow = $('expProvider').closest('.row2'); if (provRow) provRow.style.gridTemplateColumns = isAni ? '' : '1fr';
+  show('expTagsField', isAni);
+  show('expTraktWrap', prov === 'trakt');
+  show('expMdblistWrap', prov === 'mdblist');
+  show('expTraktList', prov === 'trakt' && $('expTraktSource').value === 'list');
+  const hideFilters = prov === 'mdblist' || (prov === 'trakt' && $('expTraktSource').value === 'list');
+  for (const id of ['expSearch', 'expGenreSelect', 'expSort', 'expDecade', 'expYear']) {
+    const f = $(id)?.closest('.field'); if (f) f.style.display = (hideFilters && id !== 'expSort') || (id === 'expSort' && (prov === 'trakt' || prov === 'mdblist')) ? 'none' : '';
+  }
+  const seasonF = $('expSeason')?.closest('.field'); if (seasonF) seasonF.style.display = isAni ? '' : 'none';
+  updateProviderNote();
+}
 $('expProvider').addEventListener('change', () => {
-  const isTmdb = $('expProvider').value === 'tmdb';
-  $('expTmdbTypeWrap').style.display = isTmdb ? 'block' : 'none';
-  $('expFormatWrap').style.display = isTmdb ? 'none' : 'block';
-  $('expTagsField').style.display = isTmdb ? 'none' : 'block';
+  syncProviderUi();
   populateGenreDropdown();
   updateSourceSummary();
   syncLiveExploreFilterContext();
 });
+['expTraktSource', 'expTraktList', 'expMdblistList', 'expTypeMovie', 'expTypeSeries', 'expTypeAnime'].forEach(id => {
+  $(id)?.addEventListener('change', () => { syncProviderUi(); syncLiveExploreFilterContext(); });
+  $(id)?.addEventListener('input', () => syncLiveExploreFilterContext());
+});
+$('tmdbToken')?.addEventListener('input', updateProviderNote);
+syncProviderUi();
 
 // =========================================================================
 // AIOMETADATA JSON IMPORT & FILTERING
@@ -6958,7 +7595,7 @@ async function fetchAniList(vars, desiredCount = null) {
   return collected;
 }
 
-async function fetchTmdbDiscover({ mediaType = 'tv', search = '', genreNames = [], decade = '', year = '', sort = 'POPULARITY_DESC', count = 30 }) {
+async function fetchTmdbDiscover({ mediaType = 'tv', search = '', genreNames = [], decade = '', year = '', sort = 'POPULARITY_DESC', count = 30, animeOnly = false, excludeAnime = false, startPage = 1, extra = null }) {
   const targetCount = Math.max(1, Math.min(200, Number(count) || 30));
   const pagesNeeded = Math.min(10, Math.ceil(targetCount / 20));
   const collected = [];
@@ -6975,6 +7612,7 @@ async function fetchTmdbDiscover({ mediaType = 'tv', search = '', genreNames = [
       const results = data.results || [];
       for (const r of results) {
         if ((!r.poster_path && !r.backdrop_path) || seenIds.has(r.id)) continue;
+        if (animeOnly && !((r.genre_ids || []).includes(16) && r.original_language === 'ja')) continue;
         seenIds.add(r.id);
         collected.push(normalizeTmdbItem(r, mediaType));
         if (collected.length >= targetCount) break;
@@ -6993,8 +7631,12 @@ async function fetchTmdbDiscover({ mediaType = 'tv', search = '', genreNames = [
     sort_by: mapSortToTmdb(sort, mediaType),
     include_adult: $('adult').checked
   };
-  if (genreIds.length) params.with_genres = genreIds.join(',');
-  if (sort === 'SCORE_DESC') params['vote_count.gte'] = 150;
+  const allGenreIds = animeOnly ? [...new Set([16, ...genreIds])] : genreIds;
+  if (allGenreIds.length) params.with_genres = allGenreIds.join(',');
+  if (animeOnly) params.with_original_language = 'ja';
+  if (excludeAnime) params.without_keywords = '210024';
+  if (sort === 'SCORE_DESC') params['vote_count.gte'] = extra && extra.with_companies ? 50 : 150;
+  if (extra) Object.assign(params, extra);
 
   if (year) {
     if (mediaType === 'movie') params.primary_release_year = year;
@@ -7011,7 +7653,7 @@ async function fetchTmdbDiscover({ mediaType = 'tv', search = '', genreNames = [
     }
   }
 
-  for (let page = 1; page <= pagesNeeded && collected.length < targetCount; page++) {
+  for (let page = startPage; page < startPage + pagesNeeded && collected.length < targetCount; page++) {
     const data = await tmdbFetch(`/discover/${mediaType}`, { ...params, page });
     const results = data.results || [];
     for (const r of results) {
@@ -7107,7 +7749,7 @@ function buildQueryFromCatalog(cat, countOverride = null, sortOverride = null) {
 }
 
 // Estúdio no AniList: busca o estúdio pelo nome e devolve as obras dele (mais populares primeiro)
-async function fetchAniListStudio(name, count = 30) {
+async function fetchAniListStudio(name, count = 30, opts = {}) {
   const target = Math.max(1, Math.min(100, Number(count) || 30));
   const base = String(name || '').trim();
   const variants = [...new Set([
@@ -7116,23 +7758,37 @@ async function fetchAniListStudio(name, count = 30) {
     base.replace(/[.\s]+/g, ''),
     base.replace(/\./g, '. ').replace(/\s+/g, ' ').trim()
   ].filter(v => v.length >= 2))];
-  const query = `query($search:String,$page:Int,$perPage:Int,$isMain:Boolean){
+  const query = `query($search:String,$page:Int,$perPage:Int,$isMain:Boolean,$sort:[MediaSort]){
     Studio(search:$search){ name
-      media(sort:POPULARITY_DESC,isMain:$isMain,page:$page,perPage:$perPage){ pageInfo{hasNextPage} nodes{ id title{romaji english} coverImage{extraLarge large} bannerImage isAdult } }
+      media(sort:$sort,isMain:$isMain,page:$page,perPage:$perPage){ pageInfo{hasNextPage} nodes{ id title{romaji english} coverImage{extraLarge large} bannerImage isAdult genres format seasonYear startDate{year} } }
     }
   }`;
+  const yr = opts.year ? Number(opts.year) : 0;
+  const dec = !yr && opts.decade ? Number(opts.decade) : 0;
+  const txt = (opts.search || '').toLowerCase();
+  const hasClientFilter = !!(yr || dec || txt || (opts.genres && opts.genres.length) || opts.format);
+  const passes = m => {
+    const y = m.seasonYear || m.startDate?.year || 0;
+    if (yr && y !== yr) return false;
+    if (dec && !(y >= dec && y <= dec + 9)) return false;
+    if (opts.format && m.format !== opts.format) return false;
+    if (opts.genres?.length && !opts.genres.every(g => (m.genres || []).includes(g))) return false;
+    if (txt && !`${m.title?.romaji || ''} ${m.title?.english || ''}`.toLowerCase().includes(txt)) return false;
+    return true;
+  };
   const run = async (search, isMain) => {
     const out = [], seen = new Set();
-    for (let page = 1; page <= 3 && out.length < target; page++) {
+    const maxPages = hasClientFilter ? 6 : 3;
+    for (let page = 1; page <= maxPages && out.length < target; page++) {
       const res = await fetch(ANILIST_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ query, variables: { search, page, perPage: 50, isMain } })
+        body: JSON.stringify({ query, variables: { search, page, perPage: 50, isMain, sort: [opts.sort || 'POPULARITY_DESC'] } })
       });
       const j = await res.json();
       if (j.errors || !j.data?.Studio) break;
       const media = j.data.Studio.media;
       for (const m of (media?.nodes || [])) {
-        if (!m || seen.has(m.id) || (m.isAdult && !$('adult').checked) || !(m.coverImage?.extraLarge || m.coverImage?.large)) continue;
+        if (!m || seen.has(m.id) || (m.isAdult && !$('adult').checked) || !(m.coverImage?.extraLarge || m.coverImage?.large) || !passes(m)) continue;
         seen.add(m.id); out.push(m);
         if (out.length >= target) break;
       }
@@ -7414,7 +8070,7 @@ $('generateBtn').onclick = async () => {
   }
 
   const prov = $('expProvider').value;
-  setStatus(L().msg.searchingProvider(prov === 'tmdb' ? 'TMDB' : 'AniList'), true);
+  setStatus(L().msg.searchingProvider({ tmdb: 'TMDB', trakt: 'Trakt', mdblist: 'MDBList' }[prov] || 'AniList'), true);
   try {
     const count = getRequestedItemCount('expCount', 'expCustomCount', 30);
     const search = $('expSearch').value.trim();
@@ -7426,15 +8082,15 @@ $('generateBtn').onclick = async () => {
     const sort = $('expSort').value;
 
     let items = [];
-    if (prov === 'tmdb') {
-      items = await fetchTmdbDiscover({
-        mediaType: $('expTmdbType').value,
-        search,
-        genreNames: genreList,
-        decade,
-        year,
-        sort,
-        count
+    if (prov !== 'anilist') {
+      const snap = getCurrentExploreFilterSnapshot();
+      const t = snap.types;
+      if (!t.movie && !t.series && !t.anime && !snap.tmdbCode) { setStatus(L().msg.noResultsForFilters + ' — marque Filmes, Séries ou Animes.'); return; }
+      items = await fetchProviderItems(snap, count);
+    } else if (getAniStudioName(getCurrentExploreFilterSnapshot())) {
+      const snap = getCurrentExploreFilterSnapshot();
+      items = await fetchAniListStudio(getAniStudioName(snap), count, {
+        sort, genres: genreList, year, decade, search, format: $('expFormat').value
       });
     } else {
       const vars = {
@@ -7493,7 +8149,7 @@ function describeFilterContext(ctx) {
   if (ctx.year) parts.push(ctx.year);
   else if (ctx.decade) parts.push(m.yearsDecade(ctx.decade));
   if (ctx.season) parts.push(ctx.season);
-  return parts.length ? parts.join(' · ') : (ctx.provider === 'tmdb' ? 'TMDB' : 'AniList');
+  return parts.length ? parts.join(' · ') : ({ tmdb: 'TMDB', trakt: 'Trakt', mdblist: 'MDBList' }[ctx.provider] || 'AniList');
 }
 
 async function fetchRandomPoolFromContext(ctx) {
@@ -7503,6 +8159,18 @@ async function fetchRandomPoolFromContext(ctx) {
   if (effectiveCtx.kind === 'catalog' && effectiveCtx.cat) {
     const items = await fetchItemsForCatalog(effectiveCtx.cat, 40, effectiveCtx.sortOverride);
     if (items.length) return items;
+  }
+
+  if (effectiveCtx.provider === 'trakt' || effectiveCtx.provider === 'mdblist') {
+    let list = await fetchProviderItems(effectiveCtx, 40, Math.floor(Math.random() * 3) + 1);
+    if (!list.length) list = await fetchProviderItems(effectiveCtx, 40, 1);
+    return list;
+  }
+
+  if (effectiveCtx.provider === 'tmdb' && getTmdbToken() && effectiveCtx.types) {
+    let list = await fetchProviderItems(effectiveCtx, 20, randomPage);
+    if (!list.length && randomPage > 1) list = await fetchProviderItems(effectiveCtx, 20, 1);
+    return list;
   }
 
   if (effectiveCtx.provider === 'tmdb' && getTmdbToken()) {
@@ -7548,6 +8216,14 @@ async function fetchRandomPoolFromContext(ctx) {
       data = await tmdbFetch(`/discover/${mediaType}`, params);
     }
     return (data.results || []).filter(r => r.poster_path || r.backdrop_path).map(r => normalizeTmdbItem(r, mediaType));
+  }
+
+  if (effectiveCtx.provider === 'anilist' && getAniStudioName(effectiveCtx)) {
+    const all = await fetchAniListStudio(getAniStudioName(effectiveCtx), 60, {
+      sort: effectiveCtx.sort, genres: effectiveCtx.genres, year: effectiveCtx.year, decade: effectiveCtx.decade,
+      search: effectiveCtx.search, format: effectiveCtx.format
+    });
+    return all.sort(() => Math.random() - 0.5);
   }
 
   const baseVars = {
@@ -9233,10 +9909,18 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
   const ctx = canvas.getContext('2d', { colorSpace: 'srgb' });
   paintBackground(ctx, W, H);
 
+  // "Preencher ao diminuir": com zoom global < 100%, a arte é montada numa área virtual maior (W/zoom)
+  // para aparecerem mais posters ao redor em vez de fundo vazio. O canvas da arte mantém W×H (resolução já reduzida).
+  const gZoomRaw = Number($('globalZoom')?.value || 100) / 100;
+  const fillZoom = ($('globalZoomFill')?.checked && gZoomRaw < 1 && !coverOpt) ? Math.max(0.1, gZoomRaw) : 1;
+  const Wv = W / fillZoom, Hv = H / fillZoom;
+  const fillOx = (Wv - W) / 2, fillOy = (Hv - H) / 2;
   const artCanvas = document.createElement('canvas');
   artCanvas.width = W;
   artCanvas.height = H;
   const actx = artCanvas.getContext('2d', { colorSpace: 'srgb' });
+  actx.scale(fillZoom, fillZoom);
+  actx.translate(fillOx, fillOy);
 
   if (showSelection) {
     slotBounds = [];
@@ -9246,9 +9930,36 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
     if (showSelection) slotBounds.push({ slotUid, index, x, y, w, h, visible, microTilt });
   };
 
+  // Reflexo de luz: faixa global, uma por poster, ou só num poster
+  const shineM = options.styleOverride ? 'off' : shineModeVal();
+  let shinePhase = 0;
+  if (shineM !== 'off') {
+    const per = shinePeriodS();
+    let tsec;
+    if (canvas === $('canvas') && !forExport) tsec = shineT;
+    else if (animTimeMs !== null) tsec = animTimeMs / 1000;
+    else tsec = per * 0.42;
+    shinePhase = (((tsec / per) % 1) + 1) % 1;
+  }
+  const shineSet = new Set();
+  if (shineM === 'one') {
+    for (const v of valid) {
+      if ((shineTargetId != null && v.m.id === shineTargetId) || (shineTargetId == null && v.index === selectedIndex)) {
+        shineSet.add(v.im);
+        (v.m.gifFrames || []).forEach(fr => shineSet.add(fr.canvas));
+      }
+    }
+  }
+  const _baseDrawCover = window.drawCover;
+  const drawCover = (g, im, x, y, w, h, radius, zoom, panX, panY) => {
+    _baseDrawCover(g, im, x, y, w, h, radius, zoom, panX, panY);
+    if (shineM === 'each' || (shineM === 'one' && shineSet.has(im))) drawShineBand(g, x, y, w, h, shinePhase, radius);
+  };
+
   actx.save();
   actx.globalAlpha = imgOpacity;
   const diag = Math.hypot(W, H);
+  const diagExt = Math.hypot(Wv, Hv);
 
   if (style === 'single') {
     const entry = valid[0];
@@ -9300,14 +10011,15 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
       const sy = rx * Math.sin(rot) + ry * Math.cos(rot) + H / 2;
       const halfSpanX = (cw * cosR + ch * sinR) * 0.5;
       const halfSpanY = (cw * sinR + ch * cosR) * 0.5;
-      return (sx + halfSpanX >= 0 && sx - halfSpanX <= W && sy + halfSpanY >= 0 && sy - halfSpanY <= H);
+      return (sx + halfSpanX >= W / 2 - Wv / 2 && sx - halfSpanX <= W / 2 + Wv / 2 && sy + halfSpanY >= H / 2 - Hv / 2 && sy - halfSpanY <= H / 2 + Hv / 2);
     };
 
     if (style === 'strip') {
-      const rows = userCols || (W >= H ? 3 : 4);
-      const rowH = (diag * 1.15) / rows;
+      const rowsUser = userCols || (W >= H ? 3 : 4);
+      const rowH = (diag * 1.15) / rowsUser;
       const cardW = rowH * cardAspect;
-      const cols = Math.ceil((diag * 1.4) / (cardW + gap)) + 2;
+      const rows = Math.max(rowsUser, Math.ceil((diagExt * 1.15) / (rowH + gap)));
+      const cols = Math.ceil((diagExt * 1.4) / (cardW + gap)) + 2;
       const startY = (H - rows * (rowH + gap)) / 2;
       const cells = [];
 
@@ -9326,7 +10038,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
         const byRC = new Map(cells.map(c => [c.r * 10000 + c.c, c]));
         const Pp = cardW + gap;
         // tira curta que se repete: o movimento volta exatamente ao início a cada M células (loop sem corte)
-        const M = Math.max(1, Math.min(cols, Math.ceil((W * cosR + H * sinR) / Pp) + 1));
+        const M = Math.max(1, Math.min(cols, Math.ceil((Wv * cosR + Hv * sinR) / Pp) + 1));
         const s0 = Math.floor((cols - M) / 2);
         lastMotionInfo = { periodPx: M * Pp, speedPx: motionSpeedBase() * (W / 1920) };
         for (let r = 0; r < rows; r++) {
@@ -9356,10 +10068,11 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
         recordSlot(cell.uid, entry.index, cell.x, cell.y, cell.w, cell.h, cell.visible, 0);
       }
     } else {
-      const cols = userCols || (W >= H ? 5 : 3);
-      const cardW = (diag * 1.12) / cols;
+      const colsUser = userCols || (W >= H ? 5 : 3);
+      const cardW = (diag * 1.12) / colsUser;
       const cardH = cardW / cardAspect;
-      const rows = Math.ceil((diag * 1.35) / (cardH + gap)) + 2;
+      const cols = Math.max(colsUser, Math.ceil((diagExt * 1.12) / (cardW + gap)));
+      const rows = Math.ceil((diagExt * 1.35) / (cardH + gap)) + 2;
       const startX = (W - cols * (cardW + gap)) / 2;
       const cells = [];
 
@@ -9385,7 +10098,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
         const lines = vertical ? cols : rows;   // colunas (vertical) ou linhas (horizontal)
         const N = vertical ? rows : cols;       // células por tira
         // tira curta que se repete: o movimento volta exatamente ao início a cada M células (loop sem corte)
-        const span = vertical ? (W * sinR + H * cosR) : (W * cosR + H * sinR);
+        const span = vertical ? (Wv * sinR + Hv * cosR) : (Wv * cosR + Hv * sinR);
         const M = Math.max(1, Math.min(N, Math.ceil(span / Pp) + 1));
         const s0 = Math.floor((N - M) / 2);
         lastMotionInfo = { periodPx: M * Pp, speedPx: motionSpeedBase() * (W / 1920) };
@@ -9437,6 +10150,23 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
   }
   actx.restore();
 
+  if (shineM === 'global') {
+    const tmp = document.createElement('canvas');
+    tmp.width = W; tmp.height = H;
+    const t = tmp.getContext('2d');
+    t.scale(fillZoom, fillZoom);
+    t.translate(fillOx, fillOy);
+    drawShineBand(t, -fillOx, -fillOy, Wv, Hv, shinePhase, 0, false);
+    t.setTransform(1, 0, 0, 1, 0, 0);
+    t.globalCompositeOperation = 'destination-in';
+    t.drawImage(artCanvas, 0, 0);
+    actx.save();
+    actx.setTransform(1, 0, 0, 1, 0, 0);
+    actx.globalCompositeOperation = 'lighter';
+    actx.drawImage(tmp, 0, 0);
+    actx.restore();
+  }
+
   const gZoom = Number($('globalZoom')?.value || 100) / 100;
   const gPanX = (Number($('globalPanX')?.value || 0) / 100) * (W * 0.5);
   const gPanY = (Number($('globalPanY')?.value || 0) / 100) * (H * 0.5);
@@ -9451,14 +10181,23 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
   const blurPad = Number($('canvasBlur')?.value || 0);
   if (blurPad > 0) {
     const pad = blurPad * 2;
-    ctx.drawImage(artCanvas, -pad, -pad, W + pad * 2, H + pad * 2);
+    ctx.drawImage(artCanvas, -pad - fillOx, -pad - fillOy, Wv + pad * 2, Hv + pad * 2);
   } else {
-    ctx.drawImage(artCanvas, 0, 0);
+    ctx.drawImage(artCanvas, -fillOx, -fillOy, Wv, Hv);
   }
   ctx.filter = 'none';
   ctx.restore();
 
+  ctx.save();
+  ctx.translate(-fillOx, -fillOy);
+  ctx.scale(1 / fillZoom, 1 / fillZoom);
   renderLocalizedBlur(ctx, artCanvas, W, H);
+  ctx.restore();
+
+  // tinta, escurecimento e degradê cobrem toda a área (inclusive os posters extras do modo "Preencher")
+  ctx.save();
+  ctx.translate(-fillOx, -fillOy);
+  ctx.scale(1 / fillZoom, 1 / fillZoom);
 
   if ($('tintEnabled')?.checked) {
     const tintCol = $('tintColor')?.value || '#7c69ef';
@@ -9523,6 +10262,7 @@ async function renderToCanvas(canvas, items, titleOverride = null, subtitleOverr
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   }
+  ctx.restore();
   ctx.restore();
 
   // DRAW SELECTION & SWAP HIGHLIGHT OVERLAYS ON TOP OF SHADE/GRADIENTS SO THEY ARE ALWAYS VISIBLE
@@ -9871,15 +10611,26 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       : 1;
     let delayCs = Math.max(2, Math.round(dt / 10));
     let timeScale = 1;
-    if (motionActive()) {
+    exportShinePeriodS = null;
+    if (motionActive() || shineActive()) {
       // Loop perfeito: dura um número inteiro de "passos" de célula
-      const probe = document.createElement('canvas');
-      await renderToCanvas(probe, items, titleOverride, subtitleOverride, { showSelection: false, forExport: true, animTimeMs: 0 });
-      const info = lastMotionInfo;
-      if (info && info.speedPx > 0) {
-        const periodMs = info.periodPx / info.speedPx * 1000;
-        const reps = Math.max(1, Math.floor(4000 / periodMs));
-        const natural = periodMs * reps;              // tempo exato para o movimento voltar ao início (mesma velocidade do preview)
+      let natural = 0;
+      if (motionActive()) {
+        const probe = document.createElement('canvas');
+        await renderToCanvas(probe, items, titleOverride, subtitleOverride, { showSelection: false, forExport: true, animTimeMs: 0 });
+        const info = lastMotionInfo;
+        if (info && info.speedPx > 0) {
+          const periodMs = info.periodPx / info.speedPx * 1000;
+          const reps = Math.max(1, Math.floor(4000 / periodMs));
+          natural = periodMs * reps;
+        }
+      }
+      if (shineActive()) {
+        const sp = shinePeriodS() * 1000;
+        if (natural > 0) { const k = Math.max(1, Math.round(natural / sp)); exportShinePeriodS = natural / k / 1000; }
+        else natural = sp;
+      }
+      if (natural > 0) {              // tempo exato para o movimento voltar ao início (mesma velocidade do preview)
         let delayMs = fmt === 'gif' ? Math.max(20, Math.round(1000 / fps / 10) * 10) : 1000 / fps;
         frameCount = Math.max(8, Math.round(natural / delayMs));
         if (frameCount > 300) {                       // muitos quadros: reduz o FPS, nunca a velocidade
@@ -9915,7 +10666,7 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       sctx.drawImage(fullCanvas, 0, 0, outW, outH);
       if (fmt === 'webpa') {
         const wb = await canvasToBlobSafe(scaledCanvas, 'image/webp', Number($('webpQuality').value) / 100);
-        if (!wb) return { blob: null, ext: 'webp', skippedCors: 0 };
+        if (!wb) { exportShinePeriodS = null; return { blob: null, ext: 'webp', skippedCors: 0 }; }
         capturedFrames.push({ buf: await wb.arrayBuffer(), delayMs: dt });
         if (f % 2 === 1) await new Promise(r => setTimeout(r, 0));
         continue;
@@ -9925,6 +10676,7 @@ async function exportMediaItemsAsBlob(items, titleOverride = null, subtitleOverr
       if (f % 2 === 1) await new Promise(r => setTimeout(r, 0));
     }
 
+    exportShinePeriodS = null;
     if (fmt === 'webpa') return { blob: buildAnimatedWebpBlob(capturedFrames, outW, outH), ext: 'webp', skippedCors: 0 };
     const blob = await buildAnimatedGifBlob(capturedFrames, outW, outH, options.onProgress);
     return { blob, ext: 'gif', skippedCors: 0 };
@@ -10170,6 +10922,10 @@ const sliderMappings = [
   ['shade', 'shadeOut', '%'],
   ['gradOpacity', 'gradOpacityOut', '%'],
   ['motionSpeed', 'motionSpeedOut', '%'],
+  ['shineSpeed', 'shineSpeedOut', '%'],
+  ['shineWidth', 'shineWidthOut', '%'],
+  ['shineAngle', 'shineAngleOut', '°'],
+  ['shineIntensity', 'shineIntensityOut', '%'],
   ['gradReach', 'gradReachOut', '%'],
   ['gradAngle', 'gradAngleOut', '°'],
   ['canvasBlur', 'canvasBlurOut', ' px'],
@@ -10336,7 +11092,7 @@ for (const [id, outId, suffix, fmt] of sliderMappings) {
 }
 
 [
-  'style', 'imgType', 'cardShape', 'bgColor', 'gradDir',
+  'style', 'imgType', 'cardShape', 'bgColor', 'gradDir', 'globalZoomFill',
   'filterPreset', 'localBlurDir',
   'tintColor', 'tintMode',
   'title', 'subtitle', 'textPos', 'textColor', 'textUppercase',
@@ -10600,11 +11356,7 @@ function applyUiLanguage(lang, { persist = true, reRender = true } = {}) {
     anilist: t.optProviderAnilist,
     tmdb: t.optProviderTmdb
   });
-  if ($('lblExpTmdbType')) $('lblExpTmdbType').textContent = t.lblExpTmdbType;
-  setSelectOptionTexts('expTmdbType', {
-    tv: t.optTmdbTv,
-    movie: t.optTmdbMovie
-  });
+  applyExploreLabels();
   if ($('lblExpFormat')) $('lblExpFormat').textContent = t.lblExpFormat;
   setSelectOptionTexts('expFormat', {
     '': t.optAll,
@@ -11842,11 +12594,11 @@ function nvMotionStop() { if (nvMotionRaf) cancelAnimationFrame(nvMotionRaf); nv
 function nvMotionStart() {
   nvMotionStop();
   const open = () => $('nuvioPreview')?.classList.contains('open') && nv.art;
-  if (!open() || !motionActive() || !media.length) return;
+  if (!open() || !animActive() || !media.length) return;
   const off = document.createElement('canvas');
   let busy = false, last = 0;
   const step = async ts => {
-    if (!open() || !motionActive()) { nvMotionRaf = 0; return; }
+    if (!open() || !animActive()) { nvMotionRaf = 0; return; }
     if (!busy && ts - last >= 45 && !motionPaused && !nvGifCard) {
       busy = true; last = ts;
       try {
@@ -12143,6 +12895,118 @@ $('motionMode')?.addEventListener('change', () => {
 });
 $('style')?.addEventListener('change', () => ensureGifAnimationLoop());
 applyMotionLabels();
+
+// ---- Reflexo de luz: controles ----
+const SHINE_T = {
+  'pt-BR': { title: '✨ Reflexo de luz', mode: 'Onde passa a luz', speed: 'Velocidade', width: 'Largura da faixa', angle: 'Inclinação', inten: 'Intensidade', color: 'Cor da luz',
+    use: '🎯 Usar o poster selecionado', pick: 'Clique num poster no preview e depois neste botão.', none: 'Nenhum poster escolhido (usa o selecionado no momento).',
+    hint: 'Funciona em todos os estilos, sozinho ou junto com o movimento. O botão Pausar também pausa o reflexo. Para salvar animado, use GIF ou WebP animado; em PNG/WebP comum o reflexo sai parado no meio do trajeto.',
+    off: 'Desligado', global: 'Uma faixa grande passando por tudo', each: 'Uma faixa em cada poster, ao mesmo tempo', one: 'Só em um poster específico', target: 'Poster do reflexo: ' },
+  en: { title: '✨ Light shine', mode: 'Where the light passes', speed: 'Speed', width: 'Band width', angle: 'Tilt', inten: 'Intensity', color: 'Light color',
+    use: '🎯 Use selected poster', pick: 'Click a poster in the preview, then this button.', none: 'No poster chosen (uses the currently selected one).',
+    hint: 'Works on every style, alone or with motion. The Pause button also pauses the shine. To save it animated use GIF or animated WebP; in PNG/plain WebP the shine is frozen mid-way.',
+    off: 'Off', global: 'One big band across everything', each: 'One band on every poster, in sync', one: 'Only on one specific poster', target: 'Shine poster: ' }
+};
+function shineTitleOf(id) {
+  const m = media.find(x => x && x.id === id);
+  return m ? (m.title?.english || m.title?.romaji || String(id)) : '';
+}
+function applyShineLabels() {
+  const t = SHINE_T[(typeof currentUiLang !== 'undefined' && currentUiLang === 'en') ? 'en' : 'pt-BR'];
+  const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  set('advShineTitle', t.title); set('lblShineMode', t.mode); set('lblShineSpeed', t.speed); set('lblShineWidth', t.width);
+  set('lblShineAngle', t.angle); set('lblShineIntensity', t.inten); set('lblShineColor', t.color); set('shineUseSelectedBtn', t.use); set('shineHint', t.hint);
+  const tt = shineTargetId != null ? shineTitleOf(shineTargetId) : '';
+  set('shineTargetInfo', tt ? t.target + tt : (shineTargetId != null ? t.target + '#' + shineTargetId : t.pick));
+  const sel = $('shineMode');
+  if (sel) for (const o of sel.options) if (t[o.value]) o.textContent = t[o.value];
+}
+{
+  const _shineOrigLang = applyUiLanguage;
+  applyUiLanguage = function () { const r = _shineOrigLang.apply(this, arguments); applyShineLabels(); return r; };
+}
+function shineUseSelected() {
+  const m = media[selectedIndex];
+  if (m && m.id !== undefined) { shineTargetId = m.id; applyShineLabels(); if (media.length) render(); return true; }
+  return false;
+}
+$('shineUseSelectedBtn')?.addEventListener('click', shineUseSelected);
+$('shineMode')?.addEventListener('change', () => {
+  pushUndoSnapshot();
+  const mode = $('shineMode').value;
+  if ($('shineOneWrap')) $('shineOneWrap').style.display = mode === 'one' ? '' : 'none';
+  if (mode !== 'off') { motionPaused = false; applyMotionLabels(); $('advShineBox')?.classList.add('open'); }
+  if (mode === 'one' && shineTargetId == null) shineUseSelected();
+  ensureGifAnimationLoop();
+  if (typeof nvMotionStart === 'function') nvMotionStart();
+  if (media.length) render();
+});
+['shineSpeed', 'shineWidth', 'shineAngle', 'shineIntensity', 'shineColor'].forEach(id => $(id)?.addEventListener('input', () => { if (media.length && shineActive() && !gifAnimRafId) render(); }));
+applyShineLabels();
+
+// =========================================================================
+// INTERFACE AMIGÁVEL: modo Simples/Avançado + botão "Próximo passo"
+// =========================================================================
+const UI_MODE_KEY = 'bs_ui_mode';
+function uiIsEn() { return typeof currentUiLang !== 'undefined' && currentUiLang === 'en'; }
+function setUiMode(mode, persist = true) {
+  const simple = mode !== 'advanced';
+  document.body.classList.toggle('simple-mode', simple);
+  const b = $('modeToggleBtn');
+  if (b) {
+    b.classList.toggle('is-simple', simple);
+    b.textContent = simple ? (uiIsEn() ? '🎚 Simple' : '🎚 Simples') : (uiIsEn() ? '🎚 Advanced' : '🎚 Avançado');
+    b.title = simple
+      ? (uiIsEn() ? 'Simple mode: only the essentials. Click to show every option.' : 'Modo simples: só o essencial. Clique para mostrar todas as opções.')
+      : (uiIsEn() ? 'Advanced mode: every option visible. Click for simple mode.' : 'Modo avançado: todas as opções. Clique para o modo simples.');
+  }
+  document.querySelectorAll('.mode-hint').forEach(h => {
+    h.textContent = uiIsEn() ? '⚙ Show advanced options (background, geometry, effects...)' : '⚙ Mostrar opções avançadas (fundo, geometria, efeitos...)';
+  });
+  if (persist) { try { localStorage.setItem(UI_MODE_KEY, simple ? 'simple' : 'advanced'); } catch (e) {} }
+}
+function initUiMode() {
+  let saved = null;
+  try { saved = localStorage.getItem(UI_MODE_KEY); } catch (e) {}
+  ['navVisual', 'navText'].forEach(id => {
+    const pane = $(id); if (!pane || pane.querySelector('.mode-hint')) return;
+    const h = document.createElement('button');
+    h.type = 'button'; h.className = 'mode-hint';
+    h.addEventListener('click', () => setUiMode('advanced'));
+    pane.append(h);
+  });
+  setUiMode(saved === 'advanced' ? 'advanced' : 'simple', false);
+}
+$('modeToggleBtn')?.addEventListener('click', () => setUiMode(document.body.classList.contains('simple-mode') ? 'advanced' : 'simple'));
+
+const STEP_ORDER = ['navSource', 'navVisual', 'navText', 'navExport'];
+function updateNextStepBtn() {
+  const btn = $('nextStepBtn'); if (!btn) return;
+  const cur = document.querySelector('.step-btn.active')?.dataset.nav;
+  const i = STEP_ORDER.indexOf(cur);
+  const row = btn.closest('.next-step-row');
+  if (i < 0 || i >= STEP_ORDER.length - 1) { if (row) row.style.display = 'none'; return; }
+  if (row) row.style.display = '';
+  const nextBtn = document.querySelector(`.step-btn[data-nav="${STEP_ORDER[i + 1]}"]`);
+  const label = (nextBtn?.textContent || '').replace(/^\s*\S+\s*\d\.\s*/, '').replace(/^\d\.\s*/, '').trim() || '';
+  btn.textContent = (uiIsEn() ? 'Next: ' : 'Próximo: ') + label + ' →';
+}
+$('nextStepBtn')?.addEventListener('click', () => {
+  const cur = document.querySelector('.step-btn.active')?.dataset.nav;
+  const i = STEP_ORDER.indexOf(cur);
+  if (i >= 0 && i < STEP_ORDER.length - 1) switchSidebarStep(STEP_ORDER[i + 1]);
+});
+{
+  const _origSwitch = switchSidebarStep;
+  switchSidebarStep = function (navId) { _origSwitch(navId); updateNextStepBtn(); };
+  document.querySelectorAll('.step-btn').forEach(btn => btn.addEventListener('click', updateNextStepBtn));
+}
+{
+  const _origLang2 = applyUiLanguage;
+  applyUiLanguage = function () { const r = _origLang2.apply(this, arguments); setUiMode(document.body.classList.contains('simple-mode') ? 'simple' : 'advanced', false); updateNextStepBtn(); return r; };
+}
+initUiMode();
+updateNextStepBtn();
 applyUiLanguage(currentUiLang, { persist: false, reRender: false });
 
 if (savedUiLang !== 'pt-BR' && savedUiLang !== 'en') {
